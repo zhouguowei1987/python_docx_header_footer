@@ -92,3 +92,4 @@ if __name__ == '__main__':
                         finish_doc = finish_dir + "\\" + os.path.splitext(file)[0] + ".docx"
                         if get_word_pages(doc2docx_file) >= 3:
                             remove_header_footer(doc2docx_file, finish_doc)
+                            print("=============完成======================")
