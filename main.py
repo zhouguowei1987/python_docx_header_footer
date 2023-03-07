@@ -24,7 +24,6 @@ def get_word_pages(in_file):
             doc = word.Documents.Open(in_file)
             word.ActiveDocument.Repaginate()
             pages = word.ActiveDocument.ComputeStatistics(2)
-            print(pages)
             doc.Close()
             word.Quit()
             return pages
@@ -85,11 +84,9 @@ if __name__ == '__main__':
 
                         if os.path.splitext(file)[1] == ".docx":
                             # 将文件复制到doc2docx_dir目录
-                            print("复制文件")
                             shutil.copyfile(word_dir + "\\" + file, doc2docx_dir + "\\" + file)
                         elif os.path.splitext(file)[1] == ".doc":
                             # 将doc文件转化为docx文件
-                            print("转化文件")
                             doc2docx(word_dir + "\\" + file, doc2docx_dir + "\\" + os.path.splitext(file)[0] + ".docx")
 
                         # 去除word页眉和页脚
