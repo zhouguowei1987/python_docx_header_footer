@@ -79,6 +79,10 @@ if __name__ == '__main__':
                 for file in files:
                     if os.path.splitext(file)[1] in [".doc", ".docx"]:
                         print(file)
+                        # 查看一下是否已经处理完成
+                        if os.path.isfile(finish_dir + "\\" + os.path.splitext(file)[0] + ".docx"):
+                            continue
+
                         if os.path.splitext(file)[1] == ".docx":
                             # 将文件复制到doc2docx_dir目录
                             print("复制文件")
@@ -87,6 +91,7 @@ if __name__ == '__main__':
                             # 将doc文件转化为docx文件
                             print("转化文件")
                             doc2docx(word_dir + "\\" + file, doc2docx_dir + "\\" + os.path.splitext(file)[0] + ".docx")
+
                         # 去除word页眉和页脚
                         doc2docx_file = doc2docx_dir + "\\" + os.path.splitext(file)[0] + ".docx"
                         finish_doc = finish_dir + "\\" + os.path.splitext(file)[0] + ".docx"
