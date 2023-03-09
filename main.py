@@ -56,7 +56,7 @@ def doc2docx(in_file, out_file):
 
 if __name__ == '__main__':
 
-    subject_dirs_arr = ['化学试卷', '历史试卷', '地理试卷', '数学试卷', '生物试卷', '语文试卷']
+    subject_dirs_arr = ['语文试卷']
     root_dir = "G:\\final-www.shijuan1.com"
     subject_dirs = sorted(os.listdir(root_dir))
     for subject in subject_dirs:
@@ -64,6 +64,8 @@ if __name__ == '__main__':
             shijuan_dirs = sorted(os.listdir(root_dir + "\\" + subject))
 
             for shijuan in shijuan_dirs:
+                if shijuan.find("_finish") != -1 or shijuan.find("_doc2docx") != -1:
+                    continue
                 word_dir = root_dir + "\\" + subject + "\\" + shijuan
                 finish_dir = root_dir + "\\" + subject + "\\" + shijuan + "_finish"
                 doc2docx_dir = root_dir + "\\" + subject + "\\" + shijuan + "_doc2docx"
