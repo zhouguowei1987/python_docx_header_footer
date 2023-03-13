@@ -37,6 +37,16 @@ def get_word_pages(in_file):
         return pages
 
 
+def check_only_image(doc):
+    doc = Document(doc)
+    i = 0
+    for para in doc.paragraphs:
+        if i == 0 and para.text == "":
+            return True
+        i += 1
+    return False
+
+
 def doc2docx(in_file, out_file):
     try:
         word = wc.Dispatch("Word.Application")
@@ -55,8 +65,8 @@ def doc2docx(in_file, out_file):
 
 
 if __name__ == '__main__':
-
-    subject_dirs_arr = ['语文试卷']
+    subject_dirs_arr = ['语文试卷', '数学试卷', '英语试卷', '物理试卷', '化学试卷', '政治试卷', '历史试卷', '地理试卷',
+                        '生物试卷']
     root_dir = "G:\\final-www.shijuan1.com"
     subject_dirs = sorted(os.listdir(root_dir))
     for subject in subject_dirs:
@@ -64,36 +74,53 @@ if __name__ == '__main__':
             shijuan_dirs = sorted(os.listdir(root_dir + "\\" + subject))
 
             for shijuan in shijuan_dirs:
-                if shijuan.find("_finish") != -1 or shijuan.find("_doc2docx") != -1:
-                    continue
-                word_dir = root_dir + "\\" + subject + "\\" + shijuan
-                finish_dir = root_dir + "\\" + subject + "\\" + shijuan + "_finish"
-                doc2docx_dir = root_dir + "\\" + subject + "\\" + shijuan + "_doc2docx"
 
-                if not os.path.exists(finish_dir):
-                    os.mkdir(finish_dir)
+                # 删除扫描版
+                # finish_dir = root_dir + "\\" + subject + "\\" + shijuan
+                # files = sorted(os.listdir(finish_dir))
+                # for file in files:
+                #     if file.find("扫描") != -1:
+                #         os.remove(root_dir + "\\" + subject + "\\" + shijuan + "\\" + file)
 
-                if not os.path.exists(doc2docx_dir):
-                    os.mkdir(doc2docx_dir)
-
-                files = sorted(os.listdir(word_dir))
+                # 删除只包含图片
+                finish_dir = root_dir + "\\" + subject + "\\" + shijuan
+                files = sorted(os.listdir(finish_dir))
                 for file in files:
-                    if os.path.splitext(file)[1] in [".doc", ".docx"]:
-                        print(file)
-                        # 查看一下是否已经处理完成
-                        if os.path.isfile(finish_dir + "\\" + os.path.splitext(file)[0] + ".docx"):
-                            continue
+                    pdf_file = root_dir + "\\" + subject + "\\" + shijuan + "\\" + file
+                    print(pdf_file)
+                    if check_only_image(pdf_file):
+                        os.remove(pdf_file)
 
-                        if os.path.splitext(file)[1] == ".docx":
-                            # 将文件复制到doc2docx_dir目录
-                            shutil.copyfile(word_dir + "\\" + file, doc2docx_dir + "\\" + file)
-                        elif os.path.splitext(file)[1] == ".doc":
-                            # 将doc文件转化为docx文件
-                            doc2docx(word_dir + "\\" + file, doc2docx_dir + "\\" + os.path.splitext(file)[0] + ".docx")
-
-                        # 去除word页眉和页脚
-                        doc2docx_file = doc2docx_dir + "\\" + os.path.splitext(file)[0] + ".docx"
-                        finish_doc = finish_dir + "\\" + os.path.splitext(file)[0] + ".docx"
-                        if get_word_pages(doc2docx_file) >= 3:
-                            remove_header_footer(doc2docx_file, finish_doc)
-                            print("=============完成======================")
+                # if shijuan.find("_finish") != -1 or shijuan.find("_doc2docx") != -1:
+                #     continue
+                # word_dir = root_dir + "\\" + subject + "\\" + shijuan
+                # finish_dir = root_dir + "\\" + subject + "\\" + shijuan + "_finish"
+                # doc2docx_dir = root_dir + "\\" + subject + "\\" + shijuan + "_doc2docx"
+                #
+                # if not os.path.exists(finish_dir):
+                #     os.mkdir(finish_dir)
+                #
+                # if not os.path.exists(doc2docx_dir):
+                #     os.mkdir(doc2docx_dir)
+                #
+                # files = sorted(os.listdir(word_dir))
+                # for file in files:
+                #     if os.path.splitext(file)[1] in [".doc", ".docx"]:
+                #         print(file)
+                #         # 查看一下是否已经处理完成
+                #         if os.path.isfile(finish_dir + "\\" + os.path.splitext(file)[0] + ".docx"):
+                #             continue
+                #
+                #         if os.path.splitext(file)[1] == ".docx":
+                #             # 将文件复制到doc2docx_dir目录
+                #             shutil.copyfile(word_dir + "\\" + file, doc2docx_dir + "\\" + file)
+                #         elif os.path.splitext(file)[1] == ".doc":
+                #             # 将doc文件转化为docx文件
+                #             doc2docx(word_dir + "\\" + file, doc2docx_dir + "\\" + os.path.splitext(file)[0] + ".docx")
+                #
+                #         # 去除word页眉和页脚
+                #         doc2docx_file = doc2docx_dir + "\\" + os.path.splitext(file)[0] + ".docx"
+                #         finish_doc = finish_dir + "\\" + os.path.splitext(file)[0] + ".docx"
+                #         if get_word_pages(doc2docx_file) >= 3:
+                #             remove_header_footer(doc2docx_file, finish_doc)
+                #             print("=============完成======================")
