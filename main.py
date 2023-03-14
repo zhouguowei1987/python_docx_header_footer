@@ -1,3 +1,4 @@
+import re
 import time
 from docx import Document
 from win32com import client as wc
@@ -37,8 +38,22 @@ def get_word_pages(in_file):
         return pages
 
 
-def check_only_image(doc):
-    doc = Document(doc)
+def docx_remove_content(doc_file):
+    # 定义需要去除的内容
+    content_to_remove = '''不用注册，免费下载！'''
+    # 打开doc文件
+    doc = Document(doc_file)
+    # 遍历doc文件中的段落
+    for para in doc.paragraphs:
+        # 如果段落中包含需要去除的内容，使用正则表达式替换为空字符串
+        if re.search(content_to_remove, para.text):
+            para.text = re.sub(content_to_remove, '', para.text)
+
+    doc.save(doc_file)
+
+
+def check_only_image(doc_file):
+    doc = Document(doc_file)
     i = 0
     for para in doc.paragraphs:
         if i == 0 and para.text == "":
@@ -83,13 +98,98 @@ if __name__ == '__main__':
                 #         os.remove(root_dir + "\\" + subject + "\\" + shijuan + "\\" + file)
 
                 # 删除只包含图片
+                # finish_dir = root_dir + "\\" + subject + "\\" + shijuan
+                # files = sorted(os.listdir(finish_dir))
+                # for file in files:
+                #     docx_file = root_dir + "\\" + subject + "\\" + shijuan + "\\" + file
+                #     print(docx_file)
+                #     if check_only_image(docx_file):
+                #         os.remove(docx_file)
+
+                # 删除“不用注册，免费下载！”文字
+                # finish_dir = root_dir + "\\" + subject + "\\" + shijuan
+                # files = sorted(os.listdir(finish_dir))
+                # for file in files:
+                #     docx_file = root_dir + "\\" + subject + "\\" + shijuan + "\\" + file
+                #     print(docx_file)
+                #     docx_remove_content(docx_file)
+
+                # 删除文件标题“（word版）”文字
+                # finish_dir = root_dir + "\\" + subject + "\\" + shijuan
+                # files = sorted(os.listdir(finish_dir))
+                # for file in files:
+                #     src_docx_file = root_dir + "\\" + subject + "\\" + shijuan + "\\" + file
+                #     if file.find("（word版）") != -1:
+                #         print(src_docx_file)
+                #         dst_docx_file = src_docx_file.replace("（word版）", "")
+                #         os.rename(src_docx_file, dst_docx_file)
+
+                # 替换文件标题“（word解析版）”文字为“（解析版）”
+                # finish_dir = root_dir + "\\" + subject + "\\" + shijuan
+                # files = sorted(os.listdir(finish_dir))
+                # for file in files:
+                #     src_docx_file = root_dir + "\\" + subject + "\\" + shijuan + "\\" + file
+                #     if file.find("（word解析版）") != -1:
+                #         print(src_docx_file)
+                #         dst_docx_file = src_docx_file.replace("（word解析版）", "（解析版）")
+                #         os.rename(src_docx_file, dst_docx_file)
+
+                # 替换文件标题“及答案”文字为“（含答案）”
+                # finish_dir = root_dir + "\\" + subject + "\\" + shijuan
+                # files = sorted(os.listdir(finish_dir))
+                # for file in files:
+                #     src_docx_file = root_dir + "\\" + subject + "\\" + shijuan + "\\" + file
+                #     if file.find("及答案") != -1:
+                #         print(src_docx_file)
+                #         dst_docx_file = src_docx_file.replace("及答案", "（含答案）")
+                #         os.rename(src_docx_file, dst_docx_file)
+
+                # 删除文件标题“（原卷版）”文字
+                # finish_dir = root_dir + "\\" + subject + "\\" + shijuan
+                # files = sorted(os.listdir(finish_dir))
+                # for file in files:
+                #     src_docx_file = root_dir + "\\" + subject + "\\" + shijuan + "\\" + file
+                #     if file.find("（原卷版）") != -1:
+                #         print(src_docx_file)
+                #         dst_docx_file = src_docx_file.replace("（原卷版）", "")
+                #         if not os.path.exists(dst_docx_file):
+                #             os.rename(src_docx_file, dst_docx_file)
+                #         else:
+                #             os.remove(src_docx_file)
+
+                # 替换文件标题“（含解析版）”文字为“（含解析）”
+                # finish_dir = root_dir + "\\" + subject + "\\" + shijuan
+                # files = sorted(os.listdir(finish_dir))
+                # for file in files:
+                #     src_docx_file = root_dir + "\\" + subject + "\\" + shijuan + "\\" + file
+                #     if file.find("（含解析版）") != -1:
+                #         print(src_docx_file)
+                #         dst_docx_file = src_docx_file.replace("（含解析版）", "（含解析）")
+                #         os.rename(src_docx_file, dst_docx_file)
+
+                # 将文件标题“（含答案）”文字移到文件名最后位置
+                # finish_dir = root_dir + "\\" + subject + "\\" + shijuan
+                # files = sorted(os.listdir(finish_dir))
+                # for file in files:
+                #     src_docx_file = root_dir + "\\" + subject + "\\" + shijuan + "\\" + file
+                #     if file.find("（含答案）") != -1:
+                #         print(src_docx_file)
+                #         dst_docx_file = src_docx_file.replace("（含答案）", "")
+                #         dst_docx_file = dst_docx_file.replace(".docx", "") + "（含答案）.docx"
+                #         os.rename(src_docx_file, dst_docx_file)
+
+                # 替换文件标题“解析（含答案）”文字为“（含答案）”
                 finish_dir = root_dir + "\\" + subject + "\\" + shijuan
                 files = sorted(os.listdir(finish_dir))
                 for file in files:
-                    pdf_file = root_dir + "\\" + subject + "\\" + shijuan + "\\" + file
-                    print(pdf_file)
-                    if check_only_image(pdf_file):
-                        os.remove(pdf_file)
+                    src_docx_file = root_dir + "\\" + subject + "\\" + shijuan + "\\" + file
+                    if file.find("解析（含答案）") != -1:
+                        print(src_docx_file)
+                        dst_docx_file = src_docx_file.replace("解析（含答案）", "（含答案）")
+                        if not os.path.exists(dst_docx_file):
+                            os.rename(src_docx_file, dst_docx_file)
+                        else:
+                            os.remove(src_docx_file)
 
                 # if shijuan.find("_finish") != -1 or shijuan.find("_doc2docx") != -1:
                 #     continue
