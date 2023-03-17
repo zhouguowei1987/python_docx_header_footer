@@ -1,6 +1,8 @@
 import re
 import time
 from docx import Document
+from docx.shared import Pt
+from docx.oxml.ns import qn
 from win32com import client as wc
 import os
 import shutil
@@ -49,6 +51,14 @@ def docx_remove_content(doc_file):
         if re.search(content_to_remove, para.text):
             para.text = re.sub(content_to_remove, '', para.text)
 
+    doc.save(doc_file)
+
+
+def change_word_font(doc_file):
+    # 打开doc文件
+    doc = Document(doc_file)
+    doc.styles['Normal'].font.name = u'Times New Roman'  # 设置西文字体
+    doc.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), u'微软雅黑')  # 设置中文字体使用字体2->宋体
     doc.save(doc_file)
 
 
@@ -113,6 +123,14 @@ if __name__ == '__main__':
                 #     docx_file = root_dir + "\\" + subject + "\\" + shijuan + "\\" + file
                 #     print(docx_file)
                 #     docx_remove_content(docx_file)
+
+                # 删除“不用注册，免费下载！”文字
+                finish_dir = root_dir + "\\" + subject + "\\" + shijuan
+                files = sorted(os.listdir(finish_dir))
+                for file in files:
+                    docx_file = root_dir + "\\" + subject + "\\" + shijuan + "\\" + file
+                    print(docx_file)
+                    change_word_font(docx_file)
 
                 # 删除文件标题“（word版）”文字
                 # finish_dir = root_dir + "\\" + subject + "\\" + shijuan
@@ -179,17 +197,17 @@ if __name__ == '__main__':
                 #         os.rename(src_docx_file, dst_docx_file)
 
                 # 替换文件标题“解析（含答案）”文字为“（含答案）”
-                finish_dir = root_dir + "\\" + subject + "\\" + shijuan
-                files = sorted(os.listdir(finish_dir))
-                for file in files:
-                    src_docx_file = root_dir + "\\" + subject + "\\" + shijuan + "\\" + file
-                    if file.find("解析（含答案）") != -1:
-                        print(src_docx_file)
-                        dst_docx_file = src_docx_file.replace("解析（含答案）", "（含答案）")
-                        if not os.path.exists(dst_docx_file):
-                            os.rename(src_docx_file, dst_docx_file)
-                        else:
-                            os.remove(src_docx_file)
+                # finish_dir = root_dir + "\\" + subject + "\\" + shijuan
+                # files = sorted(os.listdir(finish_dir))
+                # for file in files:
+                #     src_docx_file = root_dir + "\\" + subject + "\\" + shijuan + "\\" + file
+                #     if file.find("解析（含答案）") != -1:
+                #         print(src_docx_file)
+                #         dst_docx_file = src_docx_file.replace("解析（含答案）", "（含答案）")
+                #         if not os.path.exists(dst_docx_file):
+                #             os.rename(src_docx_file, dst_docx_file)
+                #         else:
+                #             os.remove(src_docx_file)
 
                 # if shijuan.find("_finish") != -1 or shijuan.find("_doc2docx") != -1:
                 #     continue

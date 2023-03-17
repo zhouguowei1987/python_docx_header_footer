@@ -1,6 +1,8 @@
 import re
 import time
 from docx import Document
+from docx.shared import Pt
+from docx.oxml.ns import qn
 from win32com import client as wc
 import os
 import shutil
@@ -52,6 +54,14 @@ def docx_remove_content(doc_file):
     doc.save(doc_file)
 
 
+def change_word_font(doc_file):
+    # 打开doc文件
+    doc = Document(doc_file)
+    doc.styles['Normal'].font.name = u'Times New Roman'  # 设置西文字体
+    doc.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), u'微软雅黑')  # 设置中文字体使用字体2->宋体
+    doc.save(doc_file)
+
+
 def print_filter_word(doc_file):
     doc = Document(doc_file)
     filter_words = ["beijingstudy"]
@@ -82,12 +92,12 @@ def rename_docx_name(doc_file):
             if word in para.text:
                 filter_docx_file = doc_file
                 if word == "试题解析":
-                    filter_docx_file = doc_file.replace("（含答案）", "")\
-                                           .replace("（含解析）", "")\
+                    filter_docx_file = doc_file.replace("（含答案）", "") \
+                                           .replace("（含解析）", "") \
                                            .replace(".docx", "") + "（含解析）.docx"
                 elif word == "参考答案":
-                    filter_docx_file = doc_file.replace("（含答案）", "")\
-                                           .replace("（含解析）", "")\
+                    filter_docx_file = doc_file.replace("（含答案）", "") \
+                                           .replace("（含解析）", "") \
                                            .replace(".docx", "") + "（含答案）.docx"
                 if "试题解析" in para.text and "参考答案" in para.text:
                     filter_docx_file = doc_file.replace("（含答案）", "") \
@@ -153,13 +163,22 @@ if __name__ == '__main__':
         # if os.path.splitext(file)[1] == ".docx":
         #     remove_header_footer(file_path)
 
+        # 改变文档字体
+        if os.path.splitext(file)[1] == ".docx":
+            change_word_font(file_path)
+
         # 移除需要过滤文字
         # if os.path.splitext(file)[1] == ".docx":
         #     docx_remove_content(file_path)
 
         # 改变文件名称
-        if os.path.splitext(file)[1] == ".docx":
-            rename_docx_name(file_path)
+        # if os.path.splitext(file)[1] == ".docx":
+        #     rename_docx_name(file_path)
+
+        # 删除只包含图片
+        # if os.path.splitext(file)[1] == ".docx":
+        #     if check_only_image(file_path):
+        #         os.remove(file_path)
 
         # 将文件标题“（含答案）”文字移到文件名最后位置
         # year_list = ['2014年', '2015年', '2016年', '2017年', '2018年', '2019年', '2020年', '2021年', '2022年']
