@@ -42,14 +42,14 @@ def get_word_pages(in_file):
 
 def docx_remove_content(doc_file):
     # 定义需要去除的内容
-    content_to_remove = '''微信公众号：中考数学压轴题'''
+    content_to_remove = '''XXXXXX'''
     # 打开doc文件
     doc = Document(doc_file)
     # 遍历doc文件中的段落
     for para in doc.paragraphs:
         # 如果段落中包含需要去除的内容，使用正则表达式替换为空字符串
         if re.search(content_to_remove, para.text):
-            para.text = re.sub(content_to_remove, '', para.text)
+            para.text = re.sub(content_to_remove, 'OfficePLUS', para.text)
 
     doc.save(doc_file)
 
@@ -64,14 +64,14 @@ def change_word_font(doc_file):
 
 def print_filter_word(doc_file):
     doc = Document(doc_file)
-    filter_words = ["beijingstudy"]
+    filter_words = ["来源"]
     stop = False
     dst_doc_file = doc_file
     for word in filter_words:
         for para in doc.paragraphs:
             if word in para.text:
                 print("=======" + doc_file + "========")
-                filter_docx_file = doc_file.replace("final-middle-school", "filter-middle-school")
+                filter_docx_file = doc_file.replace("Word模板", "filter-Word模板")
                 if not os.path.exists(filter_docx_file):
                     os.rename(doc_file, filter_docx_file)
                 dst_doc_file = filter_docx_file
@@ -83,7 +83,7 @@ def print_filter_word(doc_file):
 
 
 def rename_docx_name(doc_file):
-    filter_words = ["参考答案", "试题解析"]
+    filter_words = ["参考答案", "答案要点", "试卷答案", "【答案】", "解析"]
     dst_docx_file = doc_file
     stop = False
     doc = Document(doc_file)
@@ -91,7 +91,7 @@ def rename_docx_name(doc_file):
         for para in doc.paragraphs:
             if word in para.text:
                 filter_docx_file = doc_file
-                if word == "试题解析":
+                if word == "解析":
                     filter_docx_file = doc_file.replace("（含答案）", "") \
                                            .replace("（含解析）", "") \
                                            .replace(".docx", "") + "（含解析）.docx"
@@ -99,7 +99,19 @@ def rename_docx_name(doc_file):
                     filter_docx_file = doc_file.replace("（含答案）", "") \
                                            .replace("（含解析）", "") \
                                            .replace(".docx", "") + "（含答案）.docx"
-                if "试题解析" in para.text and "参考答案" in para.text:
+                elif word == "答案要点":
+                    filter_docx_file = doc_file.replace("（含答案）", "") \
+                                           .replace("（含解析）", "") \
+                                           .replace(".docx", "") + "（含答案）.docx"
+                elif word == "试卷答案":
+                    filter_docx_file = doc_file.replace("（含答案）", "") \
+                                           .replace("（含解析）", "") \
+                                           .replace(".docx", "") + "（含答案）.docx"
+                elif word == "【答案】":
+                    filter_docx_file = doc_file.replace("（含答案）", "") \
+                                           .replace("（含解析）", "") \
+                                           .replace(".docx", "") + "（含答案）.docx"
+                if "解析" in para.text and "参考答案" in para.text and "答案要点" in para.text and "试卷答案" in para.text and "【答案】" in para.text:
                     filter_docx_file = doc_file.replace("（含答案）", "") \
                                            .replace("（含解析）", "") \
                                            .replace(".docx", "") + "（含解析）.docx"
@@ -149,7 +161,7 @@ def doc2docx(in_file, out_file):
 
 
 if __name__ == '__main__':
-    root_dir = "G:\\final-middle-school"
+    root_dir = "G:\www.ppt818.com"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
@@ -164,8 +176,8 @@ if __name__ == '__main__':
         #     remove_header_footer(file_path)
 
         # 改变文档字体
-        if os.path.splitext(file)[1] == ".docx":
-            change_word_font(file_path)
+        # if os.path.splitext(file)[1] == ".docx":
+        #     change_word_font(file_path)
 
         # 移除需要过滤文字
         # if os.path.splitext(file)[1] == ".docx":
@@ -214,58 +226,21 @@ if __name__ == '__main__':
         #             os.remove(file_path)
 
         # if os.path.splitext(file)[1] == ".docx":
-        #     if file.find("（含答案）（含答案）") != -1:
+        #     if file.find("（含答案）") == -1 and file.find("（含解析）") == -1:
         #         print(file_path)
-        #         filter_docx_file = file_path.replace("（含答案）（含答案）", "（含答案）")
-        #         if not os.path.exists(filter_docx_file):
-        #             os.rename(file_path, filter_docx_file)
+        #         os.remove(file_path)
+
+        dst_file_path = root_dir + "\\" + os.path.splitext(file)[0] + "PPT模板" + ".pptx"
+        if not os.path.exists(dst_file_path):
+            os.rename(file_path, dst_file_path)
 
         # 修改文件名称
         # change_name = [
-        #     ["（word解析版）", "（含解析）"],
-        #     ["（word版，含解析）", "（含解析）"],
-        #     ["（word版++含解析）", "（含解析）"],
-        #     ["（word版  含解析）", "（含解析）"],
-        #     ["（WORD解析版）", "（含解析）"],
-        #     ["（word版，含解析)", "（含解析）"],
-        #     ["（word解析版)", "（含解析）"],
-        #     ["(纯word详解版）", "（含解析）"],
-        #     ["（纯word完整解析版）", "（含解析）"],
-        #     ["（含答案解析）", "（含解析）"],
-        #     ["（word版，详细解析）", "（含解析）"],
-        #     ["(纯word解析版)", "（含解析）"],
-        #     ["(word版  含解析)", "（含解析）"],
-        #     ["（word版，有解析）", "（含解析）"],
-        #     ["（新解析版）", "（含解析）"],
-        #     ["　（含解析）", "（含解析）"],
-        #     ["（word，含解析）", "（含解析）"],
-        #     ["（含答案，含成都市初三毕业会考)", "（含答案）"],
-        #     ["（全word版）", "（含答案）"],
-        #     ["（word版，有答案）", "（含答案）"],
-        #     ["（全word版，含答案）", "（含答案）"],
-        #     ["（word版，含答案）", "（含答案）"],
-        #     ["（word版  含答案）", "（含答案）"],
-        #     ["（Word版，含答案）", "（含答案）"],
-        #     ["（WORD版，含答案）", "（含答案）"],
-        #     ["(含答案)", "（含答案）"],
-        #     ["（word版）", "（含答案）"],
-        #     ["（word，含答案）", "（含答案）"],
-        #     ["(（word版，有答案）", "（含答案）"],
-        #     ["（word版，参考答案）", "（含答案）"],
-        #     ["及答案", "（含答案）"],
-        #     ["（含解答）", "（含解析）"],
-        #     ["(word版++含解析)", "（含解析）"],
-        #     ["解析.", "（含解析）."],
-        #     ["（纯word详解版 ）", "（含解析）"],
-        #     ["（纯word解析版）", "（含解析）"],
-        #     ["(word解析版)", "（含解析）"],
-        #     ["（word版含解析）", "（含解析）"],
-        #     ["（纯word详解版）", "（含解析）"],
-        #     ["（解析版）", "（含解析）"],
-        #     ["(解析版）", "（含解析）"],
-        #     ["(解析版)", "（含解析）"],
-        #     ["（纯word详解版+）", "（含解析）"],
-        #     ["（word详解版）", "（含解析）"],
+        #     ["PPT模板", ""],
+        #     ["PPT模版", ""],
+        #     ["PPT", ""],
+        #     ["模板", ""],
+        #     ["下载", ""],
         # ]
         # for rename in change_name:
         #     if file.find(rename[0]) != -1:
@@ -277,7 +252,7 @@ if __name__ == '__main__':
         #             os.remove(file_path)
 
         # 删除文件
-        # delete_name = ["扫描", "原卷版", "图片", "无答案", "20210326", "20210219", "20200715"]
+        # delete_name = ["扫描", "原卷版", "图片", "无答案", "自画图", "部分", "仅供参考", "暂缺物理", "(2)", " 2.docx", "听力", "2（"]
         # for dname in delete_name:
         #     if file.find(dname) != -1:
         #         os.remove(file_path)
