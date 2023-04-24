@@ -126,6 +126,7 @@ if __name__ == '__main__':
                     # 删除只包含图片
                     if check_only_image(docx_file):
                         continue
+                    finish_file = os.path.splitext(finish_file)[0] + "（精品真题）" + os.path.splitext(finish_file)[1]
                     # 删除页眉页脚
                     remove_header_footer(docx_file, finish_file)
                     # 改变文档字体
