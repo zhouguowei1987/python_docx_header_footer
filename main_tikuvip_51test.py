@@ -87,7 +87,8 @@ def check_only_image(doc_file):
         else:
             i = 0
             for para in doc.paragraphs:
-                if i == 0 and para.text == "":
+                print(i, para.text)
+                if (i == 0 or i == 2) and para.text == "":
                     doc.save(doc_file)
                     return True
                 i += 1
