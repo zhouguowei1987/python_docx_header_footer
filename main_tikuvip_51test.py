@@ -84,6 +84,12 @@ def check_only_image(doc_file):
         doc = Document(doc_file)
         if len(doc.paragraphs) == 1 or len(doc.paragraphs) == 0:
             return True
+        i = 0
+        for para in doc.paragraphs:
+            if (i == 0 or i == 1) and para.text == "":
+                doc.save(doc_file)
+                return True
+            i += 1
         doc.save(doc_file)
     except Exception as e:
         print(e)
