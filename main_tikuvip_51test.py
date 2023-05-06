@@ -20,18 +20,18 @@ def remove_and_set_header_footer(doc, save_doc):
         section.header.is_linked_to_previous = True
         section.footer.is_linked_to_previous = True
 
-        section.header_distance = Cm(1.5)
-        section.footer_distance = Cm(1.75)
-        # 设置页眉
-        header = section.header  # 获取第一个节的页眉（所有的页眉都一致）
-        paragraph = header.paragraphs[0]  # 获取页眉的文字part
-        text = paragraph.add_run('年寒窗苦读日，只盼金榜题名时，祝你考试拿高分，鲤鱼跳龙门！加油！')
-        text.font.size = Pt(10)  # 页眉字体大小
-        text.font.color.rgb = RGBColor(255, 0, 0)
-        # text.bold = True  # 页眉字体是否加粗
-        text.font.name = 'Times New Roman'  # 控制是英文时的字体
-        text.element.rPr.rFonts.set(qn('w:eastAsia'), '微软雅黑')  # 控制是中文时的字体
-        paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER  # 设置页眉居中
+    document.sections[0].header_distance = Cm(1.5)
+    document.sections[0].footer_distance = Cm(1.75)
+    # 设置页眉
+    header = document.sections[0].header  # 获取第一个节的页眉（所有的页眉都一致）
+    paragraph = header.paragraphs[0]  # 获取页眉的文字part
+    text = paragraph.add_run('年寒窗苦读日，只盼金榜题名时，祝你考试拿高分，鲤鱼跳龙门！加油！')
+    text.font.size = Pt(10)  # 页眉字体大小
+    text.font.color.rgb = RGBColor(255, 0, 0)
+    # text.bold = True  # 页眉字体是否加粗
+    text.font.name = 'Times New Roman'  # 控制是英文时的字体
+    text.element.rPr.rFonts.set(qn('w:eastAsia'), '微软雅黑')  # 控制是中文时的字体
+    paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER  # 设置页眉居中
 
     document.save(save_doc)
 
@@ -91,12 +91,12 @@ def change_word_font(doc_file):
 def check_only_image(doc_file):
     try:
         doc = Document(doc_file)
-        if len(doc.paragraphs) < 2:
+        if len(doc.paragraphs) < 3:
             return True
         else:
             i = 0
             for para in doc.paragraphs:
-                if (i == 0 or i == 2) and para.text == "":
+                if i == 2 and para.text == "":
                     doc.save(doc_file)
                     return True
                 i += 1
