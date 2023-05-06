@@ -76,6 +76,15 @@ def change_word_font(doc_file):
     doc = Document(doc_file)
     doc.styles['Normal'].font.name = u'Times New Roman'  # 设置西文字体
     doc.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), u'微软雅黑')  # 设置中文字体使用字体2->宋体
+
+    i = 0
+    for para in doc.paragraphs:
+        if i == 0:
+            for run in para.runs:
+                # run.font.bold = True
+                run.font.size = Pt(15)
+                run.font.color.rgb = RGBColor(255, 0, 0)
+        i += 1
     doc.save(doc_file)
 
 
