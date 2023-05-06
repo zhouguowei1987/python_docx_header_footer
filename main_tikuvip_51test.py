@@ -82,14 +82,15 @@ def change_word_font(doc_file):
 def check_only_image(doc_file):
     try:
         doc = Document(doc_file)
-        if len(doc.paragraphs) == 1 or len(doc.paragraphs) == 0:
+        if len(doc.paragraphs) < 2:
             return True
-        i = 0
-        for para in doc.paragraphs:
-            if (i == 0 or i == 1) and para.text == "":
-                doc.save(doc_file)
-                return True
-            i += 1
+        else:
+            i = 0
+            for para in doc.paragraphs:
+                if (i == 0 or i == 1) and para.text == "":
+                    doc.save(doc_file)
+                    return True
+                i += 1
         doc.save(doc_file)
     except Exception as e:
         print(e)
