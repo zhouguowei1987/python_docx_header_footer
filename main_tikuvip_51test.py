@@ -129,7 +129,7 @@ def doc2docx(in_file, out_file):
 if __name__ == '__main__':
     category_dirs_arr = ['自考', '专升本考试', '一级建造师考试', '小升初', '考研', '公务员考试', '高中会考', '高考',
                          '二级建造师考试', '成人高考', '事业单位招聘', '中考']
-    root_dir = "G:\\tikuvip（2020-2023）.51test.net"
+    root_dir = "G:\\tikuvip（2018-2019）.51test.net"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
@@ -141,8 +141,8 @@ if __name__ == '__main__':
                     if "答案" not in file_path:
                         continue
 
-                    docx_dir = "G:\\docx.tikuvip（2020-2023）.51test.net" + "\\" + category
-                    finish_dir = "G:\\finish.tikuvip（2020-2023）.51test.net" + "\\" + category
+                    docx_dir = "G:\\docx.tikuvip（2018-2019）.51test.net" + "\\" + category
+                    finish_dir = "G:\\finish.tikuvip（2018-2019）.51test.net" + "\\" + category
                     if not os.path.exists(docx_dir):
                         os.mkdir(docx_dir)
 
