@@ -161,13 +161,17 @@ if __name__ == '__main__':
                         continue
                     print(os.path.splitext(finish_file)[0])
                     if "及答案" in file:
-                        finish_file = os.path.splitext(finish_file)[0].replace("及答案", "") + "(含答案)" + os.path.splitext(finish_file)[1]
+                        finish_file = os.path.splitext(finish_file)[0].replace("及答案", "") + "(含答案)" + \
+                                      os.path.splitext(finish_file)[1]
                     if "与答案" in file:
-                        finish_file = os.path.splitext(finish_file)[0].replace("与答案", "") + "(含答案)" + os.path.splitext(finish_file)[1]
+                        finish_file = os.path.splitext(finish_file)[0].replace("与答案", "") + "(含答案)" + \
+                                      os.path.splitext(finish_file)[1]
                     if "含答案" in file:
-                        finish_file = os.path.splitext(finish_file)[0].replace("含答案", "") + "(含答案)" + os.path.splitext(finish_file)[1]
+                        finish_file = os.path.splitext(finish_file)[0].replace("含答案", "") + "(含答案)" + \
+                                      os.path.splitext(finish_file)[1]
                     if "附答案" in file:
-                        finish_file = os.path.splitext(finish_file)[0].replace("附答案", "") + "(含答案)" + os.path.splitext(finish_file)[1]
+                        finish_file = os.path.splitext(finish_file)[0].replace("附答案", "") + "(含答案)" + \
+                                      os.path.splitext(finish_file)[1]
                     # 删除并设置页眉页脚
                     remove_and_set_header_footer(docx_file, finish_file)
                     # 改变文档字体
