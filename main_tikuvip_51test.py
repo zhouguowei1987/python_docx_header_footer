@@ -150,16 +150,6 @@ if __name__ == '__main__':
                         os.mkdir(finish_dir)
                     docx_file = docx_dir + "\\" + file.replace(".doc", ".docx")
                     finish_file = finish_dir + "\\" + file.replace(".doc", ".docx")
-                    if not os.path.exists(finish_file):
-                        if not os.path.exists(docx_file):
-                            print("==========开始转化为docx==============")
-                            if not doc2docx(file_path, docx_file):
-                                continue
-                            print("==========转化完成==============")
-                    # 删除只包含图片
-                    if check_only_image(docx_file):
-                        continue
-                    print(os.path.splitext(finish_file)[0])
                     if "及答案" in file:
                         finish_file = os.path.splitext(finish_file)[0].replace("及答案", "") + "(含答案)" + \
                                       os.path.splitext(finish_file)[1]
@@ -172,6 +162,15 @@ if __name__ == '__main__':
                     if "附答案" in file:
                         finish_file = os.path.splitext(finish_file)[0].replace("附答案", "") + "(含答案)" + \
                                       os.path.splitext(finish_file)[1]
+                    if not os.path.exists(finish_file):
+                        if not os.path.exists(docx_file):
+                            print("==========开始转化为docx==============")
+                            if not doc2docx(file_path, docx_file):
+                                continue
+                            print("==========转化完成==============")
+                    # 删除只包含图片
+                    if check_only_image(docx_file):
+                        continue
                     # 删除并设置页眉页脚
                     remove_and_set_header_footer(docx_file, finish_file)
                     # 改变文档字体
