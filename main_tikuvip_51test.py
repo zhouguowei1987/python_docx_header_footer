@@ -138,7 +138,7 @@ if __name__ == '__main__':
                 if os.path.splitext(file)[1] == ".doc":
                     file_path = root_dir + "\\" + category + "\\" + file
                     print(file_path)
-                    if "答案" not in file_path:
+                    if "答案" not in file:
                         continue
 
                     docx_dir = "G:\\docx.tikuvip（2018-2019）.51test.net" + "\\" + category
@@ -159,8 +159,15 @@ if __name__ == '__main__':
                     # 删除只包含图片
                     if check_only_image(docx_file):
                         continue
-                    finish_file = os.path.splitext(finish_file)[0] + "（精品真题）" + os.path.splitext(finish_file)[1]
+                    print(os.path.splitext(finish_file)[0])
+                    if "及答案" in file:
+                        finish_file = os.path.splitext(finish_file)[0].replace("及答案", "") + "（含答案）" + os.path.splitext(finish_file)[1]
+                    if "与答案" in file:
+                        finish_file = os.path.splitext(finish_file)[0].replace("与答案", "") + "（含答案）" + os.path.splitext(finish_file)[1]
+                    if "含答案" in file:
+                        finish_file = os.path.splitext(finish_file)[0].replace("含答案", "") + "（含答案）" + os.path.splitext(finish_file)[1]
                     # 删除并设置页眉页脚
                     remove_and_set_header_footer(docx_file, finish_file)
                     # 改变文档字体
                     change_word_font(finish_file)
+
