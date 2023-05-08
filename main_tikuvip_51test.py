@@ -37,7 +37,7 @@ def remove_and_set_header_footer(doc, save_doc):
 
 
 def get_word_pages(in_file):
-    pages = 1
+    pages = 0
     try:
         word = wc.Dispatch("Word.Application")
         try:
@@ -150,18 +150,7 @@ if __name__ == '__main__':
                         os.mkdir(finish_dir)
                     docx_file = docx_dir + "\\" + file.replace(".doc", ".docx")
                     finish_file = finish_dir + "\\" + file.replace(".doc", ".docx")
-                    if "及答案" in file:
-                        finish_file = os.path.splitext(finish_file)[0].replace("及答案", "") + "(含答案)" + \
-                                      os.path.splitext(finish_file)[1]
-                    if "与答案" in file:
-                        finish_file = os.path.splitext(finish_file)[0].replace("与答案", "") + "(含答案)" + \
-                                      os.path.splitext(finish_file)[1]
-                    if "含答案" in file:
-                        finish_file = os.path.splitext(finish_file)[0].replace("含答案", "") + "(含答案)" + \
-                                      os.path.splitext(finish_file)[1]
-                    if "附答案" in file:
-                        finish_file = os.path.splitext(finish_file)[0].replace("附答案", "") + "(含答案)" + \
-                                      os.path.splitext(finish_file)[1]
+
                     if not os.path.exists(finish_file):
                         if not os.path.exists(docx_file):
                             print("==========开始转化为docx==============")
@@ -171,8 +160,24 @@ if __name__ == '__main__':
                     # 删除只包含图片
                     if check_only_image(docx_file):
                         continue
+
+                    replace_text = "(含答案)"
+                    word_pages = get_word_pages(docx_file)
+                    if word_pages > 0:
+                        replace_text += "(共" + str(word_pages) + "页)"
+                    if "及答案" in file:
+                        finish_file = os.path.splitext(finish_file)[0].replace("及答案", "") + replace_text + \
+                                      os.path.splitext(finish_file)[1]
+                    if "与答案" in file:
+                        finish_file = os.path.splitext(finish_file)[0].replace("与答案", "") + replace_text + \
+                                      os.path.splitext(finish_file)[1]
+                    if "含答案" in file:
+                        finish_file = os.path.splitext(finish_file)[0].replace("含答案", "") + replace_text + \
+                                      os.path.splitext(finish_file)[1]
+                    if "附答案" in file:
+                        finish_file = os.path.splitext(finish_file)[0].replace("附答案", "") + replace_text + \
+                                      os.path.splitext(finish_file)[1]
                     # 删除并设置页眉页脚
                     remove_and_set_header_footer(docx_file, finish_file)
                     # 改变文档字体
                     change_word_font(finish_file)
-
