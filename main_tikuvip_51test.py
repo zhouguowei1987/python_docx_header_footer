@@ -162,9 +162,6 @@ if __name__ == '__main__':
                         continue
 
                     replace_text = "(含答案)"
-                    word_pages = get_word_pages(docx_file)
-                    if word_pages > 0:
-                        replace_text += "(共" + str(word_pages) + "页)"
                     if "及答案" in file:
                         finish_file = os.path.splitext(finish_file)[0].replace("及答案", "") + replace_text + \
                                       os.path.splitext(finish_file)[1]
