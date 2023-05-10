@@ -57,7 +57,7 @@ def get_word_pages(in_file):
         return pages
 
 
-def docx_get_word_paragraphs_count(in_file):
+def docx_get_word_pages(in_file):
     pages = 0
     try:
         # 打开Word文档
