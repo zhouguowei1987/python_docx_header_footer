@@ -57,6 +57,20 @@ def get_word_pages(in_file):
         return pages
 
 
+def docx_get_word_paragraphs_count(in_file):
+    pages = 0
+    try:
+        # 打开Word文档
+        doc = Document(in_file)
+        # 获取总页数
+        pages = len(doc.paragraphs)
+        return pages
+    except Exception as e:
+        print(e)
+    finally:
+        return pages
+
+
 def docx_remove_content(doc_file):
     # 定义需要去除的内容
     content_to_remove = '''XXXXXX'''
@@ -151,9 +165,6 @@ if __name__ == '__main__':
                         if not doc2docx(file_path, docx_file):
                             continue
                         print("==========转化完成==============")
-
-                    if get_word_pages(docx_file) > 200:
-                        continue
 
                     finish_dir = "G:\\finish.tikuvip（2020-2023）.51test.net" + "\\" + category
                     if not os.path.exists(finish_dir):
