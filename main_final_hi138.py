@@ -7,6 +7,7 @@ from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.shared import RGBColor  # 设置字体的颜色
 from docx.oxml.ns import qn
 import os
+from win32com import client as wc
 import shutil
 
 
@@ -66,30 +67,62 @@ def change_line_spacing(doc_file):
     doc.save(doc_file)
 
 
+def doc2docx(in_file, out_file):
+    try:
+        word = wc.Dispatch("Word.Application")
+        try:
+            print(in_file)
+            print(out_file)
+            doc = word.Documents.Open(in_file)
+            doc.SaveAs(out_file, 12, False, "", True, "", False, False, False, False)
+            print('转换成功')
+            doc.Close()
+            word.Quit()
+            return True
+        except Exception as e:
+            print(e)
+    except Exception as e:
+        print(e)
+    return False
+
+
 if __name__ == '__main__':
-    root_dir = "../www.hi138.com"
+    root_dir = "../www.hi138.com/"
     files = sorted(os.listdir(root_dir))
     for file in files:
-        if os.path.splitext(file)[1] == ".docx":
-            file_path = root_dir + "/" + file
+        if os.path.splitext(file)[1] == ".doc":
+            file_path = root_dir + file
             print(file_path)
             exit()
-            file_finish_dir = "finish.hi138.com"
-            if not os.path.exists(file_finish_dir):
-                os.makedirs(file_finish_dir)
-            file_finish_path = file_finish_dir + file
 
-            try:
-                # 删除页眉页脚
-                remove_header_footer(file_path, file_finish_path)
+            docx_dir = "./doc.hi138.com/"
+            if not os.path.exists(docx_dir):
+                os.mkdir(docx_dir)
 
-                # 删除文档中链接
-                remove_links(file_finish_path)
+            docx_file = docx_dir + file.replace(".docx", ".doc")
+            if not os.path.exists(docx_file):
+                print("==========开始转化为docx==============")
+                if not doc2docx(file_path, docx_file):
+                    continue
+                print("==========转化完成==============")
 
-                # 改变文档字体
-                change_word_font(file_finish_path)
+            finish_dir = "./finish.hi138.com/"
+            if not os.path.exists(finish_dir):
+                os.mkdir(finish_dir)
 
-                # 修改行距
-                change_line_spacing(file_finish_path)
-            except Exception as e:
-                print(e)
+            finish_file = finish_dir + file
+            if not os.path.exists(finish_file):
+                try:
+                    # 删除页眉页脚
+                    remove_header_footer(docx_file, finish_file)
+
+                    # 删除文档中链接
+                    remove_links(finish_file)
+
+                    # 改变文档字体
+                    change_word_font(finish_file)
+
+                    # 修改行距
+                    change_line_spacing(finish_file)
+                except Exception as e:
+                    print(e)
