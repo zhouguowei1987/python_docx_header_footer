@@ -8,6 +8,7 @@ from docx.shared import RGBColor  # 设置字体的颜色
 from docx.oxml.ns import qn
 import os
 from win32com import client as wc
+from win32com.client import constants  # 导入枚举常数模块
 import shutil
 
 
@@ -22,20 +23,14 @@ def remove_header_footer(doc, save_doc):
     document.save(save_doc)
 
 
-def remove_links(doc_file):
-    doc = Document(doc_file)
-    for p in doc.paragraphs:
-        for run in p.runs:
-            if run.hyperlink:
-                run.text = run.text.replace(run.text, '')
-    doc.save(doc_file)
-
-
 def docx_remove_content(doc_file):
     # 定义需要去除的内容
-    content_to_remove = '''不用注册，免费下载！'''
+    content_to_remove = '''声明：
+本论文来自免费论文下载中心：http://www.hi138.com/guanlixue/shichangyingxiao/201812/473951.asp
+免费论文下载中心（www.hi138.com）所发布的论文版权归原作者所有，本站仅供大家学习、研究、参考之用，未取得作者授权严禁摘编、篡改、用作商业用途.'''
     # 打开doc文件
     doc = Document(doc_file)
+    doc.paragraphs[1].clear()
     # 遍历doc文件中的段落
     for para in doc.paragraphs:
         # 如果段落中包含需要去除的内容，使用正则表达式替换为空字符串
@@ -52,12 +47,12 @@ def change_word_font(doc_file):
     doc.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), u'微软雅黑')  # 设置中文字体使用字体2->宋体
 
     # 修改标题字体
-    para = doc[1].paragraphs
-    for run in para.runs:
-        # run.font.bold = True
-        run.font.size = Pt(15)
-        run.font.color.rgb = RGBColor(255, 0, 0)
-    doc.save(doc_file)
+    # para = doc.paragraphs[0]
+    # for run in para.runs:
+    #     # run.font.bold = True
+    #     run.font.size = Pt(15)
+    #     run.font.color.rgb = RGBColor(255, 0, 0)
+    # doc.save(doc_file)
 
 
 def change_line_spacing(doc_file):
@@ -71,9 +66,17 @@ def doc2docx(in_file, out_file):
     try:
         word = wc.Dispatch("Word.Application")
         try:
-            print(in_file)
-            print(out_file)
             doc = word.Documents.Open(in_file)
+
+            # 删除文档中超链接（保留文字）
+            hylCount = doc.Hyperlinks.Count  # 文档中超链接的总数
+            for j in range(0, hylCount):  # 遍历超链接
+                # 是否需要删除文本根据需要选择下列两句中的一句
+                # 因为倒着删除比较保险，所以用Hyperlinks(hylCount-j)
+                doc.Hyperlinks(hylCount - j).Delete()  # 删除超链接（保留纯文本）
+                # doc.Hyperlinks(hylCount-j).Range.Delete() # 删除超链接区域（包括文本全部删除）
+            # doc.Close(constants.wdSaveChanges)  # 保存并关闭文件
+
             doc.SaveAs(out_file, 12, False, "", True, "", False, False, False, False)
             print('转换成功')
             doc.Close()
@@ -87,26 +90,25 @@ def doc2docx(in_file, out_file):
 
 
 if __name__ == '__main__':
-    root_dir = "../www.hi138.com/"
+    root_dir = "G:\\www.hi138.com\\"
     files = sorted(os.listdir(root_dir))
     for file in files:
         if os.path.splitext(file)[1] == ".doc":
             file_path = root_dir + file
             print(file_path)
-            exit()
 
-            docx_dir = "./doc.hi138.com/"
+            docx_dir = "G:\\docx.hi138.com\\"
             if not os.path.exists(docx_dir):
                 os.mkdir(docx_dir)
 
-            docx_file = docx_dir + file.replace(".docx", ".doc")
+            docx_file = docx_dir + file.replace(".doc", ".docx")
             if not os.path.exists(docx_file):
                 print("==========开始转化为docx==============")
                 if not doc2docx(file_path, docx_file):
                     continue
                 print("==========转化完成==============")
 
-            finish_dir = "./finish.hi138.com/"
+            finish_dir = "G:\\finish.hi138.com\\"
             if not os.path.exists(finish_dir):
                 os.mkdir(finish_dir)
 
@@ -116,13 +118,14 @@ if __name__ == '__main__':
                     # 删除页眉页脚
                     remove_header_footer(docx_file, finish_file)
 
-                    # 删除文档中链接
-                    remove_links(finish_file)
+                    # 过滤文档文字
+                    docx_remove_content(finish_file)
 
                     # 改变文档字体
                     change_word_font(finish_file)
 
                     # 修改行距
-                    change_line_spacing(finish_file)
+                    # change_line_spacing(finish_file)
                 except Exception as e:
                     print(e)
+            exit()
