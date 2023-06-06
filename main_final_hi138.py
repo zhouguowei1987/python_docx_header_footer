@@ -84,7 +84,6 @@ def doc2docx(in_file, out_file):
             doc.Hyperlinks(hylCount - j).Delete()  # 删除超链接（保留纯文本）
             # doc.Hyperlinks(hylCount-j).Range.Delete() # 删除超链接区域（包括文本全部删除）
         # doc.Close(constants.wdSaveChanges)  # 保存并关闭文件
-
         doc.SaveAs(out_file, 12, False, "", True, "", False, False, False, False)
         doc.Close()
         returnBool = True
@@ -112,6 +111,7 @@ if __name__ == '__main__':
             if not os.path.exists(docx_file):
                 print("==========开始转化==============")
                 if not doc2docx(file_path, docx_file):
+                    os.remove(file_path)
                     continue
                 print("==========转化完成==============")
 
