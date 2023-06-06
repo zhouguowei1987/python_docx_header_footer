@@ -25,40 +25,25 @@ def remove_header_footer(doc, save_doc):
 
 
 def docx_remove_content(doc_file):
-    # 定义需要去除的内容
-    header_content_to_remove = '''\n\n'''
-
-    content_to_remove1 = '''免费论文下载中 http://www.hi138.com 　　'''
-
-    content_to_remove2 = '''免费论文下载中心 http://www.hi138.com'''
-
-    content_to_remove3 = ''' 
-　　 '''
-
-    footer_content_to_remove = '''声明：
-本论文来自免费论文下载中心：(.*?)
-免费论文下载中心（www.hi138.com）所发布的论文版权归原作者所有，本站仅供大家学习、研究、参考之用，未取得作者授权严禁摘编、篡改、用作商业用途.'''
-
+    # 定义需要去除及替换的内容
+    content_to_removes = [
+        ['''免费论文下载中 http://www.hi138.com 　　''', '\n\r\t'],
+        ['''免费论文下载中心 http://www.hi138.com''', ''],
+        ['''免费论文下载中 http://www.hi138.com''', ''],
+        ['''
+''', ''],
+        ['''免费论文下载中心讯：''', ''],
+        ['''声明：本论文来自免费论文下载中心：(.*?)，本站仅供大家学习、研究、参考之用，未取得作者授权严禁摘编、篡改、用作商业用途.''', '']
+    ]
     # 打开doc文件
     doc = Document(doc_file)
     doc.paragraphs[1].clear()
     # 遍历doc文件中的段落
     for para in doc.paragraphs:
-        # 如果段落中包含需要去除的内容，使用正则表达式替换为空字符串
-        if re.search(header_content_to_remove, para.text):
-            para.text = re.sub(header_content_to_remove, '\n', para.text)
-
-        if re.search(footer_content_to_remove, para.text):
-            para.text = re.sub(footer_content_to_remove, '', para.text)
-
-        if re.search(content_to_remove1, para.text):
-            para.text = re.sub(content_to_remove1, '\n\r\t', para.text)
-
-        if re.search(content_to_remove2, para.text):
-            para.text = re.sub(content_to_remove2, '', para.text)
-
-        if re.search(content_to_remove3, para.text):
-            para.text = re.sub(content_to_remove3, '', para.text)
+        # 如果段落中包含需要去除的内容，使用正则表达式
+        for content_to_remove in content_to_removes:
+            if re.search(content_to_remove[0], para.text):
+                para.text = re.sub(content_to_remove[0], content_to_remove[1], para.text)
 
     doc.save(doc_file)
 
@@ -81,7 +66,8 @@ def change_word_font(doc_file):
 def change_line_spacing(doc_file):
     doc = Document(doc_file)
     for p in doc.paragraphs:  # 循环处理每个段落
-        p.paragraph_format.line_spacing = 1.5  # 行距设置为3
+        if p.paragraph_format.line_spacing:
+            p.paragraph_format.line_spacing = 1.5  # 行距设置为3
     doc.save(doc_file)
 
 
