@@ -72,30 +72,28 @@ def change_line_spacing(doc_file):
 
 
 def doc2docx(in_file, out_file):
+    returnBool = False
+    word = wc.Dispatch("Word.Application")
     try:
-        word = wc.Dispatch("Word.Application")
-        try:
-            doc = word.Documents.Open(in_file)
+        doc = word.Documents.Open(in_file)
+        # 删除文档中超链接（保留文字）
+        hylCount = doc.Hyperlinks.Count  # 文档中超链接的总数
+        for j in range(0, hylCount):  # 遍历超链接
+            # 是否需要删除文本根据需要选择下列两句中的一句
+            # 因为倒着删除比较保险，所以用Hyperlinks(hylCount-j)
+            doc.Hyperlinks(hylCount - j).Delete()  # 删除超链接（保留纯文本）
+            # doc.Hyperlinks(hylCount-j).Range.Delete() # 删除超链接区域（包括文本全部删除）
+        # doc.Close(constants.wdSaveChanges)  # 保存并关闭文件
 
-            # 删除文档中超链接（保留文字）
-            hylCount = doc.Hyperlinks.Count  # 文档中超链接的总数
-            for j in range(0, hylCount):  # 遍历超链接
-                # 是否需要删除文本根据需要选择下列两句中的一句
-                # 因为倒着删除比较保险，所以用Hyperlinks(hylCount-j)
-                doc.Hyperlinks(hylCount - j).Delete()  # 删除超链接（保留纯文本）
-                # doc.Hyperlinks(hylCount-j).Range.Delete() # 删除超链接区域（包括文本全部删除）
-            # doc.Close(constants.wdSaveChanges)  # 保存并关闭文件
-
-            doc.SaveAs(out_file, 12, False, "", True, "", False, False, False, False)
-            print('转换成功')
-            doc.Close()
-            word.Quit()
-            return True
-        except Exception as e:
-            print(e)
+        doc.SaveAs(out_file, 12, False, "", True, "", False, False, False, False)
+        doc.Close()
+        returnBool = True
     except Exception as e:
         print(e)
-    return False
+        returnBool = False
+    finally:
+        word.Quit()
+        return returnBool
 
 
 if __name__ == '__main__':
@@ -104,7 +102,7 @@ if __name__ == '__main__':
     for file in files:
         if os.path.splitext(file)[1] == ".doc":
             file_path = root_dir + file
-            print(file_path)
+            print("=========="+file_path+"==============")
 
             docx_dir = "G:\\docx.hi138.com\\"
             if not os.path.exists(docx_dir):
@@ -112,7 +110,7 @@ if __name__ == '__main__':
 
             docx_file = docx_dir + file.replace(".doc", ".docx")
             if not os.path.exists(docx_file):
-                print("==========开始转化为docx==============")
+                print("==========开始转化==============")
                 if not doc2docx(file_path, docx_file):
                     continue
                 print("==========转化完成==============")
@@ -124,6 +122,7 @@ if __name__ == '__main__':
             finish_file = finish_dir + file.replace(".doc", ".docx")
             if not os.path.exists(finish_file):
                 try:
+                    print("==========文档处理==============")
                     # 删除页眉页脚
                     remove_header_footer(docx_file, finish_file)
 
@@ -135,5 +134,6 @@ if __name__ == '__main__':
 
                     # 修改行距
                     change_line_spacing(finish_file)
+                    print("==========处理完成==============")
                 except Exception as e:
                     print(e)
