@@ -73,25 +73,30 @@ def change_line_spacing(doc_file):
 
 def doc2docx(in_file, out_file):
     returnBool = False
-    word = wc.Dispatch("Word.Application")
     try:
-        doc = word.Documents.Open(in_file)
-        # 删除文档中超链接（保留文字）
-        hylCount = doc.Hyperlinks.Count  # 文档中超链接的总数
-        for j in range(0, hylCount):  # 遍历超链接
-            # 是否需要删除文本根据需要选择下列两句中的一句
-            # 因为倒着删除比较保险，所以用Hyperlinks(hylCount-j)
-            doc.Hyperlinks(hylCount - j).Delete()  # 删除超链接（保留纯文本）
-            # doc.Hyperlinks(hylCount-j).Range.Delete() # 删除超链接区域（包括文本全部删除）
-        # doc.Close(constants.wdSaveChanges)  # 保存并关闭文件
-        doc.SaveAs(out_file, 12, False, "", True, "", False, False, False, False)
-        doc.Close()
-        returnBool = True
+        word = wc.Dispatch("Word.Application")
+        try:
+            doc = word.Documents.Open(in_file)
+            # 删除文档中超链接（保留文字）
+            hylCount = doc.Hyperlinks.Count  # 文档中超链接的总数
+            for j in range(0, hylCount):  # 遍历超链接
+                # 是否需要删除文本根据需要选择下列两句中的一句
+                # 因为倒着删除比较保险，所以用Hyperlinks(hylCount-j)
+                doc.Hyperlinks(hylCount - j).Delete()  # 删除超链接（保留纯文本）
+                # doc.Hyperlinks(hylCount-j).Range.Delete() # 删除超链接区域（包括文本全部删除）
+            # doc.Close(constants.wdSaveChanges)  # 保存并关闭文件
+            doc.SaveAs(out_file, 12, False, "", True, "", False, False, False, False)
+            doc.Close()
+            returnBool = True
+        except Exception as e:
+            print(e)
+            returnBool = False
+        finally:
+            word.Quit()
     except Exception as e:
         print(e)
         returnBool = False
     finally:
-        word.Quit()
         return returnBool
 
 
