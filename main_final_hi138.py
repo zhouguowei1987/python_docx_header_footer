@@ -25,17 +25,39 @@ def remove_header_footer(doc, save_doc):
 
 def docx_remove_content(doc_file):
     # 定义需要去除的内容
-    content_to_remove = '''声明：
-本论文来自免费论文下载中心：http://www.hi138.com/guanlixue/shichangyingxiao/201812/473951.asp
+    header_content_to_remove = '''\n\n'''
+
+    content_to_remove1 = '''免费论文下载中 http://www.hi138.com 　　'''
+
+    content_to_remove2 = '''免费论文下载中心 http://www.hi138.com'''
+
+    content_to_remove3 = ''' 
+　　 '''
+
+    footer_content_to_remove = '''声明：
+本论文来自免费论文下载中心：(.*?)
 免费论文下载中心（www.hi138.com）所发布的论文版权归原作者所有，本站仅供大家学习、研究、参考之用，未取得作者授权严禁摘编、篡改、用作商业用途.'''
+
     # 打开doc文件
     doc = Document(doc_file)
     doc.paragraphs[1].clear()
     # 遍历doc文件中的段落
     for para in doc.paragraphs:
         # 如果段落中包含需要去除的内容，使用正则表达式替换为空字符串
-        if re.search(content_to_remove, para.text):
-            para.text = re.sub(content_to_remove, '', para.text)
+        if re.search(header_content_to_remove, para.text):
+            para.text = re.sub(header_content_to_remove, '\n', para.text)
+
+        if re.search(footer_content_to_remove, para.text):
+            para.text = re.sub(footer_content_to_remove, '', para.text)
+
+        if re.search(content_to_remove1, para.text):
+            para.text = re.sub(content_to_remove1, '\n\r\t', para.text)
+
+        if re.search(content_to_remove2, para.text):
+            para.text = re.sub(content_to_remove2, '', para.text)
+
+        if re.search(content_to_remove3, para.text):
+            para.text = re.sub(content_to_remove3, '', para.text)
 
     doc.save(doc_file)
 
@@ -47,12 +69,12 @@ def change_word_font(doc_file):
     doc.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), u'微软雅黑')  # 设置中文字体使用字体2->宋体
 
     # 修改标题字体
-    # para = doc.paragraphs[0]
-    # for run in para.runs:
-    #     # run.font.bold = True
-    #     run.font.size = Pt(15)
-    #     run.font.color.rgb = RGBColor(255, 0, 0)
-    # doc.save(doc_file)
+    para = doc.paragraphs[0]
+    for run in para.runs:
+        # run.font.bold = True
+        run.font.size = Pt(15)
+        run.font.color.rgb = RGBColor(255, 0, 0)
+    doc.save(doc_file)
 
 
 def change_line_spacing(doc_file):
@@ -112,7 +134,7 @@ if __name__ == '__main__':
             if not os.path.exists(finish_dir):
                 os.mkdir(finish_dir)
 
-            finish_file = finish_dir + file
+            finish_file = finish_dir + file.replace(".doc", ".docx")
             if not os.path.exists(finish_file):
                 try:
                     # 删除页眉页脚
@@ -125,7 +147,6 @@ if __name__ == '__main__':
                     change_word_font(finish_file)
 
                     # 修改行距
-                    # change_line_spacing(finish_file)
+                    change_line_spacing(finish_file)
                 except Exception as e:
                     print(e)
-            exit()
