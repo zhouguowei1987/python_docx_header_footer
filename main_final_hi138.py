@@ -102,7 +102,7 @@ if __name__ == '__main__':
     for file in files:
         if os.path.splitext(file)[1] == ".doc":
             file_path = root_dir + file
-            print("=========="+file_path+"==============")
+            print(file_path+"==============")
 
             docx_dir = "G:\\docx.hi138.com\\"
             if not os.path.exists(docx_dir):
