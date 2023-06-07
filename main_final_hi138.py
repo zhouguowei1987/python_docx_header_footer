@@ -27,10 +27,6 @@ def remove_header_footer(doc, save_doc):
 def docx_remove_content(doc_file):
     # 定义需要去除及替换的内容
     content_to_removes = [
-        ['''论文类别：(.*?)
-上传时间：(.*?)
-论文作者：(.*?)
-论文版本：(.*?) (.*?) (.*?)''', ''],
         ['''免费论文下载中 http://www.hi138.com 　　''', '\n\r\t'],
         ['''免费论文下载中心 http://www.hi138.com''', ''],
         ['''免费论文下载中 http://www.hi138.com''', ''],
@@ -42,7 +38,7 @@ def docx_remove_content(doc_file):
     ]
     # 打开doc文件
     doc = Document(doc_file)
-    # doc.paragraphs[1].clear()
+    doc.paragraphs[1].clear()
     # 遍历doc文件中的段落
     for para in doc.paragraphs:
         # 如果段落中包含需要去除的内容，使用正则表达式
