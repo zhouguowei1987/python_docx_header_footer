@@ -110,7 +110,7 @@ def doc2docx(in_file, out_file):
 
 
 if __name__ == '__main__':
-    root_dir = "G:\\111\\"
+    root_dir = "G:\\www.hi138.com\\"
     files = sorted(os.listdir(root_dir))
     for file in files:
         if os.path.splitext(file)[1] == ".doc":
