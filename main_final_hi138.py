@@ -68,7 +68,7 @@ def change_word_font(doc_file):
 def delete_blank_line(doc_file):
     doc = Document(doc_file)
     for p in doc.paragraphs:  # 循环处理每个段落
-        if len(p.text.replace("\n", "").replace(" ", "")) == 0:
+        if len(p.text) == 0:
             p.clear()
     doc.save(doc_file)
 
@@ -110,7 +110,7 @@ def doc2docx(in_file, out_file):
 
 
 if __name__ == '__main__':
-    root_dir = "G:\\www.hi138.com\\"
+    root_dir = "G:\\111\\"
     files = sorted(os.listdir(root_dir))
     for file in files:
         if os.path.splitext(file)[1] == ".doc":
