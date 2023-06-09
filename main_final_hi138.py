@@ -129,28 +129,28 @@ if __name__ == '__main__':
                     continue
                 print("==========转化完成==============")
 
-            finish_dir = "G:\\finish.hi138.com\\"
-            if not os.path.exists(finish_dir):
-                os.mkdir(finish_dir)
+                finish_dir = "G:\\finish.hi138-2.com\\"
+                if not os.path.exists(finish_dir):
+                    os.mkdir(finish_dir)
 
-            finish_file = finish_dir + file.replace(".doc", ".docx")
-            if not os.path.exists(finish_file):
-                try:
-                    print("==========文档处理==============")
-                    # 删除页眉页脚
-                    remove_header_footer(docx_file, finish_file)
+                finish_file = finish_dir + file.replace(".doc", ".docx")
+                if not os.path.exists(finish_file):
+                    try:
+                        print("==========文档处理==============")
+                        # 删除页眉页脚
+                        remove_header_footer(docx_file, finish_file)
 
-                    # 过滤文档文字
-                    docx_remove_content(finish_file)
+                        # 过滤文档文字
+                        docx_remove_content(finish_file)
 
-                    # 删除空白行
-                    delete_blank_line(finish_file)
+                        # 删除空白行
+                        delete_blank_line(finish_file)
 
-                    # 改变文档字体
-                    # change_word_font(finish_file)
+                        # 改变文档字体
+                        # change_word_font(finish_file)
 
-                    # 修改行距
-                    change_line_spacing(finish_file)
-                    print("==========处理完成==============")
-                except Exception as e:
-                    print(e)
+                        # 修改行距
+                        change_line_spacing(finish_file)
+                        print("==========处理完成==============")
+                    except Exception as e:
+                        print(e)
