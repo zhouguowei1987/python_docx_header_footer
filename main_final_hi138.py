@@ -186,7 +186,7 @@ if __name__ == '__main__':
                     delete_blank_line(finish_file)
 
                     # 将内容重新复制到新的word中
-                    final_dir = "G:\\final.hi138-2.com\\"
+                    final_dir = "G:\\final.hi138.com\\final.hi138-2.com\\"
                     if not os.path.exists(final_dir):
                         os.mkdir(final_dir)
 
