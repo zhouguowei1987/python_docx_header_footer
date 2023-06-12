@@ -9,7 +9,7 @@ from docx.shared import RGBColor  # 设置字体的颜色
 from docx.oxml.ns import qn
 import os
 from win32com import client as wc
-from win32com.client import constants  # 导入枚举常数模块
+from win32com.client import constants, gencache  # 导入枚举常数模块
 import shutil
 
 
@@ -80,6 +80,15 @@ def change_line_spacing(doc_file):
     doc.save(doc_file)
 
 
+# Word转pdf方法,第一个参数代表word文档路径，第二个参数代表pdf文档路径
+def word_to_pdf(word_path, pdf_path):
+    word = gencache.EnsureDispatch('Word.Application')
+    doc = word.Documents.Open(word_path, ReadOnly=1)
+    # 转换方法
+    doc.ExportAsFixedFormat(pdf_path, constants.wdExportFormatPDF)
+    word.Quit()
+
+
 def doc2docx(in_file, out_file):
     returnBool = False
     try:
@@ -134,6 +143,11 @@ if __name__ == '__main__':
                     os.mkdir(finish_dir)
 
                 finish_file = finish_dir + file.replace(".doc", ".docx")
+
+                finish_pdf = "G:\\finish-pdf.hi138-2.com\\"
+                if not os.path.exists(finish_pdf):
+                    os.mkdir(finish_pdf)
+                finish_pdf_file = finish_pdf + file.replace(".doc", ".pdf")
                 if not os.path.exists(finish_file):
                     try:
                         print("==========文档处理==============")
@@ -151,6 +165,10 @@ if __name__ == '__main__':
 
                         # 修改行距
                         change_line_spacing(finish_file)
+
+                        # word转pdf
+                        word_to_pdf(finish_file, finish_pdf_file)
+
                         print("==========处理完成==============")
                     except Exception as e:
                         print(e)
