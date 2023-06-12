@@ -143,11 +143,6 @@ if __name__ == '__main__':
                     os.mkdir(finish_dir)
 
                 finish_file = finish_dir + file.replace(".doc", ".docx")
-
-                finish_pdf = "G:\\finish-pdf.hi138-2.com\\"
-                if not os.path.exists(finish_pdf):
-                    os.mkdir(finish_pdf)
-                finish_pdf_file = finish_pdf + file.replace(".doc", ".pdf")
                 if not os.path.exists(finish_file):
                     try:
                         print("==========文档处理==============")
@@ -167,6 +162,11 @@ if __name__ == '__main__':
                         change_line_spacing(finish_file)
 
                         # word转pdf
+                        finish_pdf = "G:\\finish-pdf.hi138-2.com\\"
+                        if not os.path.exists(finish_pdf):
+                            os.mkdir(finish_pdf)
+                        finish_pdf_file = finish_pdf + file.replace(".doc", ".pdf")
+
                         word_to_pdf(finish_file, finish_pdf_file)
 
                         print("==========处理完成==============")
