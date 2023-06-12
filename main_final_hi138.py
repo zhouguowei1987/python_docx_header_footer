@@ -30,6 +30,7 @@ def docx_remove_content(doc_file):
         ['''免费论文下载中 http://www.hi138.com 　　''', '\n\r\t'],
         ['''免费论文下载中心 http://www.hi138.com''', ''],
         ['''免费论文下载中 http://www.hi138.com''', ''],
+        ['''论文网： 　''', '\t'],
         ['''免费论文下载中心讯：''', ''],
         ['''代写论文网： ''', ''],
         ['''转贴于 ''', ''],
@@ -67,10 +68,47 @@ def change_word_font(doc_file):
 
 def delete_blank_line(doc_file):
     doc = Document(doc_file)
-    for p in doc.paragraphs:  # 循环处理每个段落
-        if len(p.text) == 0:
-            p.clear()
+    for para in doc.paragraphs:  # 循环处理每个段落
+        if len(para.text.replace('\n', '').replace('\r', '').replace(' ', '').replace('\r\n', '')) == 0:
+            delete_paragraph(para)
     doc.save(doc_file)
+
+
+def delete_paragraph(para):
+    p = para._element
+    p.getparent().remove(p)
+    p._p = p._element = None
+
+
+def copy_word(doc_file, final_doc_file):
+    # 打开doc文件
+    final_doc = Document()
+    doc = Document(doc_file)
+    for para in doc.paragraphs:
+        get_para_data(final_doc, para)
+    final_doc.save(final_doc_file)
+
+
+# paragraph 的复制
+def get_para_data(output_doc_name, paragraph):
+    """
+    Write the run to the new file and then set its font, bold, alignment, color etc. data.
+    """
+    output_para = output_doc_name.add_paragraph()
+    for run in paragraph.runs:
+        output_run = output_para.add_run(run.text)
+        # Run's bold data
+        output_run.bold = run.bold
+        # Run's italic data
+        output_run.italic = run.italic
+        # Run's underline data
+        output_run.underline = run.underline
+        # Run's color data
+        output_run.font.color.rgb = run.font.color.rgb
+        # Run's font data
+        output_run.style.name = run.style.name
+    # Paragraph's alignment data
+    output_para.paragraph_format.alignment = paragraph.paragraph_format.alignment
 
 
 def change_line_spacing(doc_file):
@@ -78,15 +116,6 @@ def change_line_spacing(doc_file):
     for p in doc.paragraphs:  # 循环处理每个段落
         p.paragraph_format.line_spacing = 1.5  # 行距设置为3
     doc.save(doc_file)
-
-
-# Word转pdf方法,第一个参数代表word文档路径，第二个参数代表pdf文档路径
-def word_to_pdf(word_path, pdf_path):
-    word = gencache.EnsureDispatch('Word.Application')
-    doc = word.Documents.Open(word_path, ReadOnly=1)
-    # 转换方法
-    doc.ExportAsFixedFormat(pdf_path, constants.wdExportFormatPDF)
-    word.Quit()
 
 
 def doc2docx(in_file, out_file):
@@ -143,35 +172,32 @@ if __name__ == '__main__':
                 os.mkdir(finish_dir)
 
             finish_file = finish_dir + file.replace(".doc", ".docx")
-            if not os.path.exists(finish_file):
-                try:
-                    print("==========文档处理==============")
-                    # 删除页眉页脚
-                    remove_header_footer(docx_file, finish_file)
+            try:
+                print("==========文档处理==============")
+                # 删除页眉页脚
+                remove_header_footer(docx_file, finish_file)
 
-                    # 过滤文档文字
-                    docx_remove_content(finish_file)
+                # 过滤文档文字
+                docx_remove_content(finish_file)
 
-                    # 删除空白行
-                    delete_blank_line(finish_file)
+                # 删除空白行
+                delete_blank_line(finish_file)
 
-                    # 改变文档字体
-                    # change_word_font(finish_file)
+                # 将内容重新复制到新的word中
+                final_dir = "G:\\final.hi138-1.com\\"
+                if not os.path.exists(final_dir):
+                    os.mkdir(final_dir)
 
-                    # 修改行距
-                    change_line_spacing(finish_file)
+                final_file = final_dir + file.replace(".doc", ".docx")
+                if not os.path.exists(final_file):
+                    copy_word(finish_file, final_file)
 
-                    # word转pdf
-                    finish_pdf = "G:\\finish-pdf.hi138-1.com\\"
-                    if not os.path.exists(finish_pdf):
-                        os.mkdir(finish_pdf)
+                # 改变文档字体
+                change_word_font(final_file)
 
-                    print("==========word转pdf开始==============")
-                    finish_pdf_file = finish_pdf + file.replace(".doc", ".pdf")
-                    print("==========word转pdf完成==============")
+                # 修改行距
+                change_line_spacing(final_file)
 
-                    word_to_pdf(finish_file, finish_pdf_file)
-
-                    print("==========处理完成==============")
-                except Exception as e:
-                    print(e)
+                print("==========处理完成==============")
+            except Exception as e:
+                print(e)
