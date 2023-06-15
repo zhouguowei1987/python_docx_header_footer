@@ -157,7 +157,7 @@ if __name__ == '__main__':
 
                     docx_dir = "G:\\docx.tikuvip（2016-2017）.51test.net" + "\\" + category
                     if not os.path.exists(docx_dir):
-                        os.mkdir(docx_dir)
+                        os.makedirs(docx_dir)
 
                     docx_file = docx_dir + "\\" + file.replace(".doc", ".docx")
                     if not os.path.exists(docx_file):
@@ -168,7 +168,7 @@ if __name__ == '__main__':
 
                     finish_dir = "G:\\finish.tikuvip（2016-2017）.51test.net" + "\\" + category
                     if not os.path.exists(finish_dir):
-                        os.mkdir(finish_dir)
+                        os.makedirs(finish_dir)
                     finish_file = finish_dir + "\\" + file.replace(".doc", ".docx")
 
                     replace_text = "(含答案)"
