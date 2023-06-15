@@ -25,7 +25,7 @@ def remove_and_set_header_footer(doc, save_doc):
     # 设置页眉
     header = document.sections[0].header  # 获取第一个节的页眉（所有的页眉都一致）
     paragraph = header.paragraphs[0]  # 获取页眉的文字part
-    text = paragraph.add_run('年寒窗苦读日，只盼金榜题名时，祝你考试拿高分，鲤鱼跳龙门！加油！')
+    text = paragraph.add_run('烦恼多多少少，放松必不可少；给自己一个微笑，迎来的将是一片美好！')
     text.font.size = Pt(10)  # 页眉字体大小
     text.font.color.rgb = RGBColor(255, 0, 0)
     # text.bold = True  # 页眉字体是否加粗
