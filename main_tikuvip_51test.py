@@ -4,6 +4,7 @@ from docx import Document
 from docx.shared import Pt
 from docx.shared import Cm
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+from docx2pdf import convert
 from docx.shared import RGBColor  # 设置字体的颜色
 from docx.oxml.ns import qn
 from win32com import client as wc
@@ -169,7 +170,7 @@ if __name__ == '__main__':
                     finish_dir = "G:\\finish.tikuvip（2023）.51test.net" + "\\" + category
                     if not os.path.exists(finish_dir):
                         os.makedirs(finish_dir)
-                    finish_file = finish_dir + "\\" + file.replace(".doc", ".docx")
+                    finish_file = finish_dir + "\\" + file.replace(".doc", ".pdf")
 
                     # replace_text = "(含答案)"
                     # if "及答案" in file:
@@ -188,7 +189,16 @@ if __name__ == '__main__':
                         # 删除只包含图片
                         if check_only_image(docx_file):
                             continue
-                        shutil.copy(docx_file, finish_file)
+                        # 将docx转化为pdf
+                        with open(finish_file, "w") as f:
+                            # 将 Word 文档转换为 PDF
+                            try:
+                                convert(docx_file, finish_file)
+                                print("转换成功！")
+                            except Exception as e:
+                                print("转换失败：", str(e))
+
+                        # shutil.copy(docx_file, finish_file)
                         # 删除并设置页眉页脚
                         # remove_and_set_header_footer(docx_file, finish_file)
                         # 改变文档字体
