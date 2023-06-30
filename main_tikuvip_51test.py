@@ -143,7 +143,7 @@ def doc2docx(in_file, out_file):
 if __name__ == '__main__':
     category_dirs_arr = ['自考', '专升本考试', '一级建造师考试', '小升初', '考研', '公务员考试', '高中会考', '高考',
                          '二级建造师考试', '成人高考', '事业单位招聘', '中考']
-    root_dir = "G:\\tikuvip（2016-2017）.51test.net"
+    root_dir = "G:\\tikuvip（2023）.51test.net"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
@@ -155,7 +155,7 @@ if __name__ == '__main__':
                     if "答案" not in file:
                         continue
 
-                    docx_dir = "G:\\docx.tikuvip（2016-2017）.51test.net" + "\\" + category
+                    docx_dir = "G:\\docx.tikuvip（2023）.51test.net" + "\\" + category
                     if not os.path.exists(docx_dir):
                         os.makedirs(docx_dir)
 
@@ -166,29 +166,30 @@ if __name__ == '__main__':
                             continue
                         print("==========转化完成==============")
 
-                    finish_dir = "G:\\finish.tikuvip（2016-2017）.51test.net" + "\\" + category
+                    finish_dir = "G:\\finish.tikuvip（2023）.51test.net" + "\\finish.tikuvip（2023）.51test.net-" + category
                     if not os.path.exists(finish_dir):
                         os.makedirs(finish_dir)
                     finish_file = finish_dir + "\\" + file.replace(".doc", ".docx")
 
-                    replace_text = "(含答案)"
-                    if "及答案" in file:
-                        finish_file = os.path.splitext(finish_file)[0].replace("及答案", "") + replace_text + \
-                                      os.path.splitext(finish_file)[1]
-                    if "与答案" in file:
-                        finish_file = os.path.splitext(finish_file)[0].replace("与答案", "") + replace_text + \
-                                      os.path.splitext(finish_file)[1]
-                    if "含答案" in file:
-                        finish_file = os.path.splitext(finish_file)[0].replace("含答案", "") + replace_text + \
-                                      os.path.splitext(finish_file)[1]
-                    if "附答案" in file:
-                        finish_file = os.path.splitext(finish_file)[0].replace("附答案", "") + replace_text + \
-                                      os.path.splitext(finish_file)[1]
+                    # replace_text = "(含答案)"
+                    # if "及答案" in file:
+                    #     finish_file = os.path.splitext(finish_file)[0].replace("及答案", "") + replace_text + \
+                    #                   os.path.splitext(finish_file)[1]
+                    # if "与答案" in file:
+                    #     finish_file = os.path.splitext(finish_file)[0].replace("与答案", "") + replace_text + \
+                    #                   os.path.splitext(finish_file)[1]
+                    # if "含答案" in file:
+                    #     finish_file = os.path.splitext(finish_file)[0].replace("含答案", "") + replace_text + \
+                    #                   os.path.splitext(finish_file)[1]
+                    # if "附答案" in file:
+                    #     finish_file = os.path.splitext(finish_file)[0].replace("附答案", "") + replace_text + \
+                    #                   os.path.splitext(finish_file)[1]
                     if not os.path.exists(finish_file):
                         # 删除只包含图片
                         if check_only_image(docx_file):
                             continue
+                        shutil.copy(docx_file, finish_file)
                         # 删除并设置页眉页脚
-                        remove_and_set_header_footer(docx_file, finish_file)
+                        # remove_and_set_header_footer(docx_file, finish_file)
                         # 改变文档字体
-                        change_word_font(finish_file)
+                        # change_word_font(finish_file)
