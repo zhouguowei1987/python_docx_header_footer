@@ -166,7 +166,7 @@ if __name__ == '__main__':
                             continue
                         print("==========转化完成==============")
 
-                    finish_dir = "G:\\finish.tikuvip（2023）.51test.net" + "\\finish.tikuvip（2023）.51test.net-" + category
+                    finish_dir = "G:\\finish.tikuvip（2023）.51test.net" + "\\" + category
                     if not os.path.exists(finish_dir):
                         os.makedirs(finish_dir)
                     finish_file = finish_dir + "\\" + file.replace(".doc", ".docx")
