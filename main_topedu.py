@@ -77,6 +77,8 @@ if __name__ == '__main__':
 
                 docx_file = docx_dir + "\\" + file.replace(os.path.splitext(file)[1], ".docx")
                 docx_file = docx_file.replace("（", "(").replace("）", ")")
+                docx_file = docx_file.replace("[", "").replace("]", "")
+                docx_file = docx_file.replace("(Word)", "")
 
                 if not os.path.exists(docx_file):
                     print("==========开始转化为docx==============")
