@@ -75,8 +75,7 @@ if __name__ == '__main__':
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
-                docx_file = docx_dir + "\\" + file.replace(os.path.splitext(file)[1], ".docx")
-                docx_file = docx_file.lower()
+                docx_file = docx_dir + "\\" + file.lower().replace(os.path.splitext(file)[1], ".docx")
                 docx_file = docx_file.replace(" ", "")
                 docx_file = docx_file.replace("（", "(").replace("）", ")")
                 docx_file = docx_file.replace("[", "").replace("]", "")
