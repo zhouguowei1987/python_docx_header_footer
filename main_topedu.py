@@ -88,8 +88,13 @@ if __name__ == '__main__':
                 docx_file = docx_file.replace("(word版无答案)", "")
                 docx_file = docx_file.replace("(word版回忆版无答案)", "")
                 docx_file = docx_file.replace("(word版，含听力原文)", "")
-                docx_file = docx_file.replace("word版", "")
                 docx_file = docx_file.replace("(word版含答案)", "")
+                docx_file = docx_file.replace("(word版，有答案)", "")
+                docx_file = docx_file.replace("(文字版-含答案)", "")
+                docx_file = docx_file.replace("word版", "")
+                docx_file = docx_file.replace("-", "")
+                docx_file = docx_file.replace(",", "")
+                docx_file = docx_file.replace("，", "")
 
                 if not os.path.exists(docx_file):
                     print("==========开始转化为docx==============")
@@ -101,7 +106,7 @@ if __name__ == '__main__':
                     shutil.copy(file_path, docx_file)
 
                 # 删除并设置页眉页脚
-                remove_header_footer(docx_file)
+                # remove_header_footer(docx_file)
 
                 finish_dir = "G:\\finish.topedu.ybep.com.cn" + "\\" + category
                 if not os.path.exists(finish_dir):
