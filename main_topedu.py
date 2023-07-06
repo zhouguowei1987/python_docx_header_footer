@@ -95,7 +95,7 @@ if __name__ == '__main__':
                 finish_dir = "G:\\finish.topedu.ybep.com.cn" + "\\" + category
                 if not os.path.exists(finish_dir):
                     os.makedirs(finish_dir)
-                finish_file = finish_dir + "\\" + file.replace(os.path.splitext(file)[1], ".pdf")
+                finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
 
                 if not os.path.exists(finish_file):
                     # 删除只包含图片
