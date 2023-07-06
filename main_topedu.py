@@ -76,9 +76,20 @@ if __name__ == '__main__':
                     os.makedirs(docx_dir)
 
                 docx_file = docx_dir + "\\" + file.replace(os.path.splitext(file)[1], ".docx")
+                docx_file = docx_file.lower()
                 docx_file = docx_file.replace("（", "(").replace("）", ")")
                 docx_file = docx_file.replace("[", "").replace("]", "")
-                docx_file = docx_file.replace("(Word)", "")
+                docx_file = docx_file.replace("(word)", "")
+                docx_file = docx_file.replace("(word答案)", "")
+                docx_file = docx_file.replace("(word精校版)", "")
+                docx_file = docx_file.replace("(word版)", "")
+                docx_file = docx_file.replace("(word答案)", "")
+                docx_file = docx_file.replace("(word解析版)", "(含解析)")
+                docx_file = docx_file.replace("(word版无答案)", "")
+                docx_file = docx_file.replace("(word版回忆版无答案)", "")
+                docx_file = docx_file.replace("(word版，含听力原文)", "")
+                docx_file = docx_file.replace("word版", "")
+                docx_file = docx_file.replace("(word版含答案)", "")
 
                 if not os.path.exists(docx_file):
                     print("==========开始转化为docx==============")
