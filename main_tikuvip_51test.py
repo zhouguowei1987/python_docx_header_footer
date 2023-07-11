@@ -142,8 +142,7 @@ def doc2docx(in_file, out_file):
 
 
 if __name__ == '__main__':
-    category_dirs_arr = ['自考', '专升本考试', '一级建造师考试', '小升初', '考研', '公务员考试', '高中会考', '高考',
-                         '二级建造师考试', '成人高考', '事业单位招聘', '中考']
+    category_dirs_arr = ['自考', '专升本考试', '小升初', '考研', '高中会考', '高考', '成人高考', '中考']
     root_dir = "G:\\tikuvip（2016-2017）.51test.net"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
