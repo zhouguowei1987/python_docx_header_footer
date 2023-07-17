@@ -189,6 +189,7 @@ if __name__ == '__main__':
                         if check_only_image(docx_file):
                             # 删除图片文件
                             print("删除文件")
+                            os.remove(file_path)
                             os.remove(docx_file)
                             continue
                         # 将docx转化为pdf
