@@ -155,6 +155,8 @@ if __name__ == '__main__':
         root_dir = "G:\\tikuvip（"+year+"）.51test.net"
         category_dirs = sorted(os.listdir(root_dir))
         for category in category_dirs:
+            if not os.path.isdir(root_dir + "\\" + category):
+                continue
             files = sorted(os.listdir(root_dir + "\\" + category))
             for file in files:
                 if os.path.splitext(file)[1] == ".doc":
