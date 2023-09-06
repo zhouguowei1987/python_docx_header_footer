@@ -152,7 +152,7 @@ if __name__ == '__main__':
         "2023",
     ]
     for year in root_dir_years:
-        root_dir = "G:\\tikuvip（"+year+"）.51test.net"
+        root_dir = "G:\\tikuvip-certification.51test.net\\tikuvip-certification（"+year+"）.51test.net"
         category_dirs = sorted(os.listdir(root_dir))
         for category in category_dirs:
             if not os.path.isdir(root_dir + "\\" + category):
@@ -165,7 +165,7 @@ if __name__ == '__main__':
                     if "答案" not in file:
                         continue
 
-                    docx_dir = "G:\\docx.tikuvip（"+year+"）.51test.net" + "\\" + category
+                    docx_dir = "G:\\tikuvip-certification.51test.net\\docx.tikuvip-certification（"+year+"）.51test.net" + "\\" + category
                     if not os.path.exists(docx_dir):
                         os.makedirs(docx_dir)
 
@@ -176,7 +176,9 @@ if __name__ == '__main__':
                             continue
                         print("==========转化完成==============")
 
-                    finish_dir = "G:\\finish.tikuvip（"+year+"）.51test.net" + "\\" + category
+                    finish_dir = "G:\\tikuvip-certification.51test.net\\finish.tikuvip-certification（"+year+"）.51test" \
+                                                                                                            ".net" + \
+                                 "\\" + category
                     if not os.path.exists(finish_dir):
                         os.makedirs(finish_dir)
                     finish_file = finish_dir + "\\" + file.replace(".doc", ".pdf")
