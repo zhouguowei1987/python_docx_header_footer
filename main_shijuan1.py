@@ -62,7 +62,7 @@ def doc2docx(in_file, out_file):
 
 if __name__ == '__main__':
     category_dirs_arr = ['中考试卷', '高考试卷']
-    root_dir = "G:\\www.shijuan1.com"
+    root_dir = "G:\\www.shijuan1.com\\www.shijuan1.com"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
@@ -82,7 +82,7 @@ if __name__ == '__main__':
                 #         dst_child_file_path = root_dir + "\\" + category + "\\" + child_file
                 #         os.rename(src_child_file_path, dst_child_file_path)
 
-                docx_dir = "G:\\docx.www.shijuan1.com" + "\\" + category
+                docx_dir = "G:\\www.shijuan1.com\\docx.www.shijuan1.com" + "\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
@@ -91,6 +91,7 @@ if __name__ == '__main__':
                 docx_file = docx_file.replace("（", "(").replace("）", ")")
                 docx_file = docx_file.replace("精品解析：", "")
                 docx_file = docx_file.replace("【KS5U+高考】", "")
+                docx_file = docx_file.replace("【ks5u+高考】", "")
                 docx_file = docx_file.replace("【品优教学】", "")
                 docx_file = docx_file.replace("——", "")
                 docx_file = docx_file.replace("+Word版", "")
@@ -118,15 +119,15 @@ if __name__ == '__main__':
                     if not doc2docx(file_path, docx_file):
                         continue
                     print("==========转化完成==============")
-                else:
-                    # 已经是docx文件了，直接复制过去
-                    shutil.copy(file_path, docx_file)
+                # else:
+                #     # 已经是docx文件了，直接复制过去
+                #     shutil.copy(file_path, docx_file)
 
                 # 删除并设置页眉页脚
                 if os.path.exists(docx_file):
                     remove_header_footer(docx_file)
 
-                finish_dir = "G:\\finish.www.shijuan1.com" + "\\" + category
+                finish_dir = "G:\\www.shijuan1.com\\finish.www.shijuan1.com" + "\\" + category
                 if not os.path.exists(finish_dir):
                     os.makedirs(finish_dir)
                 finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
