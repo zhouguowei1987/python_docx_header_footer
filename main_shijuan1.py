@@ -113,10 +113,11 @@ if __name__ == '__main__':
 
                 if not os.path.exists(docx_file):
                     with open(docx_file, 'w') as f:
-                        print("==========开始转化为docx==============")
-                        if not doc2docx(file_path, docx_file):
-                            continue
-                        print("==========转化完成==============")
+                        pass
+                    print("==========开始转化为docx==============")
+                    if not doc2docx(file_path, docx_file):
+                        continue
+                    print("==========转化完成==============")
                 else:
                     # 已经是docx文件了，直接复制过去
                     shutil.copy(file_path, docx_file)
