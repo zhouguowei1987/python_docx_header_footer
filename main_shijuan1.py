@@ -112,16 +112,18 @@ if __name__ == '__main__':
                 docx_file = docx_file.replace("，", "")
 
                 if not os.path.exists(docx_file):
-                    print("==========开始转化为docx==============")
-                    if not doc2docx(file_path, docx_file):
-                        continue
-                    print("==========转化完成==============")
+                    with open(docx_file, 'w') as f:
+                        print("==========开始转化为docx==============")
+                        if not doc2docx(file_path, docx_file):
+                            continue
+                        print("==========转化完成==============")
                 else:
                     # 已经是docx文件了，直接复制过去
                     shutil.copy(file_path, docx_file)
 
                 # 删除并设置页眉页脚
-                remove_header_footer(docx_file)
+                if os.path.exists(docx_file):
+                    remove_header_footer(docx_file)
 
                 finish_dir = "G:\\finish.www.shijuan1.com" + "\\" + category
                 if not os.path.exists(finish_dir):
