@@ -42,25 +42,12 @@ def remove_last_image(doc_file):
         if img:
             # 最后一个段落是图片
             p.getparent().remove(p)
-            p._p = p._element = None
+            para._p = para._element = None
         doc.save(doc_file)
     except Exception as e:
         print(e)
         return True
     return False
-
-
-def delete_blank_page(doc_file):
-    try:
-        doc = Document(doc_file)
-        for page in doc.page_margins:
-            doc.remove_page(page)
-        doc.save(doc_file)
-    except Exception as e:
-        print(e)
-        return True
-    return False
-
 
 def doc2docx(in_file, out_file):
     try:
@@ -112,5 +99,3 @@ if __name__ == '__main__':
         if os.path.exists(docx_file):
             # 删除并设置页眉页脚
             remove_header_footer(docx_file)
-            # 删除空白页
-            delete_blank_page(docx_file)
