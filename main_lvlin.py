@@ -4,6 +4,8 @@ from docx import Document
 from docx.shared import Pt
 from docx.shared import Cm
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+from docx.oxml.ns import nsdecls
+from docx.oxml import parse_xml
 from docx2pdf import convert
 from docx.shared import RGBColor  # 设置字体的颜色
 from docx.oxml.ns import qn
@@ -30,7 +32,6 @@ def remove_header_footer(doc):
         section.footer.is_linked_to_previous = True
     document.save(doc)
 
-
 def remove_last_image(doc_file):
     try:
         doc = Document(doc_file)
@@ -48,6 +49,7 @@ def remove_last_image(doc_file):
         print(e)
         return True
     return False
+
 
 def doc2docx(in_file, out_file):
     try:
