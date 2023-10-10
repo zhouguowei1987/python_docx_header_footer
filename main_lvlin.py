@@ -72,6 +72,8 @@ if __name__ == '__main__':
     root_dir = "G:\\lvlin.baidu.com\\lvlin.baidu.com"
     files = sorted(os.listdir(root_dir))
     for file in files:
+        if file == "~$22年最新借款合同范本.docx":
+            continue
         file_path = root_dir + "\\" + file
         print(file_path)
         docx_dir = "G:\\lvlin.baidu.com\\docx.lvlin.baidu.com"
@@ -80,13 +82,14 @@ if __name__ == '__main__':
 
         docx_file = docx_dir + "\\" + file
 
-        if not os.path.exists(docx_file):
-            with open(docx_file, 'w') as f:
-                pass
-            print("==========开始转化为docx==============")
-            if not doc2docx(file_path, docx_file):
-                continue
-            print("==========转化完成==============")
+        # 获取文件后缀
+        file_ext = os.path.splitext(file_path)[-1]
+        if file_ext == ".doc":
+            if not os.path.exists(docx_file):
+                print("==========开始转化为docx==============")
+                if not doc2docx(file_path, docx_file):
+                    continue
+                print("==========转化完成==============")
         else:
             # 已经是docx文件了，直接复制过去
             shutil.copy(file_path, docx_file)
