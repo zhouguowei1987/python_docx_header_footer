@@ -41,9 +41,20 @@ def remove_last_image(doc_file):
         img = p.xpath('.//pic:pic')
         if img:
             # 最后一个段落是图片
-            print("删除---")
             p.getparent().remove(p)
             p._p = p._element = None
+        doc.save(doc_file)
+    except Exception as e:
+        print(e)
+        return True
+    return False
+
+
+def delete_blank_page(doc_file):
+    try:
+        doc = Document(doc_file)
+        for page in doc.page_margins:
+            doc.remove_page(page)
         doc.save(doc_file)
     except Exception as e:
         print(e)
@@ -98,6 +109,8 @@ if __name__ == '__main__':
             # 有页眉，检测最后一页是否是图片，如果是图片，则直接删除
             remove_last_image(docx_file)
 
-        # 删除并设置页眉页脚
         if os.path.exists(docx_file):
+            # 删除并设置页眉页脚
             remove_header_footer(docx_file)
+            # 删除空白页
+            delete_blank_page(docx_file)
