@@ -70,9 +70,15 @@ def start_copy_paragraph(doc_file):
                 output_run.font.color.rgb = run.font.color.rgb
                 output_run.style.name = run.style.name
         new_doc.save(doc_file)
+
+        #  如果文档含有表格，则删除文档
+        if len(doc.tables) > 0:
+            print("文档中含有表格，删除文档")
+            os.remove(doc_file)
+
     except Exception as e:
         print(e)
-        print("删除文件")
+        print("删除文档")
         os.remove(doc_file)
         return True
     return False
