@@ -92,6 +92,9 @@ if __name__ == '__main__':
                     if not doc2docx(file_path, docx_file):
                         continue
                     print("==========转化完成==============")
+            else:
+                # 已经是docx文件了，直接复制过去
+                shutil.copy(file_path, docx_file)
             # 将docx文件转化为pdf
             finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
             if not os.path.exists(finish_file):
