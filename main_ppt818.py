@@ -60,11 +60,11 @@ if __name__ == '__main__':
             for file in files:
                 file_path = root_dir + "\\" + category + "\\" + file
                 print(file_path)
-                docx_dir = "../www.ppt818.com/docx.www.ppt818.com"
+                docx_dir = "../www.ppt818.com/docx.www.ppt818.com/" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
-                docx_file = docx_dir + "\\" + category
+                docx_file = docx_dir + "/" + file
 
                 # 获取文件后缀
                 file_ext = os.path.splitext(file_path)[-1]
