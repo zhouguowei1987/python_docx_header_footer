@@ -65,6 +65,8 @@ if __name__ == '__main__':
                     os.makedirs(docx_dir)
 
                 docx_file = docx_dir + "\\" + file.lower().replace(os.path.splitext(file)[1], ".docx")
+                docx_file = docx_file.replace("word", "")
+                docx_file = docx_file.replace("Word", "")
 
                 # 获取文件后缀
                 file_ext = os.path.splitext(file_path)[-1]
