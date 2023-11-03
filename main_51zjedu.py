@@ -66,9 +66,9 @@ if __name__ == '__main__':
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
-            files = sorted(os.listdir(root_dir + "\\" + category))
+            files = sorted(os.listdir(root_dir + "/" + category))
             for file in files:
-                file_path = root_dir + "\\" + category + "\\" + file
+                file_path = root_dir + "/" + category + "/" + file
                 print(file_path)
                 docx_dir = "../www.51zjedu.com/docx.51zjedu.com/" + category
                 if not os.path.exists(docx_dir):
