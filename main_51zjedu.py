@@ -14,21 +14,31 @@ import shutil
 
 
 def change_word_font(doc_file):
-    # 打开doc文件
-    doc = Document(doc_file)
-    doc.styles['Normal'].font.name = u'Times New Roman'  # 设置西文字体
-    doc.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), u'微软雅黑')  # 设置中文字体使用字体2->宋体
-    doc.save(doc_file)
+    try:
+        # 打开doc文件
+        doc = Document(doc_file)
+        doc.styles['Normal'].font.name = u'Times New Roman'  # 设置西文字体
+        doc.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), u'微软雅黑')  # 设置中文字体使用字体2->宋体
+        doc.save(doc_file)
+        return True
+    except Exception as e:
+        print(e)
+        return False
 
 
 def remove_header_footer(doc_file):
     # doc：需要去页眉页脚的docx 文件
-    doc = Document(doc_file)
-    for section in doc.sections:
-        section.different_first_page_header_footer = False
-        section.header.is_linked_to_previous = True
-        section.footer.is_linked_to_previous = True
-    doc.save(doc_file)
+    try:
+        doc = Document(doc_file)
+        for section in doc.sections:
+            section.different_first_page_header_footer = False
+            section.header.is_linked_to_previous = True
+            section.footer.is_linked_to_previous = True
+        doc.save(doc_file)
+        return True
+    except Exception as e:
+        print(e)
+        return False
 
 
 def doc2docx(in_file, out_file):
@@ -81,5 +91,11 @@ if __name__ == '__main__':
                     print("==========转化完成==============")
 
                 if os.path.exists(docx_file):
+                    # 删除页眉页脚
+                    if not remove_header_footer(docx_file):
+                        continue
+
+                if os.path.exists(docx_file):
                     # 改变文档字体
-                    change_word_font(docx_file)
+                    if not change_word_font(docx_file):
+                        continue
