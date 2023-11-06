@@ -68,6 +68,10 @@ if __name__ == '__main__':
         if category in category_dirs_arr:
             files = sorted(os.listdir(root_dir + "/" + category))
             for file in files:
+                print(file)
+                if file.find(category) == -1:
+                    # 文档标题不包含分类名称
+                    print("文档标题不包含分类名称，跳过")
                 file_path = root_dir + "/" + category + "/" + file
                 print(file_path)
                 docx_dir = "../www2.zzstep.com/docx.zzstep.com/小学/" + category
@@ -75,6 +79,12 @@ if __name__ == '__main__':
                     os.makedirs(docx_dir)
 
                 docx_file = docx_dir + "/" + file.lower().replace(os.path.splitext(file)[1], ".docx")
+                docx_file = docx_file.replace(" ", "")
+                left_flag_index = docx_file.index("【")
+                right_flag_index = docx_file.find("】")
+                if left_flag_index == 0 and right_flag_index != -1:
+                    # 文档名称以“【”开头，以“】”结尾，则替换名称
+                    docx_file = docx_file[right_flag_index:]
 
                 # 获取文件后缀
                 file_ext = os.path.splitext(file_path)[-1]
