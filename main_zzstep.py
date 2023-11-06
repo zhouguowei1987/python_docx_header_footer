@@ -32,12 +32,10 @@ def check_only_image(doc_file):
         if len(doc.paragraphs) < 5:
             return True
         else:
-            i = 0
-            for para in doc.paragraphs:
-                if i == 4 and para.text == "":
-                    doc.save(doc_file)
-                    return True
-                i += 1
+            # 连续5个段落都是空，则按照纯图片处理
+            if doc.paragraphs[0].text == "" and doc.paragraphs[1].text == "" and doc.paragraphs[2].text == "" and doc.paragraphs[3].text == "" and doc.paragraphs[4].text == "":
+                doc.save(doc_file)
+                return True
         doc.save(doc_file)
     except Exception as e:
         print(e)
@@ -122,15 +120,16 @@ if __name__ == '__main__':
                     print("==========转化完成==============")
 
                 if os.path.exists(docx_file):
-                    # 删除只包含图片
-                    if check_only_image(docx_file):
-                        # 删除图片文件
+
+                    # 删除页眉页脚
+                    if not remove_header_footer(docx_file):
                         print("删除文件")
                         os.remove(docx_file)
                         continue
 
-                    # 删除页眉页脚
-                    if not remove_header_footer(docx_file):
+                    # 删除只包含图片
+                    if check_only_image(docx_file):
+                        # 删除图片文件
                         print("删除文件")
                         os.remove(docx_file)
                         continue
