@@ -103,6 +103,7 @@ if __name__ == '__main__':
                     sub_file = file[right_flag_index + 1:]
                 docx_file = docx_dir + "\\" + sub_file.lower().replace(os.path.splitext(sub_file)[1], ".docx")
                 docx_file = docx_file.replace(" ", "")
+                docx_file = docx_file.replace("(无答案)", "")
                 docx_file = docx_file.replace("——", "-")
 
                 # 获取文件后缀
