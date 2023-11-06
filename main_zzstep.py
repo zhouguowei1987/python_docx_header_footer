@@ -95,6 +95,8 @@ if __name__ == '__main__':
                 if file.find(category) == -1:
                     # 文档标题不包含分类名称
                     print("文档标题不包含分类名称，跳过")
+                    continue
+
                 file_path = root_dir + "\\" + category + "\\" + file
                 print(file_path)
                 docx_dir = "G:\\www2.zzstep.com\\docx.zzstep.com\\小学\\" + category
