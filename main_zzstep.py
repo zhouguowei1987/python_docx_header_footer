@@ -65,11 +65,17 @@ def doc2docx(in_file, out_file):
             print(in_file)
             print(out_file)
             doc = word.Documents.Open(in_file)
-            doc.SaveAs(out_file, 12, False, "", True, "", False, False, False, False)
-            print('转换成功')
-            doc.Close()
-            word.Quit()
-            return True
+            if doc.ProtectionType == 0:
+                doc.SaveAs(out_file, 12, False, "", True, "", False, False, False, False)
+                print('转换成功')
+                doc.Close()
+                word.Quit()
+                return True
+            else:
+                print('文档加密，转换失败')
+                doc.Close()
+                word.Quit()
+                return False
         except Exception as e:
             print(e)
     except Exception as e:
@@ -116,6 +122,7 @@ if __name__ == '__main__':
                         pass
                     print("==========开始转化为docx==============")
                     if not doc2docx(file_path, docx_file):
+                        print("转换失败，删除文件")
                         os.remove(docx_file)
                         continue
                     print("==========转化完成==============")
@@ -124,19 +131,18 @@ if __name__ == '__main__':
 
                     # 删除页眉页脚
                     if not remove_header_footer(docx_file):
-                        print("删除文件")
+                        print("删除页眉页脚失败，删除文件")
                         os.remove(docx_file)
                         continue
 
                     # 删除只包含图片
                     if check_only_image(docx_file):
-                        # 删除图片文件
-                        print("删除文件")
+                        print("文档只包含图片，删除文件")
                         os.remove(docx_file)
                         continue
 
                     # 改变文档字体
                     if not change_word_font(docx_file):
-                        print("删除文件")
+                        print("改变文档字体失败，删除文件")
                         os.remove(docx_file)
                         continue
