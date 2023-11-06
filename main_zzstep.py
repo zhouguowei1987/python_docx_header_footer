@@ -65,17 +65,17 @@ def doc2docx(in_file, out_file):
             print(in_file)
             print(out_file)
             doc = word.Documents.Open(in_file)
-            if doc.ProtectionType == 0:
+            if doc.ProtectionType == 1:
+                print('文档加密，转换失败')
+                doc.Close()
+                word.Quit()
+                return False
+            else:
                 doc.SaveAs(out_file, 12, False, "", True, "", False, False, False, False)
                 print('转换成功')
                 doc.Close()
                 word.Quit()
                 return True
-            else:
-                print('文档加密，转换失败')
-                doc.Close()
-                word.Quit()
-                return False
         except Exception as e:
             print(e)
     except Exception as e:
