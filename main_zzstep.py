@@ -26,6 +26,25 @@ def change_word_font(doc_file):
         return False
 
 
+def check_only_image(doc_file):
+    try:
+        doc = Document(doc_file)
+        if len(doc.paragraphs) < 5:
+            return True
+        else:
+            i = 0
+            for para in doc.paragraphs:
+                if i == 4 and para.text == "":
+                    doc.save(doc_file)
+                    return True
+                i += 1
+        doc.save(doc_file)
+    except Exception as e:
+        print(e)
+        return True
+    return False
+
+
 def remove_header_footer(doc_file):
     # doc：需要去页眉页脚的docx 文件
     try:
@@ -62,29 +81,31 @@ def doc2docx(in_file, out_file):
 
 if __name__ == '__main__':
     category_dirs_arr = ['道德与法治', '美术', '数学', '信息技术', '音乐', '英语', '语文']
-    root_dir = "../www2.zzstep.com/www2.zzstep.com/小学"
+    root_dir = "G:\\www2.zzstep.com\\www2.zzstep.com\\小学"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
-            files = sorted(os.listdir(root_dir + "/" + category))
+            files = sorted(os.listdir(root_dir + "\\" + category))
             for file in files:
                 print(file)
                 if file.find(category) == -1:
                     # 文档标题不包含分类名称
                     print("文档标题不包含分类名称，跳过")
-                file_path = root_dir + "/" + category + "/" + file
+                file_path = root_dir + "\\" + category + "\\" + file
                 print(file_path)
-                docx_dir = "../www2.zzstep.com/docx.zzstep.com/小学/" + category
+                docx_dir = "G:\\www2.zzstep.com\\docx.zzstep.com\\小学\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
-                docx_file = docx_dir + "/" + file.lower().replace(os.path.splitext(file)[1], ".docx")
-                docx_file = docx_file.replace(" ", "")
-                left_flag_index = docx_file.index("【")
-                right_flag_index = docx_file.find("】")
+                sub_file = file
+                left_flag_index = file.find("【")
+                right_flag_index = file.find("】")
                 if left_flag_index == 0 and right_flag_index != -1:
                     # 文档名称以“【”开头，以“】”结尾，则替换名称
-                    docx_file = docx_file[right_flag_index:]
+                    sub_file = file[right_flag_index + 1:]
+                docx_file = docx_dir + "\\" + sub_file.lower().replace(os.path.splitext(sub_file)[1], ".docx")
+                docx_file = docx_file.replace(" ", "")
+                docx_file = docx_file.replace("——", "-")
 
                 # 获取文件后缀
                 file_ext = os.path.splitext(file_path)[-1]
@@ -101,11 +122,21 @@ if __name__ == '__main__':
                     print("==========转化完成==============")
 
                 if os.path.exists(docx_file):
-                    # 删除页眉页脚
-                    if not remove_header_footer(docx_file):
+                    # 删除只包含图片
+                    if check_only_image(docx_file):
+                        # 删除图片文件
+                        print("删除文件")
+                        os.remove(docx_file)
                         continue
 
-                if os.path.exists(docx_file):
+                    # 删除页眉页脚
+                    if not remove_header_footer(docx_file):
+                        print("删除文件")
+                        os.remove(docx_file)
+                        continue
+
                     # 改变文档字体
                     if not change_word_font(docx_file):
+                        print("删除文件")
+                        os.remove(docx_file)
                         continue
