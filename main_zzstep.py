@@ -84,8 +84,8 @@ def doc2docx(in_file, out_file):
 
 
 if __name__ == '__main__':
-    category_dirs_arr = ['道德与法治', '美术', '数学', '信息技术', '音乐', '英语', '语文']
-    root_dir = "G:\\www2.zzstep.com\\www2.zzstep.com\\小学"
+    category_dirs_arr = ['语文', '数学', '英语']
+    root_dir = "G:\\www2.zzstep.com\\www2.zzstep.com\\初中"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
@@ -99,7 +99,7 @@ if __name__ == '__main__':
 
                 file_path = root_dir + "\\" + category + "\\" + file
                 print(file_path)
-                docx_dir = "G:\\www2.zzstep.com\\docx.zzstep.com\\小学\\" + category
+                docx_dir = "G:\\www2.zzstep.com\\docx.zzstep.com\\初中\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
