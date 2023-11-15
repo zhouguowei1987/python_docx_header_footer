@@ -84,22 +84,18 @@ def doc2docx(in_file, out_file):
 
 
 if __name__ == '__main__':
-    category_dirs_arr = ['语文', '数学', '英语']
-    root_dir = "G:\\www2.zzstep.com\\www2.zzstep.com\\初中"
+    category_dirs_arr = ['物理', '英语', '语文']
+    root_dir = "G:\\www2.zzstep.com\\www2.zzstep.com\\高中"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
             files = sorted(os.listdir(root_dir + "\\" + category))
             for file in files:
                 print(file)
-                if file.find(category) == -1:
-                    # 文档标题不包含分类名称
-                    print("文档标题不包含分类名称，跳过")
-                    continue
 
                 file_path = root_dir + "\\" + category + "\\" + file
                 print(file_path)
-                docx_dir = "G:\\www2.zzstep.com\\docx.zzstep.com\\初中\\" + category
+                docx_dir = "G:\\www2.zzstep.com\\docx.zzstep.com\\高中\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
@@ -112,7 +108,17 @@ if __name__ == '__main__':
                 docx_file = docx_dir + "\\" + sub_file.lower().replace(os.path.splitext(sub_file)[1], ".docx")
                 docx_file = docx_file.replace(" ", "")
                 docx_file = docx_file.replace("(无答案)", "")
+                docx_file = docx_file.replace("(免费)", "")
                 docx_file = docx_file.replace("——", "-")
+
+                if docx_file.replace(docx_dir, "").find(category) == -1:
+                    # 文档标题不包含分类名称
+                    print("文档标题不包含分类名称，跳过")
+                    continue
+
+                if os.path.exists(docx_file):
+                    print("文件已存在，跳过")
+                    continue
 
                 # 获取文件后缀
                 file_ext = os.path.splitext(file_path)[-1]
