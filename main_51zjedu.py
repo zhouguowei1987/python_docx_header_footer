@@ -4,6 +4,7 @@ from docx import Document
 from docx.shared import Pt
 from docx.shared import Cm
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+from docx2pdf import convert
 from docx.oxml.ns import nsdecls
 from docx.oxml import parse_xml
 from docx.shared import RGBColor  # 设置字体的颜色
@@ -62,19 +63,19 @@ def doc2docx(in_file, out_file):
 
 if __name__ == '__main__':
     category_dirs_arr = ['一年级', '二年级', '三年级', '四年级', '五年级', '六年级']
-    root_dir = "../www.51zjedu.com/www.51zjedu.com"
+    root_dir = "G:\\www.51zjedu.com\\www.51zjedu.com"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
-            files = sorted(os.listdir(root_dir + "/" + category))
+            files = sorted(os.listdir(root_dir + "\\" + category))
             for file in files:
-                file_path = root_dir + "/" + category + "/" + file
+                file_path = root_dir + "\\" + category + "\\" + file
                 print(file_path)
-                docx_dir = "../www.51zjedu.com/docx.51zjedu.com/" + category
+                docx_dir = "G:\\www.51zjedu.com\\docx.51zjedu.com\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
-                docx_file = docx_dir + "/" + file.lower().replace(os.path.splitext(file)[1], ".docx")
+                docx_file = docx_dir + "\\" + file.lower().replace(os.path.splitext(file)[1], ".docx")
 
                 # 获取文件后缀
                 file_ext = os.path.splitext(file_path)[-1]
@@ -90,12 +91,27 @@ if __name__ == '__main__':
                         continue
                     print("==========转化完成==============")
 
-                if os.path.exists(docx_file):
-                    # 删除页眉页脚
-                    if not remove_header_footer(docx_file):
-                        continue
+                finish_dir = "G:\\finish.51zjedu.com" + "\\" + category
+                if not os.path.exists(finish_dir):
+                    os.makedirs(finish_dir)
+                finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
 
-                if os.path.exists(docx_file):
-                    # 改变文档字体
-                    if not change_word_font(docx_file):
-                        continue
+                if not os.path.exists(finish_file):
+                    if os.path.exists(docx_file):
+                        # 删除页眉页脚
+                        if not remove_header_footer(docx_file):
+                            continue
+
+                    if os.path.exists(docx_file):
+                        # 改变文档字体
+                        if not change_word_font(docx_file):
+                            continue
+
+                    # 将docx转化为pdf
+                    with open(finish_file, "w") as f:
+                        # 将 Word 文档转换为 PDF
+                        try:
+                            convert(docx_file, finish_file)
+                            print("转换成功！")
+                        except Exception as e:
+                            print("转换失败：", str(e))
