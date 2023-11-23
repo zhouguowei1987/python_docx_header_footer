@@ -91,7 +91,7 @@ if __name__ == '__main__':
                         continue
                     print("==========转化完成==============")
 
-                finish_dir = "G:\\finish.51zjedu.com" + "\\" + category
+                finish_dir = "G:\\www.51zjedu.com\\finish.51zjedu.com" + "\\" + category
                 if not os.path.exists(finish_dir):
                     os.makedirs(finish_dir)
                 finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
