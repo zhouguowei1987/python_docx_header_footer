@@ -98,7 +98,7 @@ if __name__ == '__main__':
                     os.makedirs(docx_dir)
 
                 docx_file = docx_dir + "\\" + file.lower().replace(os.path.splitext(file)[1], ".docx")
-                docx_file = docx_file.replace(" ", "")
+                docx_file = docx_file.strip()
                 docx_file = docx_file.replace("（", "(").replace("）", ")")
                 docx_file = docx_file.replace("精品解析：", "")
                 docx_file = docx_file.replace("【KS5U+高考】", "")
