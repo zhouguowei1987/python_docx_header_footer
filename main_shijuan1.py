@@ -11,6 +11,17 @@ from win32com import client as wc
 import os
 import shutil
 
+def change_word_font(doc_file):
+    try:
+        # 打开doc文件
+        doc = Document(doc_file)
+        doc.styles['Normal'].font.name = u'Times New Roman'  # 设置西文字体
+        doc.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), u'微软雅黑')  # 设置中文字体使用字体2->宋体
+        doc.save(doc_file)
+        return True
+    except Exception as e:
+        print(e)
+        return False
 
 def remove_header_footer(doc):
     # doc：需要去页眉页脚的docx 文件
@@ -113,38 +124,25 @@ if __name__ == '__main__':
                 docx_file = docx_file.replace("，", "")
 
                 if not os.path.exists(docx_file):
-                    with open(docx_file, 'w') as f:
-                        pass
-                    print("==========开始转化为docx==============")
-                    if not doc2docx(file_path, docx_file):
-                        continue
-                    print("==========转化完成==============")
-                # else:
-                #     # 已经是docx文件了，直接复制过去
-                #     shutil.copy(file_path, docx_file)
+                    # 获取文件后缀
+                    file_ext = os.path.splitext(file_path)[-1]
+                    if file_ext == ".docx":
+                        # 已经是docx文件了，直接复制过去
+                        shutil.copy(file_path, docx_file)
+                    else:
+                        with open(docx_file, 'w') as f:
+                            pass
+                        print("==========开始转化为docx==============")
+                        if not doc2docx(file_path, docx_file):
+                            os.remove(docx_file)
+                            continue
+                        print("==========转化完成==============")
 
-                # 删除并设置页眉页脚
                 if os.path.exists(docx_file):
-                    remove_header_footer(docx_file)
-
-                finish_dir = "G:\\www.shijuan1.com\\finish.www.shijuan1.com" + "\\" + category
-                if not os.path.exists(finish_dir):
-                    os.makedirs(finish_dir)
-                finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
-
-                if not os.path.exists(finish_file):
-                    # 删除只包含图片
-                    if check_only_image(docx_file):
-                        # 删除图片文件
-                        print("删除文件")
-                        os.remove(file_path)
-                        os.remove(docx_file)
+                    # 删除页眉页脚
+                    if not remove_header_footer(docx_file):
                         continue
-                    # 将docx转化为pdf
-                    with open(finish_file, "w") as f:
-                        # 将 Word 文档转换为 PDF
-                        try:
-                            convert(docx_file, finish_file)
-                            print("转换成功！")
-                        except Exception as e:
-                            print("转换失败：", str(e))
+
+                    # 改变文档字体
+                    if not change_word_font(docx_file):
+                        continue
