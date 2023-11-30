@@ -10,6 +10,9 @@ from docx.oxml.ns import qn
 from win32com import client as wc
 import os
 import shutil
+import rarfile
+rarfile.UNRAR_TOOL = "F:\\WinRAR\\UnRAR.exe"
+
 
 def change_word_font(doc_file):
     try:
@@ -22,6 +25,7 @@ def change_word_font(doc_file):
     except Exception as e:
         print(e)
         return False
+
 
 def remove_header_footer(doc):
     # doc：需要去页眉页脚的docx 文件
@@ -71,7 +75,37 @@ def doc2docx(in_file, out_file):
     return False
 
 
+def decompress_rar(rar_file_name, dir_name):
+    """
+    .rar 文件解压
+    :param rar_file_name: rar 文件路径
+    :param dir_name: 文件解压目录
+    :return:
+    """
+    # 创建 rar 对象
+    rar_obj = rarfile.RarFile(rar_file_name)
+    # 目录切换
+    if not os.path.exists(dir_name):
+        os.mkdir(dir_name)
+    os.chdir(dir_name)
+    # Extract all files into current directory.
+    rar_obj.extractall()
+    # rar_obj.extractall(dir_name)
+    # 关闭
+    rar_obj.close()
+
+
 if __name__ == '__main__':
+    # 解压压缩包
+    rar_root_dir = "G:\\www.rar_shijuan1.com\\中考试卷"
+    rar_files = sorted(os.listdir(rar_root_dir))
+    for rar_file in rar_files:
+        rar_file_path = rar_root_dir + "\\" + rar_file
+        print("==========" + "开始解压" + rar_file_path + "==========")
+        decompress_rar(rar_file_path, "G:\\www.shijuan1.com\\www.shijuan1.com\\中考试卷\\")
+        print("==========" + "解压完成" + "==========")
+    exit()
+
     category_dirs_arr = ['中考试卷', '高考试卷']
     root_dir = "G:\\www.shijuan1.com\\www.shijuan1.com"
     category_dirs = sorted(os.listdir(root_dir))
