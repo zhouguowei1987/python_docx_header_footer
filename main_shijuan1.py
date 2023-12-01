@@ -97,7 +97,8 @@ def decompress_rar(rar_file_name, dir_name):
 
 if __name__ == '__main__':
     # 解压压缩包
-    category_rars_arr = ['中考试卷', '高考试卷']
+    # category_rars_arr = ['中考试卷', '高考试卷']
+    category_rars_arr = ['高考试卷']
     rar_root_dir = "G:\\www.rar_shijuan1.com"
     rar_dirs = sorted(os.listdir(rar_root_dir))
     for category_rar in category_rars_arr:
@@ -105,7 +106,11 @@ if __name__ == '__main__':
         for rar_file in rar_files:
             rar_file_path = rar_root_dir+ "\\" + category_rar + "\\" + rar_file
             print("==========" + "开始解压" + rar_file_path + "==========")
-            decompress_rar(rar_file_path, "G:\\www.shijuan1.com\\www.shijuan1.com\\" + category_rar)
+            try:
+                decompress_rar(rar_file_path, "G:\\www.shijuan1.com\\www.shijuan1.com\\" + category_rar)
+            except Exception as e:
+                print(e)
+                continue
             print("==========" + "解压完成" + "==========")
     exit()
 
