@@ -84,7 +84,7 @@ def decompress_rar(rar_file_name, dir_name):
 if __name__ == '__main__':
     # 解压压缩包
     # category_rars_arr = ['中考试卷', '高考试卷']
-    # category_rars_arr = ['高考试卷']
+    # category_rars_arr = ['中考试卷']
     # rar_root_dir = "G:\\www.rar_shijuan1.com"
     # rar_dirs = sorted(os.listdir(rar_root_dir))
     # for category_rar in category_rars_arr:
@@ -101,7 +101,7 @@ if __name__ == '__main__':
     # exit()
 
     # category_dirs_arr = ['中考试卷', '高考试卷']
-    category_dirs_arr = ['高考试卷']
+    category_dirs_arr = ['中考试卷']
     root_dir = "G:\\www.shijuan1.com\\www.shijuan1.com"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
@@ -111,8 +111,12 @@ if __name__ == '__main__':
                 file_path = root_dir + "\\" + category + "\\" + file
                 print(file_path)
 
-                # 文件名称小于20，则删除
+                # # 文件名称小于20，则删除
                 # if len(file) < 20:
+                #     os.remove(file_path)
+                #
+                # # 文件后缀不是doc或docx，则删除
+                # if os.path.splitext(file)[1] not in [".doc", ".docx"]:
                 #     os.remove(file_path)
 
                 # # 查看一下是否是文件夹，如果是文件夹，则将文件移出
