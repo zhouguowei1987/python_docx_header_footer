@@ -162,7 +162,6 @@ if __name__ == '__main__':
                 docx_file = docx_file.replace("(word版，有答案)", "")
                 docx_file = docx_file.replace("(文字版-含答案)", "")
                 docx_file = docx_file.replace("word版", "")
-                docx_file = docx_file.replace("-", "")
                 docx_file = docx_file.replace(",", "")
                 docx_file = docx_file.replace("，", "")
 
