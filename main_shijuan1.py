@@ -117,6 +117,11 @@ if __name__ == '__main__':
     # exit()
 
     # category_dirs_arr = ['中考试卷', '高考试卷']
+
+
+    # category_dirs_arr = ['高考试卷']
+    # subject_names = ["语文", "数学", "英语", "语文", "物理", "化学", "政治", "历史", "地理", "生物"]
+
     category_dirs_arr = ['中考试卷']
     subject_names = ["语文", "数学", "英语", "语文", "物理", "化学", "政治", "历史", "地理", "生物"]
     root_dir = "G:\\www.shijuan1.com\\www.shijuan1.com"
