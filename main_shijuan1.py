@@ -118,6 +118,7 @@ if __name__ == '__main__':
 
     # category_dirs_arr = ['中考试卷', '高考试卷']
     category_dirs_arr = ['中考试卷']
+    subject_names = ["语文", "数学", "英语", "语文", "物理", "化学", "政治", "历史", "地理", "生物"]
     root_dir = "G:\\www.shijuan1.com\\www.shijuan1.com"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
@@ -184,6 +185,20 @@ if __name__ == '__main__':
                 docx_file = docx_file.replace("word版", "")
                 docx_file = docx_file.replace(",", "")
                 docx_file = docx_file.replace("，", "")
+
+                contain_subject_name = False
+                for subject_name in subject_names:
+                    if docx_file.find(subject_name) != -1:
+                        contain_subject_name = True
+                        break
+                # 文件名不包含任何科目
+                if not contain_subject_name:
+                    # 删除原文件
+                    os.remove(file_path)
+                    if os.path.exists(docx_file):
+                        # 删除docx文件
+                        os.remove(docx_file)
+                    continue
 
                 # docx文件已存在，跳过继续
                 if os.path.exists(docx_file):
