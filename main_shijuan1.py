@@ -117,7 +117,7 @@ if __name__ == '__main__':
     # exit()
 
     # category_dirs_arr = ['中考试卷', '高考试卷']
-    category_dirs_arr = ['高考试卷']
+    category_dirs_arr = ['中考试卷']
     root_dir = "G:\\www.shijuan1.com\\www.shijuan1.com"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
@@ -184,6 +184,10 @@ if __name__ == '__main__':
                 docx_file = docx_file.replace("word版", "")
                 docx_file = docx_file.replace(",", "")
                 docx_file = docx_file.replace("，", "")
+
+                # docx文件已存在，跳过继续
+                if os.path.exists(docx_file):
+                    continue
 
                 if not os.path.exists(docx_file):
                     # 获取文件后缀
