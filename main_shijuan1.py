@@ -207,6 +207,8 @@ if __name__ == '__main__':
                 if os.path.exists(docx_file):
                     # 删除只包含图片
                     if check_only_image(docx_file):
+                        # 删除原文件
+                        os.remove(file_path)
                         # 删除图片文件
                         os.remove(docx_file)
                         continue
