@@ -11,6 +11,7 @@ from win32com import client as wc
 import os
 import shutil
 import rarfile
+
 rarfile.UNRAR_TOOL = "F:\\WinRAR\\UnRAR.exe"
 
 
@@ -59,6 +60,8 @@ def doc2docx(in_file, out_file):
     except Exception as e:
         print(e)
     return False
+
+
 def check_only_image(doc_file):
     try:
         doc = Document(doc_file)
@@ -76,6 +79,7 @@ def check_only_image(doc_file):
         print(e)
         return True
     return False
+
 
 def decompress_rar(rar_file_name, dir_name):
     """
@@ -99,8 +103,8 @@ def decompress_rar(rar_file_name, dir_name):
 
 if __name__ == '__main__':
     # 解压压缩包
-    # category_rars_arr = ['中考试卷', '高考试卷']
-    # category_rars_arr = ['中考试卷']
+    # # category_rars_arr = ['小学试卷', '中考试卷', '高考试卷']
+    # category_rars_arr = ['小学试卷']
     # rar_root_dir = "G:\\www.rar_shijuan1.com"
     # rar_dirs = sorted(os.listdir(rar_root_dir))
     # for category_rar in category_rars_arr:
@@ -116,13 +120,9 @@ if __name__ == '__main__':
     #         print("==========" + "解压完成" + "==========")
     # exit()
 
-    # category_dirs_arr = ['中考试卷', '高考试卷']
+    # category_dirs_arr = ['小学试卷', '中考试卷', '高考试卷']
 
-
-    # category_dirs_arr = ['高考试卷']
-    # subject_names = ["语文", "数学", "英语", "语文", "物理", "化学", "政治", "历史", "地理", "生物"]
-
-    category_dirs_arr = ['中考试卷']
+    category_dirs_arr = ['小学试卷']
     subject_names = ["语文", "数学", "英语", "语文", "物理", "化学", "政治", "历史", "地理", "生物"]
     root_dir = "G:\\www.shijuan1.com\\www.shijuan1.com"
     category_dirs = sorted(os.listdir(root_dir))
@@ -133,15 +133,11 @@ if __name__ == '__main__':
                 file_path = root_dir + "\\" + category + "\\" + file
                 print(file_path)
 
-                # # 文件名称小于20，则删除
-                # if len(file) < 20:
-                #     os.remove(file_path)
-                #
                 # # 文件后缀不是doc或docx，则删除
                 # if os.path.splitext(file)[1] not in [".doc", ".docx"]:
                 #     os.remove(file_path)
 
-                # # 查看一下是否是文件夹，如果是文件夹，则将文件移出
+                # 查看一下是否是文件夹，如果是文件夹，则将文件移出
                 # if os.path.isdir(file_path):
                 #     child_files = sorted(os.listdir(file_path))
                 #     for child_file in child_files:
@@ -187,6 +183,7 @@ if __name__ == '__main__':
                 docx_file = docx_file.replace("(word版含答案)", "")
                 docx_file = docx_file.replace("(word版，有答案)", "")
                 docx_file = docx_file.replace("(文字版-含答案)", "")
+                docx_file = docx_file.replace("[首发]", "")
                 docx_file = docx_file.replace("word版", "")
                 docx_file = docx_file.replace(",", "")
                 docx_file = docx_file.replace("，", "")
@@ -220,6 +217,8 @@ if __name__ == '__main__':
                             pass
                         print("==========开始转化为docx==============")
                         if not doc2docx(file_path, docx_file):
+                            # 删除原文件
+                            os.remove(file_path)
                             os.remove(docx_file)
                             continue
                         print("==========转化完成==============")
@@ -235,10 +234,14 @@ if __name__ == '__main__':
 
                     # 删除页眉页脚
                     if not remove_header_footer(docx_file):
+                        # 删除原文件
+                        os.remove(file_path)
                         os.remove(docx_file)
                         continue
 
                     # 改变文档字体
                     if not change_word_font(docx_file):
+                        # 删除原文件
+                        os.remove(file_path)
                         os.remove(docx_file)
                         continue
