@@ -103,18 +103,18 @@ def decompress_rar(rar_file_name, dir_name):
 
 if __name__ == '__main__':
     # 解压压缩包
-    rar_dir = "F:\\workspace\\www.rar_czsx.com.cn"
-    rar_files = sorted(os.listdir(rar_dir))
-    for rar_file in rar_files:
-        rar_file_path = rar_dir + "\\" + rar_file
-        print("==========" + "开始解压" + rar_file_path + "==========")
-        try:
-            decompress_rar(rar_file_path, "F:\\workspace\\www.czsx.com.cn\\www.czsx.com.cn")
-        except Exception as e:
-            print(e)
-            continue
-        print("==========" + "解压完成" + "==========")
-    exit()
+    # rar_dir = "F:\\workspace\\www.rar_czsx.com.cn"
+    # rar_files = sorted(os.listdir(rar_dir))
+    # for rar_file in rar_files:
+    #     rar_file_path = rar_dir + "\\" + rar_file
+    #     print("==========" + "开始解压" + rar_file_path + "==========")
+    #     try:
+    #         decompress_rar(rar_file_path, "F:\\workspace\\www.czsx.com.cn\\www.czsx.com.cn")
+    #     except Exception as e:
+    #         print(e)
+    #         continue
+    #     print("==========" + "解压完成" + "==========")
+    # exit()
 
     root_dir = "F:\\workspace\\www.czsx.com.cn\\www.czsx.com.cn"
     files = sorted(os.listdir(root_dir))
@@ -126,6 +126,10 @@ if __name__ == '__main__':
         # if os.path.splitext(file)[1] not in [".doc", ".docx"]:
         #     os.remove(file_path)
 
+        # # 文件名称长度小于20，则删除
+        # if len(file) <= 20:
+        #     os.remove(file_path)
+
         # 查看一下是否是文件夹，如果是文件夹，则将文件移出
         # if os.path.isdir(file_path):
         #     child_files = sorted(os.listdir(file_path))
@@ -134,7 +138,7 @@ if __name__ == '__main__':
         #         if extension not in [".doc", ".docx"]:
         #             continue
         #         src_child_file_path = file_path + "\\" + child_file
-        #         dst_child_file_path = root_dir + "\\" + category + "\\" + child_file
+        #         dst_child_file_path = root_dir + "\\" + child_file
         #         try:
         #             os.rename(src_child_file_path, dst_child_file_path)
         #         except WindowsError:
@@ -154,42 +158,17 @@ if __name__ == '__main__':
         docx_file = docx_dir + "\\" + sub_file.lower().replace(os.path.splitext(sub_file)[1], ".docx")
         docx_file = docx_file.strip()
         docx_file = docx_file.replace("（", "(").replace("）", ")")
-        docx_file = docx_file.replace("精品解析：", "")
-        docx_file = docx_file.replace("【KS5U+高考】", "")
-        docx_file = docx_file.replace("【ks5u+高考】", "")
-        docx_file = docx_file.replace("【品优教学】", "")
-        docx_file = docx_file.replace("——", "")
-        docx_file = docx_file.replace("+Word版", "")
-        docx_file = docx_file.replace(" Word版", "")
-        docx_file = docx_file.replace("(word答案)", "")
-        docx_file = docx_file.replace("(word精校版)", "")
-        docx_file = docx_file.replace("(word版)", "")
-        docx_file = docx_file.replace("(word答案)", "")
-        docx_file = docx_file.replace("(word解析版)", "(含解析)")
-        docx_file = docx_file.replace("(word版无答案)", "")
-        docx_file = docx_file.replace("(word版回忆版无答案)", "")
-        docx_file = docx_file.replace("(word版，含听力原文)", "")
-        docx_file = docx_file.replace("(word版含答案)", "")
-        docx_file = docx_file.replace("(word版，有答案)", "")
-        docx_file = docx_file.replace("(文字版-含答案)", "")
-        docx_file = docx_file.replace("[首发]", "")
-        docx_file = docx_file.replace("word版", "")
+        docx_file = docx_file.replace("（090410）", "")
+        docx_file = docx_file.replace("(含答案)-", "(含答案)")
+        docx_file = docx_file.replace("WORD版", "word版")
+        docx_file = docx_file.replace("word版，含答案", "含答案")
+        docx_file = docx_file.replace("word版，含解析", "含解析")
+        docx_file = docx_file.replace("++", "-")
+        docx_file = docx_file.replace("——", "-")
+        docx_file = docx_file.replace("—", "-")
+        docx_file = docx_file.replace("--", "-")
         docx_file = docx_file.replace(",", "")
         docx_file = docx_file.replace("，", "")
-
-        contain_subject_name = False
-        for subject_name in subject_names:
-            if docx_file.find(subject_name) != -1:
-                contain_subject_name = True
-                break
-        # 文件名不包含任何科目
-        if not contain_subject_name:
-            # 删除原文件
-            os.remove(file_path)
-            if os.path.exists(docx_file):
-                # 删除docx文件
-                os.remove(docx_file)
-            continue
 
         # docx文件已存在，跳过继续
         if os.path.exists(docx_file):
