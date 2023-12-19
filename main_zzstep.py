@@ -86,8 +86,8 @@ def remove_header_footer(doc_file):
 
 if __name__ == '__main__':
 
-    docx_file = ("/Users/zhouguowei/workspace/www2.zzstep.com/docx.zzstep.com/小学/信息技术/贵州省德江县2020-2021学年三年级下学期期末质量监测信息技术试题.docx")
-    finish_file = ("/Users/zhouguowei/workspace/www2.zzstep.com/docx.zzstep.com/小学/信息技术/贵州省德江县2020-2021学年三年级下学期期末质量监测信息技术试题.pdf")
+    docx_file = ("贵州省德江县2020-2021学年三年级下学期期末质量监测信息技术试题.docx")
+    finish_file = ("贵州省德江县2020-2021学年三年级下学期期末质量监测信息技术试题.pdf")
     with open(finish_file, "w") as f:
         convert(docx_file, finish_file)
     exit()
