@@ -85,6 +85,13 @@ def remove_header_footer(doc_file):
 
 
 if __name__ == '__main__':
+
+    docx_file = ("/Users/zhouguowei/workspace/www2.zzstep.com/docx.zzstep.com/小学/信息技术/贵州省德江县2020-2021学年三年级下学期期末质量监测信息技术试题.docx")
+    finish_file = ("/Users/zhouguowei/workspace/www2.zzstep.com/docx.zzstep.com/小学/信息技术/贵州省德江县2020-2021学年三年级下学期期末质量监测信息技术试题.pdf")
+    with open(finish_file, "w") as f:
+        convert(docx_file, finish_file)
+    exit()
+
     category_dirs_arr = ['数学',	'英语', '音乐', '道德与法治', '美术', '语文', '信息技术']
     root_dir = "/Users/zhouguowei/workspace/www2.zzstep.com/www2.zzstep.com/小学"
     category_dirs = sorted(os.listdir(root_dir))
@@ -132,13 +139,10 @@ if __name__ == '__main__':
                             # 将 Word 文档转换为 PDF
                             try:
                                 print("==========开始转化为pdf==============")
-                                print(docx_file)
-                                print(finish_file)
-                                print(convert(docx_file, finish_file))
+                                convert(docx_file, finish_file)
                                 print("转换成功！")
                             except Exception as e:
                                 print("转换失败：", str(e))
-                    exit(1)
 
                 # if not os.path.exists(docx_file):
                 #     # 获取文件后缀
