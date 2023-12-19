@@ -172,7 +172,23 @@ if __name__ == '__main__':
 
         # docx文件已存在，跳过继续
         if os.path.exists(docx_file):
-            continue
+            # continue
+
+            finish_dir = "F:\\workspace\\www.czsx.com.cn\\finish.www.czsx.com.cn"
+            if not os.path.exists(finish_dir):
+                os.makedirs(finish_dir)
+            # 将docx文件转化为pdf
+            finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
+            if not os.path.exists(finish_file):
+                # 将docx转化为pdf
+                with open(finish_file, "w") as f:
+                    # 将 Word 文档转换为 PDF
+                    try:
+                        print("==========开始转化为pdf==============")
+                        convert(docx_file, finish_file)
+                        print("转换成功！")
+                    except Exception as e:
+                        print("转换失败：", str(e))
 
         if not os.path.exists(docx_file):
             # 获取文件后缀
