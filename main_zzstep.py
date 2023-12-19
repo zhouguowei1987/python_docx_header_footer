@@ -86,7 +86,7 @@ def remove_header_footer(doc_file):
 
 if __name__ == '__main__':
     category_dirs_arr = ['数学',	'英语', '音乐', '道德与法治', '美术', '语文', '信息技术']
-    root_dir = "../www2.zzstep.com/www2.zzstep.com/小学"
+    root_dir = "/Users/zhouguowei/workspace/www2.zzstep.com/www2.zzstep.com/小学"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
@@ -94,9 +94,9 @@ if __name__ == '__main__':
             for file in files:
                 print(file)
 
-                file_path = root_dir + "\\" + category + "\\" + file
+                file_path = root_dir + "/" + category + "/" + file
                 print(file_path)
-                docx_dir = "../www2.zzstep.com/docx.zzstep.com/小学/" + category
+                docx_dir = "/Users/zhouguowei/workspace/www2.zzstep.com/docx.zzstep.com/小学/" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
@@ -106,7 +106,7 @@ if __name__ == '__main__':
                 if left_flag_index == 0 and right_flag_index != -1:
                     # 文档名称以“【”开头，以“】”结尾，则替换名称
                     sub_file = file[right_flag_index + 1:]
-                docx_file = docx_dir + "\\" + sub_file.lower().replace(os.path.splitext(sub_file)[1], ".docx")
+                docx_file = docx_dir + "/" + sub_file.lower().replace(os.path.splitext(sub_file)[1], ".docx")
                 docx_file = docx_file.replace(" ", "")
                 docx_file = docx_file.replace("(无答案)", "")
                 docx_file = docx_file.replace("(免费)", "")
@@ -121,7 +121,7 @@ if __name__ == '__main__':
                 if os.path.exists(docx_file):
                     # continue
 
-                    finish_dir = "../www2.zzstep.com/finish.zzstep.com/小学/" + category
+                    finish_dir = "/Users/zhouguowei/workspace/www2.zzstep.com/finish.zzstep.com/小学/" + category
                     if not os.path.exists(finish_dir):
                         os.makedirs(finish_dir)
                     # 将docx文件转化为pdf
@@ -132,10 +132,13 @@ if __name__ == '__main__':
                             # 将 Word 文档转换为 PDF
                             try:
                                 print("==========开始转化为pdf==============")
-                                convert(docx_file, finish_file)
+                                print(docx_file)
+                                print(finish_file)
+                                print(convert(docx_file, finish_file))
                                 print("转换成功！")
                             except Exception as e:
                                 print("转换失败：", str(e))
+                    exit(1)
 
                 # if not os.path.exists(docx_file):
                 #     # 获取文件后缀
