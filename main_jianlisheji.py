@@ -14,31 +14,45 @@ import shutil
 
 
 def change_word_font(doc_file):
-    # 打开doc文件
-    doc = Document(doc_file)
-    doc.styles['Normal'].font.name = u'Times New Roman'  # 设置西文字体
-    doc.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), u'微软雅黑')  # 设置中文字体使用字体2->宋体
-    doc.save(doc_file)
-
+    try:
+        # 打开doc文件
+        doc = Document(doc_file)
+        doc.styles['Normal'].font.name = u'Times New Roman'  # 设置西文字体
+        doc.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), u'微软雅黑')  # 设置中文字体使用字体2->宋体
+        doc.save(doc_file)
+        return True
+    except Exception as e:
+        print(e)
+        return False
 
 def docx_remove_content(doc_file):
-    # 定义需要去除及替换的内容
-    content_to_removes = [
-        ['''简历设计网''', '个人简历'],
-        ['''jianlisheji''', 'XXXXXX'],
-        ['''Jianlisheji''', 'XXXXXX'],
-    ]
-    # 打开doc文件
-    doc = Document(doc_file)
-    doc.paragraphs[1].clear()
-    # 遍历doc文件中的段落
-    for para in doc.paragraphs:
-        # 如果段落中包含需要去除的内容，使用正则表达式
-        for content_to_remove in content_to_removes:
-            if re.search(content_to_remove[0], para.text):
-                para.text = re.sub(content_to_remove[0], content_to_remove[1], para.text)
-
-    doc.save(doc_file)
+    try:
+        # 定义需要去除及替换的内容
+        content_to_removes = [
+            ['''简历设计网''', '个人简历'],
+            ['''jianlisheji''', 'XXXXXX'],
+            ['''jinalisheji''', 'XXXXXX'],
+            ['''Jianlisheji''', 'XXXXXX'],
+        ]
+        # 打开doc文件
+        doc = Document(doc_file)
+        txbx = doc.inline_shapes._body.xpath('//w:txbxContent')
+        for i in range(len(txbx)):
+            for tx_idx, tx in enumerate(txbx[i]):
+                children = tx.getchildren()
+                for child_idx, child in enumerate(children):
+                    print(child_idx, child.text)
+                    if child.text:
+                        for content_to_remove in content_to_removes:
+                            target_text = content_to_remove[0]
+                            replacement_text = content_to_remove[1]
+                            if target_text in child.text:
+                                child.text = child.text.replace(target_text, replacement_text)
+        doc.save(doc_file)
+        return True
+    except Exception as e:
+        print(e)
+        return False
 
 
 def remove_header_footer(doc):
@@ -85,10 +99,8 @@ if __name__ == '__main__':
         if not os.path.exists(docx_dir):
             os.makedirs(docx_dir)
 
-        docx_file = docx_dir + "\\" + file.lower().replace(os.path.splitext(file)[1], ".docx")
-        docx_file = docx_file.replace(" ", "")
-        docx_file = docx_file.replace("word", "")
-        docx_file = docx_file.replace("Word", "")
+        docx_file = docx_dir + "\\" + file.replace(os.path.splitext(file)[1], ".docx")
+        print(docx_file)
 
         # 获取文件后缀
         file_ext = os.path.splitext(file_path)[-1]
@@ -108,20 +120,20 @@ if __name__ == '__main__':
             # 改变文档文字
             if not docx_remove_content(docx_file):
                 # 删除原文件
-                os.remove(file_path)
+                # os.remove(file_path)
                 os.remove(docx_file)
                 continue
 
             # 删除页眉页脚
             if not remove_header_footer(docx_file):
                 # 删除原文件
-                os.remove(file_path)
+                # os.remove(file_path)
                 os.remove(docx_file)
                 continue
 
             # 改变文档字体
             if not change_word_font(docx_file):
                 # 删除原文件
-                os.remove(file_path)
+                # os.remove(file_path)
                 os.remove(docx_file)
                 continue
