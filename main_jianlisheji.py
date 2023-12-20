@@ -36,12 +36,10 @@ def docx_remove_content(doc_file):
         ]
         # 打开doc文件
         doc = Document(doc_file)
-        txbx = doc.inline_shapes._body.xpath('//w:txbxContent')
-        for i in range(len(txbx)):
-            for tx_idx, tx in enumerate(txbx[i]):
+        for i in range(len(doc.inline_shapes._body.xpath('//w:txbxContent'))):
+            for tx_idx, tx in enumerate(doc.inline_shapes._body.xpath('//w:txbxContent')[i]):
                 children = tx.getchildren()
                 for child_idx, child in enumerate(children):
-                    print(child_idx, child.text)
                     if child.text:
                         for content_to_remove in content_to_removes:
                             target_text = content_to_remove[0]
