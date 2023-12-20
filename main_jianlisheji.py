@@ -36,6 +36,8 @@ def docx_remove_content(doc_file):
         ]
         # 打开doc文件
         doc = Document(doc_file)
+
+        # 遍历文本框
         for i in range(len(doc.inline_shapes._body.xpath('//w:txbxContent'))):
             for tx_idx, tx in enumerate(doc.inline_shapes._body.xpath('//w:txbxContent')[i]):
                 children = tx.getchildren()
@@ -47,6 +49,18 @@ def docx_remove_content(doc_file):
                             if target_text in child.text:
                                 child.text = child.text.replace(target_text, replacement_text)
         doc.save(doc_file)
+
+        # 遍历表格
+        for table in doc.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    # 遍历表格段落内容，回到上个步骤，将cell当作paragraph处理
+                    for paragraph in cell.paragraphs:
+                        for run in paragraph.runs:
+                            # 替换功能
+                            for content_to_remove in content_to_removes:
+                                if content_to_remove[0] in cell.text:
+                                    run.text = run.text.replace(content_to_remove[0], content_to_remove[1])
         return True
     except Exception as e:
         print(e)
