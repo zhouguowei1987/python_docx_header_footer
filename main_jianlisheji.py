@@ -25,6 +25,7 @@ def change_word_font(doc_file):
         print(e)
         return False
 
+
 def docx_remove_content(doc_file):
     try:
         # 定义需要去除及替换的内容
@@ -48,7 +49,6 @@ def docx_remove_content(doc_file):
                             replacement_text = content_to_remove[1]
                             if target_text in child.text:
                                 child.text = child.text.replace(target_text, replacement_text)
-        doc.save(doc_file)
 
         # 遍历表格
         for table in doc.tables:
@@ -61,6 +61,8 @@ def docx_remove_content(doc_file):
                             for content_to_remove in content_to_removes:
                                 if content_to_remove[0] in cell.text:
                                     run.text = run.text.replace(content_to_remove[0], content_to_remove[1])
+
+        doc.save(doc_file)
         return True
     except Exception as e:
         print(e)
