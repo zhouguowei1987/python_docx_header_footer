@@ -34,6 +34,7 @@ def docx_remove_content(doc_file):
             ['''jianlisheji''', 'XXXXXX'],
             ['''jinalisheji''', 'XXXXXX'],
             ['''Jianlisheji''', 'XXXXXX'],
+            ['''Jianliseji''', 'XXXXXX'],
         ]
         # 打开doc文件
         doc = Document(doc_file)
