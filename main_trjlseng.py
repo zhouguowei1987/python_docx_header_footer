@@ -103,21 +103,21 @@ def decompress_rar(rar_file_name, dir_name):
 
 if __name__ == '__main__':
     # 解压压缩包
-    # rar_root_dir = "F:\\workspace\\www.rar_gzenxx.com"
+    # rar_root_dir = "F:\\workspace\\www.rar_trjlseng.com"
     # rar_dirs = sorted(os.listdir(rar_root_dir))
     # rar_files = sorted(os.listdir(rar_root_dir))
     # for rar_file in rar_files:
     #     rar_file_path = rar_root_dir + "\\" + rar_file
     #     print("==========" + "开始解压" + rar_file_path + "==========")
     #     try:
-    #         decompress_rar(rar_file_path, "F:\\workspace\\www.gzenxx.com\\www.gzenxx.com")
+    #         decompress_rar(rar_file_path, "F:\\workspace\\www.trjlseng.com\\www.trjlseng.com")
     #     except Exception as e:
     #         print(e)
     #         continue
     #     print("==========" + "解压完成" + "==========")
     # exit()
 
-    root_dir = "F:\\workspace\\www.gzenxx.com\\www.gzenxx.com"
+    root_dir = "F:\\workspace\\www.trjlseng.com\\www.trjlseng.com"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
@@ -142,7 +142,7 @@ if __name__ == '__main__':
         #             os.remove(dst_child_file_path)
         #             os.rename(src_child_file_path, dst_child_file_path)
 
-        docx_dir = "F:\\workspace\\www.gzenxx.com\\docx.gzenxx.com"
+        docx_dir = "F:\\workspace\\www.trjlseng.com\\docx.trjlseng.com"
         if not os.path.exists(docx_dir):
             os.makedirs(docx_dir)
 
@@ -162,7 +162,7 @@ if __name__ == '__main__':
         # docx文件已存在，跳过继续
         if os.path.exists(docx_file):
             # continue
-            finish_dir = "F:\\workspace\\www.gzenxx.com\\finish.gzenxx.com"
+            finish_dir = "F:\\workspace\\www.trjlseng.com\\finish.trjlseng.com"
             if not os.path.exists(finish_dir):
                 os.makedirs(finish_dir)
             # 将docx文件转化为pdf
