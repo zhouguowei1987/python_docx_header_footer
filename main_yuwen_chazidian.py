@@ -186,61 +186,61 @@ if __name__ == '__main__':
         docx_file = docx_file.replace("，", "")
 
         # docx文件已存在，跳过继续
-        # if os.path.exists(docx_file):
-        #     # continue
-        #     finish_dir = "F:\\workspace\\yuwen.chazidian.com\\finish.yuwen.chazidian.com"
-        #     if not os.path.exists(finish_dir):
-        #         os.makedirs(finish_dir)
-        #     # 将docx文件转化为pdf
-        #     finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
-        #     if not os.path.exists(finish_file):
-        #         # 将docx转化为pdf
-        #         with open(finish_file, "w") as f:
-        #             # 将 Word 文档转换为 PDF
-        #             try:
-        #                 print("==========开始转化为pdf==============")
-        #                 convert(docx_file, finish_file)
-        #                 print("转换成功！")
-        #             except Exception as e:
-        #                 print("转换失败：", str(e))
-
-        if not os.path.exists(docx_file):
-            # 获取文件后缀
-            file_ext = os.path.splitext(file_path)[-1]
-            if file_ext == ".docx":
-                # 已经是docx文件了，直接复制过去
-                shutil.copy(file_path, docx_file)
-            else:
-                with open(docx_file, 'w') as f:
-                    pass
-                print("==========开始转化为docx==============")
-                if not doc2docx(file_path, docx_file):
-                    # 删除原文件
-                    os.remove(file_path)
-                    os.remove(docx_file)
-                    continue
-                print("==========转化完成==============")
-
         if os.path.exists(docx_file):
-            # 删除只包含图片
-            if check_only_image(docx_file):
-                # 删除原文件
-                os.remove(file_path)
-                # 删除图片文件
-                os.remove(docx_file)
-                continue
+            # continue
+            finish_dir = "F:\\workspace\\yuwen.chazidian.com\\finish.yuwen.chazidian.com"
+            if not os.path.exists(finish_dir):
+                os.makedirs(finish_dir)
+            # 将docx文件转化为pdf
+            finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
+            if not os.path.exists(finish_file):
+                # 将docx转化为pdf
+                with open(finish_file, "w") as f:
+                    # 将 Word 文档转换为 PDF
+                    try:
+                        print("==========开始转化为pdf==============")
+                        convert(docx_file, finish_file)
+                        print("转换成功！")
+                    except Exception as e:
+                        print("转换失败：", str(e))
 
-            # 删除页眉页脚
-            if not remove_header_footer(docx_file):
-                # 删除原文件
-                os.remove(file_path)
-                os.remove(docx_file)
-                continue
-
-            # 改变文档字体
-            # if not change_word_font(docx_file):
-            #     # 删除原文件
-            #     os.remove(file_path)
-            #     os.remove(docx_file)
-            #     continue
+        # if not os.path.exists(docx_file):
+        #     # 获取文件后缀
+        #     file_ext = os.path.splitext(file_path)[-1]
+        #     if file_ext == ".docx":
+        #         # 已经是docx文件了，直接复制过去
+        #         shutil.copy(file_path, docx_file)
+        #     else:
+        #         with open(docx_file, 'w') as f:
+        #             pass
+        #         print("==========开始转化为docx==============")
+        #         if not doc2docx(file_path, docx_file):
+        #             # 删除原文件
+        #             os.remove(file_path)
+        #             os.remove(docx_file)
+        #             continue
+        #         print("==========转化完成==============")
+        #
+        # if os.path.exists(docx_file):
+        #     # 删除只包含图片
+        #     if check_only_image(docx_file):
+        #         # 删除原文件
+        #         os.remove(file_path)
+        #         # 删除图片文件
+        #         os.remove(docx_file)
+        #         continue
+        #
+        #     # 删除页眉页脚
+        #     if not remove_header_footer(docx_file):
+        #         # 删除原文件
+        #         os.remove(file_path)
+        #         os.remove(docx_file)
+        #         continue
+        #
+        #     # 改变文档字体
+        #     # if not change_word_font(docx_file):
+        #     #     # 删除原文件
+        #     #     os.remove(file_path)
+        #     #     os.remove(docx_file)
+        #     #     continue
 

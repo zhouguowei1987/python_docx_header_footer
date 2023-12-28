@@ -181,7 +181,7 @@ if __name__ == '__main__':
         docx_file = docx_file.replace("＜＜", "(").replace("＞＞", ")")
         docx_file = docx_file.replace("[", "(").replace("]", ")")
         docx_file = docx_file.replace("(word版)", "")
-        docx_file = docx_file.replace("zhoushile-", "")
+        docx_file = docx_file.replace("(www.goodkejian.com)", "")
         docx_file = docx_file.replace(",", "")
         docx_file = docx_file.replace("，", "")
 
