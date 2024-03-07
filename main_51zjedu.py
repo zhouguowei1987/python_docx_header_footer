@@ -80,7 +80,7 @@ if __name__ == '__main__':
                 # docx文件已存在，跳过继续
                 if os.path.exists(docx_file):
                     # continue
-                    finish_dir = "F:\\workspace\\www.51zjedu.com\\finish.51zjedu.com"
+                    finish_dir = "F:\\workspace\\www.51zjedu.com\\finish.51zjedu.com\\" + category
                     if not os.path.exists(finish_dir):
                         os.makedirs(finish_dir)
                     # 将docx文件转化为pdf
