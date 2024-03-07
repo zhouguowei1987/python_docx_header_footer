@@ -62,8 +62,8 @@ def doc2docx(in_file, out_file):
 
 
 if __name__ == '__main__':
-    category_dirs_arr = ['四年级']
-    root_dir = "G:\\www.51zjedu.com\\www.51zjedu.com"
+    category_dirs_arr = ['一年级', '二年级', '三年级', '四年级', '五年级', '六年级']
+    root_dir = "F:\\workspace\\www.51zjedu.com\\www.51zjedu.com"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
@@ -71,32 +71,52 @@ if __name__ == '__main__':
             for file in files:
                 file_path = root_dir + "\\" + category + "\\" + file
                 print(file_path)
-                docx_dir = "G:\\www.51zjedu.com\\docx.51zjedu.com\\" + category
+                docx_dir = "F:\\workspace\\www.51zjedu.com\\docx.51zjedu.com\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
                 docx_file = docx_dir + "\\" + file.lower().replace(os.path.splitext(file)[1], ".docx")
-                if not os.path.exists(docx_file):
-                    # 获取文件后缀
-                    file_ext = os.path.splitext(file_path)[-1]
-                    if file_ext == ".docx":
-                        # 已经是docx文件了，直接复制过去
-                        shutil.copy(file_path, docx_file)
-                    else:
-                        with open(docx_file, 'w') as f:
-                            pass
-                        print("==========开始转化为docx==============")
-                        if not doc2docx(file_path, docx_file):
-                            os.remove(docx_file)
-                            continue
-                        print("==========转化完成==============")
 
+                # docx文件已存在，跳过继续
                 if os.path.exists(docx_file):
-                    # 删除页眉页脚
-                    if not remove_header_footer(docx_file):
-                        continue
+                    # continue
+                    finish_dir = "F:\\workspace\\www.51zjedu.com\\finish.51zjedu.com"
+                    if not os.path.exists(finish_dir):
+                        os.makedirs(finish_dir)
+                    # 将docx文件转化为pdf
+                    finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
+                    if not os.path.exists(finish_file):
+                        # 将docx转化为pdf
+                        with open(finish_file, "w") as f:
+                            # 将 Word 文档转换为 PDF
+                            try:
+                                print("==========开始转化为pdf==============")
+                                convert(docx_file, finish_file)
+                                print("转换成功！")
+                            except Exception as e:
+                                print("转换失败：", str(e))
 
-                    # 改变文档字体
-                    if not change_word_font(docx_file):
-                        continue
+                # if not os.path.exists(docx_file):
+                #     # 获取文件后缀
+                #     file_ext = os.path.splitext(file_path)[-1]
+                #     if file_ext == ".docx":
+                #         # 已经是docx文件了，直接复制过去
+                #         shutil.copy(file_path, docx_file)
+                #     else:
+                #         with open(docx_file, 'w') as f:
+                #             pass
+                #         print("==========开始转化为docx==============")
+                #         if not doc2docx(file_path, docx_file):
+                #             os.remove(docx_file)
+                #             continue
+                #         print("==========转化完成==============")
+
+                # if os.path.exists(docx_file):
+                #     # 删除页眉页脚
+                #     if not remove_header_footer(docx_file):
+                #         continue
+                #
+                #     # 改变文档字体
+                #     if not change_word_font(docx_file):
+                #         continue
 
