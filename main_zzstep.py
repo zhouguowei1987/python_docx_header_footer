@@ -85,18 +85,18 @@ def remove_header_footer(doc_file):
 
 
 if __name__ == '__main__':
-    category_dirs_arr = ['数学',	'英语', '音乐', '道德与法治', '美术', '语文', '信息技术']
-    root_dir = "/Users/zhouguowei/workspace/www2.zzstep.com/www2.zzstep.com/小学"
+    category_dirs_arr = ['数学',	'英语', '地理', '化学', '历史', '生物', '物理', '语文', '政治']
+    root_dir = "F:\\workspace\\www2.zzstep.com\\www2.zzstep.com\\高中"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
-            files = sorted(os.listdir(root_dir + "/" + category))
+            files = sorted(os.listdir(root_dir + "\\" + category))
             for file in files:
                 print(file)
 
                 file_path = root_dir + "/" + category + "/" + file
                 print(file_path)
-                docx_dir = "/Users/zhouguowei/workspace/www2.zzstep.com/docx.zzstep.com/小学/" + category
+                docx_dir = "F:\\workspace\\www2.zzstep.com\\docx.zzstep.com\\高中\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
@@ -106,7 +106,7 @@ if __name__ == '__main__':
                 if left_flag_index == 0 and right_flag_index != -1:
                     # 文档名称以“【”开头，以“】”结尾，则替换名称
                     sub_file = file[right_flag_index + 1:]
-                docx_file = docx_dir + "/" + sub_file.lower().replace(os.path.splitext(sub_file)[1], ".docx")
+                docx_file = docx_dir + "\\" + sub_file.lower().replace(os.path.splitext(sub_file)[1], ".docx")
                 docx_file = docx_file.replace(" ", "")
                 docx_file = docx_file.replace("(无答案)", "")
                 docx_file = docx_file.replace("(免费)", "")
@@ -120,8 +120,7 @@ if __name__ == '__main__':
                 # docx文件已存在，跳过继续
                 if os.path.exists(docx_file):
                     # continue
-
-                    finish_dir = "/Users/zhouguowei/workspace/www2.zzstep.com/finish.zzstep.com/小学/" + category
+                    finish_dir = "F:\\workspace\\www2.zzstep.com\\finish.zzstep.com\\高中\\" + category
                     if not os.path.exists(finish_dir):
                         os.makedirs(finish_dir)
                     # 将docx文件转化为pdf
@@ -136,6 +135,26 @@ if __name__ == '__main__':
                                 print("转换成功！")
                             except Exception as e:
                                 print("转换失败：", str(e))
+
+                # docx文件已存在，跳过继续
+                # if os.path.exists(docx_file):
+                #     # continue
+                #
+                #     finish_dir = "F:\\workspace\\www2.zzstep.com/finish.zzstep.com/高中/" + category
+                #     if not os.path.exists(finish_dir):
+                #         os.makedirs(finish_dir)
+                #     # 将docx文件转化为pdf
+                #     finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
+                #     if not os.path.exists(finish_file):
+                #         # 将docx转化为pdf
+                #         with open(finish_file, "w") as f:
+                #             # 将 Word 文档转换为 PDF
+                #             try:
+                #                 print("==========开始转化为pdf==============")
+                #                 convert(docx_file, finish_file)
+                #                 print("转换成功！")
+                #             except Exception as e:
+                #                 print("转换失败：", str(e))
 
                 # if not os.path.exists(docx_file):
                 #     # 获取文件后缀
