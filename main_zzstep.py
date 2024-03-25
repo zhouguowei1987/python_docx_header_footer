@@ -85,7 +85,8 @@ def remove_header_footer(doc_file):
 
 
 if __name__ == '__main__':
-    category_dirs_arr = ['数学',	'英语', '地理', '化学', '历史', '生物', '物理', '语文', '政治']
+    # category_dirs_arr = ['数学',	'英语', '地理', '化学', '历史', '生物', '物理', '语文', '政治']
+    category_dirs_arr = ['英语', '生物', '物理', '语文']
     root_dir = "F:\\workspace\\www2.zzstep.com\\www2.zzstep.com\\高中"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
