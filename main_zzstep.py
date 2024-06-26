@@ -98,7 +98,7 @@ if __name__ == '__main__':
 
                 file_path = root_dir + "/" + category + "/" + file
                 print(file_path)
-                docx_dir = "E:\\workspace\\www2.zzstep.com\\2024-03-28\\www2.zzstep.com\\docx.zzstep.com\\高中\\" + category
+                docx_dir = "E:\\workspace\\www2.zzstep.com\\2024-03-28\\docx.zzstep.com\\高中\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
@@ -159,7 +159,7 @@ if __name__ == '__main__':
                 # docx文件已存在，跳过继续
                 if os.path.exists(docx_file):
                     # continue
-                    finish_dir = "E:\\workspace\\www2.zzstep.com\\2024-03-28\\www2.zzstep.com\\finish.zzstep.com\\高中\\" + category
+                    finish_dir = "E:\\workspace\\www2.zzstep.com\\2024-03-28\\finish.zzstep.com\\高中\\" + category
                     if not os.path.exists(finish_dir):
                         os.makedirs(finish_dir)
                     # 将docx文件转化为pdf
