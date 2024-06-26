@@ -85,9 +85,10 @@ def doc2docx(in_file, out_file):
 
 
 if __name__ == '__main__':
-    category_dirs_arr = ['数学',	'英语', '地理', '化学', '历史', '生物', '物理', '语文', '政治']
-    # category_dirs_arr = ['英语', '生物', '物理', '语文']
-    root_dir = "F:\\workspace\\www2.zzstep.com\\www2.zzstep.com\\高中"
+    category_dirs_arr = ['语文',	'数学', '英语', '道德与法治', '音乐', '美术', '信息技术']
+    # category_dirs_arr = ['语文', '数学', '英语', '物理', '化学', '生物', '道德与法治', '历史', '地理', '音乐', '美术', '信息技术']
+    # category_dirs_arr = ['语文', '数学', '英语', '物理', '化学', '生物', '政治', '历史', '地理']
+    root_dir = "E:\\workspace\\www2.zzstep.com\\2024-03-28\\www2.zzstep.com\\高中"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
@@ -97,7 +98,7 @@ if __name__ == '__main__':
 
                 file_path = root_dir + "/" + category + "/" + file
                 print(file_path)
-                docx_dir = "F:\\workspace\\www2.zzstep.com\\docx.zzstep.com\\高中\\" + category
+                docx_dir = "E:\\workspace\\www2.zzstep.com\\2024-03-28\\www2.zzstep.com\\docx.zzstep.com\\高中\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
@@ -117,25 +118,6 @@ if __name__ == '__main__':
                     # 文档标题不包含分类名称
                     print("文档标题不包含分类名称，跳过")
                     continue
-
-                # docx文件已存在，跳过继续
-                # if os.path.exists(docx_file):
-                #     # continue
-                #     finish_dir = "F:\\workspace\\www2.zzstep.com\\finish.zzstep.com\\高中\\" + category
-                #     if not os.path.exists(finish_dir):
-                #         os.makedirs(finish_dir)
-                #     # 将docx文件转化为pdf
-                #     finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
-                #     if not os.path.exists(finish_file):
-                #         # 将docx转化为pdf
-                #         with open(finish_file, "w") as f:
-                #             # 将 Word 文档转换为 PDF
-                #             try:
-                #                 print("==========开始转化为pdf==============")
-                #                 convert(docx_file, finish_file)
-                #                 print("转换成功！")
-                #             except Exception as e:
-                #                 print("转换失败：", str(e))
 
                 # docx文件已存在，跳过继续
                 if not os.path.exists(docx_file):
@@ -173,3 +155,22 @@ if __name__ == '__main__':
                         print("改变文档字体失败，删除文件")
                         os.remove(docx_file)
                         continue
+
+                # docx文件已存在，跳过继续
+                if os.path.exists(docx_file):
+                    # continue
+                    finish_dir = "E:\\workspace\\www2.zzstep.com\\2024-03-28\\www2.zzstep.com\\finish.zzstep.com\\高中\\" + category
+                    if not os.path.exists(finish_dir):
+                        os.makedirs(finish_dir)
+                    # 将docx文件转化为pdf
+                    finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
+                    if not os.path.exists(finish_file):
+                        # 将docx转化为pdf
+                        with open(finish_file, "w") as f:
+                            # 将 Word 文档转换为 PDF
+                            try:
+                                print("==========开始转化为pdf==============")
+                                convert(docx_file, finish_file)
+                                print("转换成功！")
+                            except Exception as e:
+                                print("转换失败：", str(e))
