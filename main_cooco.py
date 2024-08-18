@@ -111,8 +111,12 @@ if __name__ == '__main__':
                     sub_file = file[right_flag_index + 1:]
                 docx_file = docx_dir + "\\" + sub_file.lower().replace(os.path.splitext(sub_file)[1], ".docx")
                 docx_file = docx_file.replace(" ", "")
+                docx_file = docx_file.replace("word版，", "")
+                docx_file = docx_file.replace("word版", "")
+                docx_file = docx_file.replace("有答案", "含答案")
                 docx_file = docx_file.replace("(无答案)", "")
                 docx_file = docx_file.replace("(免费)", "")
+                docx_file = docx_file.replace("()", "")
                 docx_file = docx_file.replace("——", "-")
 
                 if docx_file.replace(docx_dir, "").find(category) == -1:
