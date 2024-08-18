@@ -13,7 +13,7 @@ import shutil
 import rarfile
 import re
 
-rarfile.UNRAR_TOOL = "F:\\WinRAR\\UnRAR.exe"
+rarfile.UNRAR_TOOL = "D:\\Program Files (x86)\\WinRAR\\UnRAR.exe"
 
 
 def change_word_font(doc_file):
@@ -112,12 +112,12 @@ def decompress_rar(rar_file_name, dir_name):
 
 if __name__ == '__main__':
     # 解压压缩包
-    # rar_root_dir = "F:\\workspace\\yuwen.chazidian.com\\yuwen.rar_chazidian.com"
+    # rar_root_dir = "E:\\workspace\\yuwen.chazidian.com\\yuwen.rar_chazidian.com"
     # rar_dirs = sorted(os.listdir(rar_root_dir))
     # rar_files = sorted(os.listdir(rar_root_dir))
     # for rar_file in rar_files:
     #     rar_file_path = rar_root_dir + "\\" + rar_file
-    #     dst_file_path = "F:\\workspace\\yuwen.chazidian.com\\yuwen.chazidian.com"
+    #     dst_file_path = "E:\\workspace\\yuwen.chazidian.com\\yuwen.uncompress_chazidian.com"
     #     if os.path.splitext(rar_file)[1] in [".doc", ".docx"]:
     #         print("==========" + "开始复制" + "==========")
     #         shutil.copy(rar_file_path, dst_file_path + "\\" + rar_file)
@@ -132,23 +132,11 @@ if __name__ == '__main__':
     #         print("==========" + "解压完成" + "==========")
     # exit()
 
-    root_dir = "F:\\workspace\\yuwen.chazidian.com\\yuwen.chazidian.com"
+    root_dir = "E:\\workspace\\yuwen.chazidian.com\\yuwen.uncompress_chazidian.com"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
         print(file_path)
-
-        # 文件名长度小于20，则删除
-        # if len(file) < 20:
-        #     os.remove(file_path)
-
-        # 文件后缀不是doc或docx，则删除
-        # if os.path.splitext(file)[1] not in [".doc", ".docx"]:
-        #     os.remove(file_path)
-
-        # 文件名是纯数字删除
-        # if is_pure_number(os.path.splitext(file)[0]):
-        #     os.remove(file_path)
 
         # 查看一下是否是文件夹，如果是文件夹，则将文件移出
         # if os.path.isdir(file_path):
@@ -165,7 +153,19 @@ if __name__ == '__main__':
         #             os.remove(dst_child_file_path)
         #             os.rename(src_child_file_path, dst_child_file_path)
 
-        docx_dir = "F:\\workspace\\yuwen.chazidian.com\\docx.yuwen.chazidian.com"
+        # 文件名长度小于20，则删除
+        # if len(file) < 20:
+        #     os.remove(file_path)
+
+        # 文件后缀不是doc或docx，则删除
+        # if os.path.splitext(file)[1] not in [".doc", ".docx"]:
+        #     os.remove(file_path)
+
+        # 文件名是纯数字删除
+        # if is_pure_number(os.path.splitext(file)[0]):
+        #     os.remove(file_path)
+
+        docx_dir = "E:\\workspace\\yuwen.chazidian.com\\yuwen.docx_chazidian.com"
         if not os.path.exists(docx_dir):
             os.makedirs(docx_dir)
 
@@ -184,25 +184,6 @@ if __name__ == '__main__':
         docx_file = docx_file.replace("zhoushile-", "")
         docx_file = docx_file.replace(",", "")
         docx_file = docx_file.replace("，", "")
-
-        # docx文件已存在，跳过继续
-        if os.path.exists(docx_file):
-            # continue
-            finish_dir = "F:\\workspace\\yuwen.chazidian.com\\finish.yuwen.chazidian.com"
-            if not os.path.exists(finish_dir):
-                os.makedirs(finish_dir)
-            # 将docx文件转化为pdf
-            finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
-            if not os.path.exists(finish_file):
-                # 将docx转化为pdf
-                with open(finish_file, "w") as f:
-                    # 将 Word 文档转换为 PDF
-                    try:
-                        print("==========开始转化为pdf==============")
-                        convert(docx_file, finish_file)
-                        print("转换成功！")
-                    except Exception as e:
-                        print("转换失败：", str(e))
 
         # if not os.path.exists(docx_file):
         #     # 获取文件后缀
@@ -238,9 +219,28 @@ if __name__ == '__main__':
         #         continue
         #
         #     # 改变文档字体
-        #     # if not change_word_font(docx_file):
-        #     #     # 删除原文件
-        #     #     os.remove(file_path)
-        #     #     os.remove(docx_file)
-        #     #     continue
+        #     if not change_word_font(docx_file):
+        #         # 删除原文件
+        #         os.remove(file_path)
+        #         os.remove(docx_file)
+        #         continue
+
+        # docx文件已存在，跳过继续
+        if os.path.exists(docx_file):
+            # continue
+            finish_dir = "E:\\workspace\\yuwen.chazidian.com\\yuwen.finish_chazidian.com"
+            if not os.path.exists(finish_dir):
+                os.makedirs(finish_dir)
+            # 将docx文件转化为pdf
+            finish_file = docx_file.replace("docx_", "finish_").replace(".docx", ".pdf")
+            if not os.path.exists(finish_file):
+                # 将docx转化为pdf
+                with open(finish_file, "w") as f:
+                    # 将 Word 文档转换为 PDF
+                    try:
+                        print("==========开始转化为pdf==============")
+                        convert(docx_file, finish_file)
+                        print("转换成功！")
+                    except Exception as e:
+                        print("转换失败：", str(e))
 
