@@ -119,6 +119,12 @@ if __name__ == '__main__':
                 docx_file = docx_file.replace("()", "")
                 docx_file = docx_file.replace("——", "-")
 
+                # 标题含有扫描字样
+                if docx_file.find("扫描") != -1:
+                    # 文档标题不包含分类名称
+                    print("标题含有扫描字样，跳过")
+                    continue
+
                 if docx_file.replace(docx_dir, "").find(category) == -1:
                     # 文档标题不包含分类名称
                     print("文档标题不包含分类名称，跳过")
