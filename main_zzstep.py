@@ -9,7 +9,7 @@ from docx.oxml import parse_xml
 from docx2pdf import convert
 from docx.shared import RGBColor  # 设置字体的颜色
 from docx.oxml.ns import qn
-# from win32com import client as wc
+from win32com import client as wc
 import os
 import shutil
 

@@ -12,7 +12,7 @@ import os
 import shutil
 import rarfile
 
-rarfile.UNRAR_TOOL = "F:\\WinRAR\\UnRAR.exe"
+rarfile.UNRAR_TOOL = "D:\\Program Files (x86)\\WinRAR\\UnRAR.exe"
 
 
 def change_word_font(doc_file):
@@ -103,9 +103,8 @@ def decompress_rar(rar_file_name, dir_name):
 
 if __name__ == '__main__':
     # 解压压缩包
-    # # category_rars_arr = ['小学试卷', '中考试卷', '高考试卷']
-    # category_rars_arr = ['小学试卷']
-    # rar_root_dir = "F:\\workspace\\www.rar_shijuan1.com"
+    # category_rars_arr = ['中考试卷']
+    # rar_root_dir = "E:\\workspace\\www.shijuan1.com\\2024-01-01\\www.rar_shijuan1.com"
     # rar_dirs = sorted(os.listdir(rar_root_dir))
     # for category_rar in category_rars_arr:
     #     rar_files = sorted(os.listdir(rar_root_dir + "\\" + category_rar))
@@ -113,18 +112,18 @@ if __name__ == '__main__':
     #         rar_file_path = rar_root_dir+ "\\" + category_rar + "\\" + rar_file
     #         print("==========" + "开始解压" + rar_file_path + "==========")
     #         try:
-    #             decompress_rar(rar_file_path, "F:\\workspace\\www.shijuan1.com\\www.shijuan1.com\\" + category_rar)
+    #             decompress_dir = "E:\\workspace\\www.shijuan1.com\\2024-01-01\\www.uncompress_shijuan1.com\\" + category_rar
+    #             if not os.path.exists(decompress_dir):
+    #                 os.makedirs(decompress_dir)
+    #             decompress_rar(rar_file_path, decompress_dir)
     #         except Exception as e:
     #             print(e)
     #             continue
     #         print("==========" + "解压完成" + "==========")
     # exit()
 
-    # category_dirs_arr = ['中考试卷', '中考试卷', '高考试卷']
-
-    category_dirs_arr = ['高考试卷']
-    subject_names = ["语文", "数学", "英语", "语文", "物理", "化学", "政治", "历史", "地理", "生物"]
-    root_dir = "F:\\workspace\\www.shijuan1.com\\www.shijuan1.com"
+    category_dirs_arr = ['中考试卷']
+    root_dir = "E:\\workspace\\www.shijuan1.com\\2024-01-01\\www.uncompress_shijuan1.com"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
@@ -132,10 +131,6 @@ if __name__ == '__main__':
             for file in files:
                 file_path = root_dir + "\\" + category + "\\" + file
                 print(file_path)
-
-                # # 文件后缀不是doc或docx，则删除
-                # if os.path.splitext(file)[1] not in [".doc", ".docx"]:
-                #     os.remove(file_path)
 
                 # 查看一下是否是文件夹，如果是文件夹，则将文件移出
                 # if os.path.isdir(file_path):
@@ -145,14 +140,18 @@ if __name__ == '__main__':
                 #         if extension not in [".doc", ".docx"]:
                 #             continue
                 #         src_child_file_path = file_path + "\\" + child_file
-                #         dst_child_file_path = root_dir + "\\" + category + "\\" + child_file
+                #         dst_child_file_path = root_dir + "\\" + child_file
                 #         try:
                 #             os.rename(src_child_file_path, dst_child_file_path)
                 #         except WindowsError:
                 #             os.remove(dst_child_file_path)
                 #             os.rename(src_child_file_path, dst_child_file_path)
 
-                docx_dir = "F:\\workspace\\www.shijuan1.com\\docx.www.shijuan1.com" + "\\" + category
+                # 文件后缀不是doc或docx，则删除
+                # if os.path.splitext(file)[1] not in [".doc", ".docx"]:
+                #     os.remove(file_path)
+
+                docx_dir = "E:\\workspace\\www.shijuan1.com\\2024-01-01\\www.docx_shijuan1.com" + "\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
@@ -188,29 +187,54 @@ if __name__ == '__main__':
                 docx_file = docx_file.replace(",", "")
                 docx_file = docx_file.replace("，", "")
 
-                contain_subject_name = False
-                for subject_name in subject_names:
-                    if docx_file.find(subject_name) != -1:
-                        contain_subject_name = True
-                        break
-                # 文件名不包含任何科目
-                if not contain_subject_name:
-                    # 删除原文件
-                    os.remove(file_path)
-                    if os.path.exists(docx_file):
-                        # 删除docx文件
+                if not os.path.exists(docx_file):
+                    # 获取文件后缀
+                    file_ext = os.path.splitext(file_path)[-1]
+                    if file_ext == ".docx":
+                        # 已经是docx文件了，直接复制过去
+                        shutil.copy(file_path, docx_file)
+                    else:
+                        with open(docx_file, 'w') as f:
+                            pass
+                        print("==========开始转化为docx==============")
+                        if not doc2docx(file_path, docx_file):
+                            # 删除原文件
+                            os.remove(file_path)
+                            os.remove(docx_file)
+                            continue
+                        print("==========转化完成==============")
+
+                if os.path.exists(docx_file):
+                    # 删除只包含图片
+                    if check_only_image(docx_file):
+                        # 删除原文件
+                        os.remove(file_path)
+                        # 删除图片文件
                         os.remove(docx_file)
-                    continue
+                        continue
+
+                    # 删除页眉页脚
+                    if not remove_header_footer(docx_file):
+                        # 删除原文件
+                        os.remove(file_path)
+                        os.remove(docx_file)
+                        continue
+
+                    # 改变文档字体
+                    if not change_word_font(docx_file):
+                        # 删除原文件
+                        os.remove(file_path)
+                        os.remove(docx_file)
+                        continue
 
                 # docx文件已存在，跳过继续
                 if os.path.exists(docx_file):
                     # continue
-
-                    finish_dir = "F:\\workspace\\www.shijuan1.com\\finish.www.shijuan1.com" + "\\" + category
+                    finish_dir = "E:\\workspace\\www.shijuan1.com\\2024-01-01\\www.finish_shijuan1.com"+ "\\" + category
                     if not os.path.exists(finish_dir):
                         os.makedirs(finish_dir)
                     # 将docx文件转化为pdf
-                    finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
+                    finish_file = docx_file.replace("docx_", "finish_").replace(".docx", ".pdf")
                     if not os.path.exists(finish_file):
                         # 将docx转化为pdf
                         with open(finish_file, "w") as f:
@@ -221,43 +245,3 @@ if __name__ == '__main__':
                                 print("转换成功！")
                             except Exception as e:
                                 print("转换失败：", str(e))
-
-                # if not os.path.exists(docx_file):
-                #     # 获取文件后缀
-                #     file_ext = os.path.splitext(file_path)[-1]
-                #     if file_ext == ".docx":
-                #         # 已经是docx文件了，直接复制过去
-                #         shutil.copy(file_path, docx_file)
-                #     else:
-                #         with open(docx_file, 'w') as f:
-                #             pass
-                #         print("==========开始转化为docx==============")
-                #         if not doc2docx(file_path, docx_file):
-                #             # 删除原文件
-                #             os.remove(file_path)
-                #             os.remove(docx_file)
-                #             continue
-                #         print("==========转化完成==============")
-                #
-                # if os.path.exists(docx_file):
-                #     # 删除只包含图片
-                #     if check_only_image(docx_file):
-                #         # 删除原文件
-                #         os.remove(file_path)
-                #         # 删除图片文件
-                #         os.remove(docx_file)
-                #         continue
-                #
-                #     # 删除页眉页脚
-                #     if not remove_header_footer(docx_file):
-                #         # 删除原文件
-                #         os.remove(file_path)
-                #         os.remove(docx_file)
-                #         continue
-                #
-                #     # 改变文档字体
-                #     if not change_word_font(docx_file):
-                #         # 删除原文件
-                #         os.remove(file_path)
-                #         os.remove(docx_file)
-                #         continue
