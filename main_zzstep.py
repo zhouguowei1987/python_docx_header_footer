@@ -88,7 +88,7 @@ if __name__ == '__main__':
     # category_dirs_arr = ['语文',	'数学', '英语', '道德与法治', '音乐', '美术', '信息技术']
     category_dirs_arr = ['语文', '数学', '英语', '物理', '化学', '生物', '道德与法治', '历史', '地理', '音乐', '美术', '信息技术']
     # category_dirs_arr = ['语文', '数学', '英语', '物理', '化学', '生物', '政治', '历史', '地理']
-    root_dir = "E:\\workspace\\www2.zzstep.com\\2024-07-24\\www2.zzstep.com\\初中"
+    root_dir = "E:\\workspace\\www2.zzstep.com\\2024-09-14\\www2.zzstep.com\\初中"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
@@ -98,7 +98,7 @@ if __name__ == '__main__':
 
                 file_path = root_dir + "/" + category + "/" + file
                 print(file_path)
-                docx_dir = "E:\\workspace\\www2.zzstep.com\\2024-07-24\\docx.zzstep.com\\初中\\" + category
+                docx_dir = "E:\\workspace\\www2.zzstep.com\\2024-09-14\\docx.zzstep.com\\初中\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
@@ -159,7 +159,7 @@ if __name__ == '__main__':
                 # docx文件已存在，跳过继续
                 if os.path.exists(docx_file):
                     # continue
-                    finish_dir = "E:\\workspace\\www2.zzstep.com\\2024-07-24\\finish.zzstep.com\\初中\\" + category
+                    finish_dir = "E:\\workspace\\www2.zzstep.com\\2024-09-14\\finish.zzstep.com\\初中\\" + category
                     if not os.path.exists(finish_dir):
                         os.makedirs(finish_dir)
                     # 将docx文件转化为pdf

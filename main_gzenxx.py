@@ -103,21 +103,21 @@ def decompress_rar(rar_file_name, dir_name):
 
 if __name__ == '__main__':
     # 解压压缩包
-    # rar_root_dir = "E:\\workspace\\www.gzenxx.com\\2022-01-01\\www.rar_gzenxx.com"
+    # rar_root_dir = "E:\\workspace\\www.gzenxx.com\\2024-08-09\\www.rar_gzenxx.com"
     # rar_dirs = sorted(os.listdir(rar_root_dir))
     # rar_files = sorted(os.listdir(rar_root_dir))
     # for rar_file in rar_files:
     #     rar_file_path = rar_root_dir + "\\" + rar_file
     #     print("==========" + "开始解压" + rar_file_path + "==========")
     #     try:
-    #         decompress_rar(rar_file_path, "E:\\workspace\\www.gzenxx.com\\2022-01-01\\www.uncompress_gzenxx.com")
+    #         decompress_rar(rar_file_path, "E:\\workspace\\www.gzenxx.com\\2024-08-09\\www.uncompress_gzenxx.com")
     #     except Exception as e:
     #         print(e)
     #         continue
     #     print("==========" + "解压完成" + "==========")
     # exit()
 
-    root_dir = "E:\\workspace\\www.gzenxx.com\\2022-01-01\\www.uncompress_gzenxx.com"
+    root_dir = "E:\\workspace\\www.gzenxx.com\\2024-08-09\\www.uncompress_gzenxx.com"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
@@ -142,7 +142,7 @@ if __name__ == '__main__':
         # if os.path.splitext(file)[1] not in [".doc", ".docx"]:
         #     os.remove(file_path)
 
-        docx_dir = "E:\\workspace\\www.gzenxx.com\\2022-01-01\\docx.gzenxx.com"
+        docx_dir = "E:\\workspace\\www.gzenxx.com\\2024-08-09\\docx.gzenxx.com"
         if not os.path.exists(docx_dir):
             os.makedirs(docx_dir)
 
@@ -159,50 +159,50 @@ if __name__ == '__main__':
         docx_file = docx_file.replace(",", "")
         docx_file = docx_file.replace("，", "")
 
-        # if not os.path.exists(docx_file):
-        #     # 获取文件后缀
-        #     file_ext = os.path.splitext(file_path)[-1]
-        #     if file_ext == ".docx":
-        #         # 已经是docx文件了，直接复制过去
-        #         shutil.copy(file_path, docx_file)
-        #     else:
-        #         with open(docx_file, 'w') as f:
-        #             pass
-        #         print("==========开始转化为docx==============")
-        #         if not doc2docx(file_path, docx_file):
-        #             # 删除原文件
-        #             os.remove(file_path)
-        #             os.remove(docx_file)
-        #             continue
-        #         print("==========转化完成==============")
-        #
-        # if os.path.exists(docx_file):
-        #     # 删除只包含图片
-        #     if check_only_image(docx_file):
-        #         # 删除原文件
-        #         os.remove(file_path)
-        #         # 删除图片文件
-        #         os.remove(docx_file)
-        #         continue
-        #
-        #     # 删除页眉页脚
-        #     if not remove_header_footer(docx_file):
-        #         # 删除原文件
-        #         os.remove(file_path)
-        #         os.remove(docx_file)
-        #         continue
-        #
-        #     # 改变文档字体
-        #     if not change_word_font(docx_file):
-        #         # 删除原文件
-        #         os.remove(file_path)
-        #         os.remove(docx_file)
-        #         continue
+        if not os.path.exists(docx_file):
+            # 获取文件后缀
+            file_ext = os.path.splitext(file_path)[-1]
+            if file_ext == ".docx":
+                # 已经是docx文件了，直接复制过去
+                shutil.copy(file_path, docx_file)
+            else:
+                with open(docx_file, 'w') as f:
+                    pass
+                print("==========开始转化为docx==============")
+                if not doc2docx(file_path, docx_file):
+                    # 删除原文件
+                    os.remove(file_path)
+                    os.remove(docx_file)
+                    continue
+                print("==========转化完成==============")
+
+        if os.path.exists(docx_file):
+            # 删除只包含图片
+            if check_only_image(docx_file):
+                # 删除原文件
+                os.remove(file_path)
+                # 删除图片文件
+                os.remove(docx_file)
+                continue
+
+            # 删除页眉页脚
+            if not remove_header_footer(docx_file):
+                # 删除原文件
+                os.remove(file_path)
+                os.remove(docx_file)
+                continue
+
+            # 改变文档字体
+            if not change_word_font(docx_file):
+                # 删除原文件
+                os.remove(file_path)
+                os.remove(docx_file)
+                continue
 
         # docx文件已存在，跳过继续
         if os.path.exists(docx_file):
             # continue
-            finish_dir = "E:\\workspace\\www.gzenxx.com\\2022-01-01\\finish.gzenxx.com"
+            finish_dir = "E:\\workspace\\www.gzenxx.com\\2024-08-09\\finish.gzenxx.com"
             if not os.path.exists(finish_dir):
                 os.makedirs(finish_dir)
             # 将docx文件转化为pdf
