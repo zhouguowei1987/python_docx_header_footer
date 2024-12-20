@@ -37,23 +37,37 @@ if __name__ == '__main__':
     #     print("==========" + "解压完成" + "==========")
     # exit()
 
+    # root_dir = "E:\\workspace\\www.ppt818.com\\2024-12-20\\www.uncompress_ppt818.com"
+    # files = sorted(os.listdir(root_dir))
+    # for file in files:
+    #     file_path = root_dir + "\\" + file
+    #     print(file_path)
+    #
+    #     # 查看一下是否是文件夹，如果是文件夹，则将文件移出
+    #     if os.path.isdir(file_path):
+    #         child_files = sorted(os.listdir(file_path))
+    #         for child_file in child_files:
+    #             extension = os.path.splitext(child_file)[-1]
+    #             if extension not in [".ppt", ".pptx"]:
+    #                 continue
+    #             src_child_file_path = file_path + "\\" + child_file
+    #             dst_child_file_path = root_dir + "\\" + file + extension
+    #             try:
+    #                 os.rename(src_child_file_path, dst_child_file_path)
+    #             except WindowsError:
+    #                 os.remove(dst_child_file_path)
+    #                 os.rename(src_child_file_path, dst_child_file_path)
+
     root_dir = "E:\\workspace\\www.ppt818.com\\2024-12-20\\www.uncompress_ppt818.com"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
         print(file_path)
 
-        # 查看一下是否是文件夹，如果是文件夹，则将文件移出
-        if os.path.isdir(file_path):
-            child_files = sorted(os.listdir(file_path))
-            for child_file in child_files:
-                extension = os.path.splitext(child_file)[-1]
-                if extension not in [".ppt", ".pptx"]:
-                    continue
-                src_child_file_path = file_path + "\\" + child_file
-                dst_child_file_path = root_dir + "\\" + file + extension
-                try:
-                    os.rename(src_child_file_path, dst_child_file_path)
-                except WindowsError:
-                    os.remove(dst_child_file_path)
-                    os.rename(src_child_file_path, dst_child_file_path)
+        # 删除文件名中含有“课件”字样文件
+        if "课件" in file:
+            os.remove(file_path)
+
+        # 删除文件名中不含有“PPT模板”字样文件
+        if "PPT模板" not in file:
+            os.remove(file_path)
