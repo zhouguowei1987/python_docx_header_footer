@@ -4,85 +4,56 @@ from docx import Document
 from docx.shared import Pt
 from docx.shared import Cm
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
-from docx.oxml.ns import nsdecls
-from docx.oxml import parse_xml
+from docx2pdf import convert
 from docx.shared import RGBColor  # 设置字体的颜色
 from docx.oxml.ns import qn
 from win32com import client as wc
 import os
 import shutil
+import zipfile
+
+zipfile.UNRAR_TOOL = "D:\\Program Files (x86)\\WinRAR\\UnRAR.exe"
 
 
-def change_word_font(doc_file):
-    # 打开doc文件
-    doc = Document(doc_file)
-    doc.styles['Normal'].font.name = u'Times New Roman'  # 设置西文字体
-    doc.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), u'微软雅黑')  # 设置中文字体使用字体2->宋体
-    doc.save(doc_file)
-
-
-def remove_header_footer(doc_file):
-    # doc：需要去页眉页脚的docx 文件
-    doc = Document(doc_file)
-    for section in doc.sections:
-        section.different_first_page_header_footer = False
-        section.header.is_linked_to_previous = True
-        section.footer.is_linked_to_previous = True
-    doc.save(doc_file)
-
-
-def doc2docx(in_file, out_file):
-    try:
-        word = wc.Dispatch("Word.Application")
-        try:
-            print(in_file)
-            print(out_file)
-            doc = word.Documents.Open(in_file)
-            doc.SaveAs(out_file, 12, False, "", True, "", False, False, False, False)
-            print('转换成功')
-            doc.Close()
-            word.Quit()
-            return True
-        except Exception as e:
-            print(e)
-    except Exception as e:
-        print(e)
-    return False
+def decompress_zip(zip_path, extract_to):
+    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+        zip_ref.extractall(extract_to)
 
 
 if __name__ == '__main__':
-    category_dirs_arr = ['个人简历', '工作总结', '公文通知', '合同范本', '行政管理', '演讲稿', '营销策划']
-    root_dir = "../www.ppt818.com/temp.www.ppt818.com"
-    category_dirs = sorted(os.listdir(root_dir))
-    for category in category_dirs:
-        if category in category_dirs_arr:
-            files = sorted(os.listdir(root_dir + "\\" + category))
-            for file in files:
-                file_path = root_dir + "\\" + category + "\\" + file
-                print(file_path)
-                docx_dir = "../www.ppt818.com/docx.www.ppt818.com/" + category
-                if not os.path.exists(docx_dir):
-                    os.makedirs(docx_dir)
+    # 解压压缩包
+    # zip_root_dir = "E:\\workspace\\www.ppt818.com\\2024-12-20\\www.zip_ppt818.com"
+    # zip_dirs = sorted(os.listdir(zip_root_dir))
+    # zip_files = sorted(os.listdir(zip_root_dir))
+    # for zip_file in zip_files:
+    #     zip_file_path = zip_root_dir + "\\" + zip_file
+    #     dst_file_path = "E:\\workspace\\www.ppt818.com\\2024-12-20\\www.uncompress_ppt818.com"
+    #     print("==========" + "开始解压" + zip_file_path + "==========")
+    #     try:
+    #         decompress_zip(zip_file_path, dst_file_path+"\\"+zip_file.replace(".zip", ""))
+    #     except Exception as e:
+    #         print(e)
+    #         continue
+    #     print("==========" + "解压完成" + "==========")
+    # exit()
 
-                docx_file = docx_dir + "\\" + file.lower().replace(os.path.splitext(file)[1], ".docx")
-                docx_file = docx_file.replace(" ", "")
-                docx_file = docx_file.replace("word", "")
-                docx_file = docx_file.replace("Word", "")
+    root_dir = "E:\\workspace\\www.ppt818.com\\2024-12-20\\www.uncompress_ppt818.com"
+    files = sorted(os.listdir(root_dir))
+    for file in files:
+        file_path = root_dir + "\\" + file
+        print(file_path)
 
-                # 获取文件后缀
-                file_ext = os.path.splitext(file_path)[-1]
-                if file_ext == ".docx":
-                    # 已经是docx文件了，直接复制过去
-                    shutil.copy(file_path, docx_file)
-                else:
-                    with open(docx_file, 'w') as f:
-                        pass
-                    print("==========开始转化为docx==============")
-                    if not doc2docx(file_path, docx_file):
-                        os.remove(docx_file)
-                        continue
-                    print("==========转化完成==============")
-
-                if os.path.exists(docx_file):
-                    # 改变文档字体
-                    change_word_font(docx_file)
+        # 查看一下是否是文件夹，如果是文件夹，则将文件移出
+        if os.path.isdir(file_path):
+            child_files = sorted(os.listdir(file_path))
+            for child_file in child_files:
+                extension = os.path.splitext(child_file)[-1]
+                if extension not in [".ppt", ".pptx"]:
+                    continue
+                src_child_file_path = file_path + "\\" + child_file
+                dst_child_file_path = root_dir + "\\" + file + extension
+                try:
+                    os.rename(src_child_file_path, dst_child_file_path)
+                except WindowsError:
+                    os.remove(dst_child_file_path)
+                    os.rename(src_child_file_path, dst_child_file_path)
