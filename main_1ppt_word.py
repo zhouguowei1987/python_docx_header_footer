@@ -103,32 +103,34 @@ def decompress_rar(rar_file_name, dir_name):
 
 if __name__ == '__main__':
     # 解压压缩包
-    # rar_dir = "E:\\workspace\\www.czsx.com.cn\\www.rar_czsx.com.cn"
+    # rar_dir = "E:\\workspace\\www.1ppt.com\\www.rar_word_1ppt.com"
     # rar_files = sorted(os.listdir(rar_dir))
     # for rar_file in rar_files:
     #     rar_file_path = rar_dir + "\\" + rar_file
     #     print("==========" + "开始解压" + rar_file_path + "==========")
     #     try:
-    #         decompress_rar(rar_file_path, "E:\\workspace\\www.czsx.com.cn\\www.czsx.com.cn")
+    #         decompress_rar(rar_file_path, "E:\\workspace\\www.1ppt.com\\www.word_1ppt.com")
     #     except Exception as e:
     #         print(e)
     #         continue
     #     print("==========" + "解压完成" + "==========")
     # exit()
 
-    root_dir = "E:\\workspace\\www.czsx.com.cn\\www.czsx.com.cn"
+    root_dir = "E:\\workspace\\www.1ppt.com\\www.word_1ppt.com"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
         print(file_path)
 
-        # # 文件后缀不是doc或docx，则删除
-        # if os.path.splitext(file)[1] not in [".doc", ".docx"]:
-        #     os.remove(file_path)
+        # 文件后缀不是doc或docx，则删除
+        if os.path.splitext(file)[1] not in [".doc", ".docx"]:
+            os.remove(file_path)
+            continue
 
-        # # 文件名称长度小于20，则删除
+        # 文件名称长度小于20，则删除
         # if len(file) <= 20:
         #     os.remove(file_path)
+        #     continue
 
         # 查看一下是否是文件夹，如果是文件夹，则将文件移出
         # if os.path.isdir(file_path):
@@ -145,7 +147,7 @@ if __name__ == '__main__':
         #             os.remove(dst_child_file_path)
         #             os.rename(src_child_file_path, dst_child_file_path)
 
-        docx_dir = "E:\\workspace\\www.czsx.com.cn\\docx.www.czsx.com.cn"
+        docx_dir = "E:\\workspace\\www.1ppt.com\\docx.www.word_1ppt.com"
         if not os.path.exists(docx_dir):
             os.makedirs(docx_dir)
 
@@ -157,18 +159,6 @@ if __name__ == '__main__':
             sub_file = file[right_flag_index + 1:]
         docx_file = docx_dir + "\\" + sub_file.lower().replace(os.path.splitext(sub_file)[1], ".docx")
         docx_file = docx_file.strip()
-        docx_file = docx_file.replace("（", "(").replace("）", ")")
-        docx_file = docx_file.replace("（090410）", "")
-        docx_file = docx_file.replace("(含答案)-", "(含答案)")
-        docx_file = docx_file.replace("WORD版", "word版")
-        docx_file = docx_file.replace("word版，含答案", "含答案")
-        docx_file = docx_file.replace("word版，含解析", "含解析")
-        docx_file = docx_file.replace("++", "-")
-        docx_file = docx_file.replace("——", "-")
-        docx_file = docx_file.replace("—", "-")
-        docx_file = docx_file.replace("--", "-")
-        docx_file = docx_file.replace(",", "")
-        docx_file = docx_file.replace("，", "")
 
         if not os.path.exists(docx_file):
             # 获取文件后缀
@@ -210,18 +200,18 @@ if __name__ == '__main__':
                 os.remove(docx_file)
                 continue
 
-            finish_dir = "E:\\workspace\\www.czsx.com.cn\\finish.www.czsx.com.cn"
-            if not os.path.exists(finish_dir):
-                os.makedirs(finish_dir)
-            # 将docx文件转化为pdf
-            finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
-            if not os.path.exists(finish_file):
-                # 将docx转化为pdf
-                with open(finish_file, "w") as f:
-                    # 将 Word 文档转换为 PDF
-                    try:
-                        print("==========开始转化为pdf==============")
-                        convert(docx_file, finish_file)
-                        print("转换成功！")
-                    except Exception as e:
-                        print("转换失败：", str(e))
+            # finish_dir = "E:\\workspace\\www.1ppt.com\\finish.www.word_1ppt.com"
+            # if not os.path.exists(finish_dir):
+            #     os.makedirs(finish_dir)
+            # # 将docx文件转化为pdf
+            # finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
+            # if not os.path.exists(finish_file):
+            #     # 将docx转化为pdf
+            #     with open(finish_file, "w") as f:
+            #         # 将 Word 文档转换为 PDF
+            #         try:
+            #             print("==========开始转化为pdf==============")
+            #             convert(docx_file, finish_file)
+            #             print("转换成功！")
+            #         except Exception as e:
+            #             print("转换失败：", str(e))

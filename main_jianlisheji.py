@@ -32,6 +32,7 @@ def docx_remove_content(doc_file):
         content_to_removes = [
             ['''简历设计网''', '个人简历'],
             ['''jianlisheji''', 'XXXXXX'],
+            ['''jinalsheji''', 'XXXXXX'],
             ['''jinalisheji''', 'XXXXXX'],
             ['''Jianlisheji''', 'XXXXXX'],
             ['''Jianliseji''', 'XXXXXX'],
@@ -105,12 +106,12 @@ def doc2docx(in_file, out_file):
 
 
 if __name__ == '__main__':
-    root_dir = "F:\\workspace\\www.jianlisheji.com\\www.jianlisheji.com"
+    root_dir = "E:\\workspace\\www.jianlisheji.com\\www.jianlisheji.com"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
         print(file_path)
-        docx_dir = "F:\\workspace\\www.jianlisheji.com\\docx.jianlisheji.com"
+        docx_dir = "E:\\workspace\\www.jianlisheji.com\\docx.jianlisheji.com"
         if not os.path.exists(docx_dir):
             os.makedirs(docx_dir)
 
