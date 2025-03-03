@@ -60,45 +60,17 @@ def replace_text_in_slide(slide, old_text, new_text):
 
 if __name__ == '__main__':
     # 第一步：解压压缩包
-    # zip_root_dir = "F:\\workspace\\www.1ppt.com\\2025-02-27\\www.zip_1ppt.com"
+    # zip_root_dir = "F:\\workspace\\www.ypppt.com\\2025-03-04\\www.zip_ypppt.com"
     # zip_dirs = sorted(os.listdir(zip_root_dir))
     # zip_files = sorted(os.listdir(zip_root_dir))
     # for zip_file in zip_files:
     #
     #     zip_file_path = zip_root_dir + "\\" + zip_file
-    #     dst_file_path = "F:\\workspace\\www.1ppt.com\\2025-02-27\\www.uncompress_zip_1ppt.com"
+    #     dst_file_path = "F:\\workspace\\www.ypppt.com\\2025-03-04\\www.uncompress_zip_ypppt.com"
     #     if not os.path.exists(dst_file_path):
     #         os.makedirs(dst_file_path)
     #     print("==========" + "开始解压" + zip_file_path + "==========")
     #     try:
-    #         # 删除文件名中含有“图”字样文件
-    #         if "图" in zip_file:
-    #             os.remove(zip_file_path)
-    #             continue
-    #         # 删除文件名中含有“张”字样文件
-    #         if "张" in zip_file:
-    #             os.remove(zip_file_path)
-    #             continue
-    #         # 删除文件名中含有“套”字样文件
-    #         if "套" in zip_file:
-    #             os.remove(zip_file_path)
-    #             continue
-    #         # 删除文件名中含有“个”字样文件
-    #         if "个" in zip_file:
-    #             os.remove(zip_file_path)
-    #             continue
-    #         # 删除文件名中含有“页”字样文件
-    #         if "页" in zip_file:
-    #             os.remove(zip_file_path)
-    #             continue
-    #         # 删除文件名中含有“年”字样文件
-    #         if "年" in zip_file:
-    #             os.remove(zip_file_path)
-    #             continue
-    #         # 删除文件名中含有“素材”字样文件
-    #         if "素材" in zip_file:
-    #             os.remove(zip_file_path)
-    #             continue
     #         decompress_zip(zip_file_path, dst_file_path+"\\"+zip_file.replace(".zip", "").replace("下载", "").replace("免费", ""))
     #     except Exception as e:
     #         print(e)
@@ -107,7 +79,7 @@ if __name__ == '__main__':
     # exit()
 
     # 第二步：将文件夹中文件移出，并更改文件名称
-    # root_dir = "F:\\workspace\\www.1ppt.com\\2025-02-27\\www.uncompress_zip_1ppt.com"
+    # root_dir = "F:\\workspace\\www.ypppt.com\\2025-03-04\\www.uncompress_zip_ypppt.com"
     # files = sorted(os.listdir(root_dir))
     # for file in files:
     #     file_path = root_dir + "\\" + file
@@ -130,8 +102,8 @@ if __name__ == '__main__':
     # exit()
 
     # 第三步：替换幻灯片中文字
-    root_dir = "F:\\workspace\\www.1ppt.com\\2025-02-27\\www.uncompress_zip_1ppt.com"
-    finish_dir = "F:\\workspace\\www.1ppt.com\\2025-02-27\\www.finish_zip_1ppt.com"
+    root_dir = "F:\\workspace\\www.ypppt.com\\2025-03-04\\www.uncompress_zip_ypppt.com"
+    finish_dir = "F:\\workspace\\www.ypppt.com\\2025-03-04\\www.finish_zip_ypppt.com"
     if not os.path.exists(finish_dir):
         os.makedirs(finish_dir)
     files = sorted(os.listdir(root_dir))
@@ -153,7 +125,8 @@ if __name__ == '__main__':
             # 遍历所有幻灯片并替换文本
             for slide in prs.slides:
                 # 替换文本
-                replace_text_in_slide(slide, '第一PPT', 'XXXX')
+                replace_text_in_slide(slide, '优品', 'XXXX')
+                replace_text_in_slide(slide, 'ypppt', 'XXXX')
             # 删除最后一页
             rId = prs.slides._sldIdLst[-1].rId
             prs.part.drop_rel(rId)
