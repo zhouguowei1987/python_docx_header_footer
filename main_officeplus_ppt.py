@@ -64,8 +64,8 @@ if __name__ == '__main__':
                 replace_text_in_slide(slide, 'officePlus', 'XXXX')
                 replace_text_in_slide(slide, 'OfficePLUS', 'XXXX')
             # 删除最后一页
-            rId = prs.slides._sldIdLst[-1].rId
-            prs.part.drop_rel(rId)
-            del prs.slides._sldIdLst[-1]
+            # rId = prs.slides._sldIdLst[-1].rId
+            # prs.part.drop_rel(rId)
+            # del prs.slides._sldIdLst[-1]
             # 保存修改后的PPTX文件
             prs.save(finish_file_path)
