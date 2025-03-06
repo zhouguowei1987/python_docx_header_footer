@@ -42,10 +42,10 @@ if __name__ == '__main__':
         os.makedirs(finish_dir)
     files = sorted(os.listdir(root_dir))
     for file in files:
-        file_path = root_dir + "/" + file
+        file_path = root_dir + file
         print(file_path)
 
-        finish_file_path = finish_dir + "/" + file
+        finish_file_path = finish_dir + file
         if not os.path.exists(finish_file_path):
             # 获取pptx文件总页数
             pptx_pages_count = get_slide_count(file_path)
