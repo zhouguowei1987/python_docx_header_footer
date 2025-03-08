@@ -12,8 +12,10 @@ from pptx import Presentation
 import os
 import shutil
 import zipfile
+import rarfile
 
 zipfile.UNRAR_TOOL = "D:\\Program Files (x86)\\WinRAR\\UnRAR.exe"
+rarfile.UNRAR_TOOL = "D:\\Program Files (x86)\\WinRAR\\UnRAR.exe"
 
 
 def decompress_zip(zip_file_name, dir_name):
@@ -34,6 +36,27 @@ def decompress_zip(zip_file_name, dir_name):
     # zip_obj.extractall(dir_name)
     # 关闭
     zip_obj.close()
+
+
+def decompress_rar(rar_file_name, dir_name):
+    """
+    .rar 文件解压
+    :param rar_file_name: rar 文件路径
+    :param dir_name: 文件解压目录
+    :return:
+    """
+    # 创建 rar 对象
+    rar_obj = rarfile.RarFile(rar_file_name)
+    # 目录切换
+    if not os.path.exists(dir_name):
+        os.mkdir(dir_name)
+    os.chdir(dir_name)
+    # Extract all files into current directory.
+    rar_obj.extractall()
+    # rar_obj.extractall(dir_name)
+    # 关闭
+    rar_obj.close()
+
 
 def change_word_font(doc_file):
     try:
@@ -67,15 +90,14 @@ def doc2docx(in_file, out_file):
     try:
         word = wc.Dispatch("Word.Application")
         try:
-            print(in_file)
-            print(out_file)
             doc = word.Documents.Open(in_file)
-            doc.SaveAs(out_file, 12, False, "", True, "", False, False, False, False)
-            doc.Close()
+            doc.SaveAs(out_file, 16, False, "", True, "", False, False, False, False)
+            # doc.Close()
             word.Quit()
             return True
         except Exception as e:
             print(e)
+            return False
     except Exception as e:
         print(e)
     return False
@@ -102,18 +124,29 @@ def check_only_image(doc_file):
 
 if __name__ == '__main__':
     # 第一步：解压压缩包
-    # zip_root_dir = "E:\\workspace\\www.ychedu.com\\2025-03-05\\www.ychedu.com\\中考试题"
-    # zip_dirs = sorted(os.listdir(zip_root_dir))
-    # zip_files = sorted(os.listdir(zip_root_dir))
-    # for zip_file in zip_files:
-    #
-    #     zip_file_path = zip_root_dir + "\\" + zip_file
-    #     dst_file_path = "E:\\workspace\\www.ychedu.com\\2025-03-05\\www.uncompress_ychedu.com\\中考试题"
+    # zip_rar_root_dir = "F:\\workspace\\www.ychedu.com\\2025-03-07\\www.ychedu.com\\中考试题"
+    # zip_rar_dirs = sorted(os.listdir(zip_rar_root_dir))
+    # zip_rar_files = sorted(os.listdir(zip_rar_root_dir))
+    # for zip_rar_file in zip_rar_files:
+    #     zip_rar_file_path = zip_rar_root_dir + "\\" + zip_rar_file
+    #     dst_file_path = "F:\\workspace\\www.ychedu.com\\2025-03-07\\www.uncompress_ychedu.com\\中考试题"
     #     if not os.path.exists(dst_file_path):
     #         os.makedirs(dst_file_path)
-    #     print("==========" + "开始解压" + zip_file_path + "==========")
+    #     print("==========开始解压==========")
     #     try:
-    #         decompress_zip(zip_file_path, dst_file_path+"\\"+zip_file.replace(".zip", "").replace("下载", "").replace("免费", ""))
+    #         dst_file_name = zip_rar_file.replace(",", "-").replace("|", "-").replace(" ", "-").replace("", "-")
+    #         print(dst_file_name)
+    #         # 查看文件是zip还是rar文件
+    #         zip_rar_file_ext = os.path.splitext(zip_rar_file)[1]
+    #         if zip_rar_file_ext == ".zip":
+    #             # 是zip文件
+    #             decompress_zip(zip_rar_file_path, dst_file_path + "\\" + dst_file_name.replace(".zip", ""))
+    #         elif zip_rar_file_ext == ".rar":
+    #             # 是rar文件
+    #             decompress_rar(zip_rar_file_path, dst_file_path + "\\" + dst_file_name.replace(".rar", ""))
+    #         elif zip_rar_file_ext in [".doc", ".docx"]:
+    #             # 是doc或docx文件，直接复制
+    #             shutil.copy(zip_rar_file_path, dst_file_path + "\\" + zip_rar_file)
     #     except Exception as e:
     #         print(e)
     #         continue
@@ -121,7 +154,7 @@ if __name__ == '__main__':
     # exit()
 
     # 第二步：将文件夹中文件移出，并更改文件名称
-    # root_dir = "E:\\workspace\\www.ychedu.com\\2025-03-05\\www.uncompress_ychedu.com\\中考试题"
+    # root_dir = "F:\\workspace\\www.ychedu.com\\2025-03-07\\www.uncompress_ychedu.com\\中考试题"
     # files = sorted(os.listdir(root_dir))
     # for file in files:
     #     file_path = root_dir + "\\" + file
@@ -130,38 +163,60 @@ if __name__ == '__main__':
     #     # 查看一下是否是文件夹，如果是文件夹，则将文件移出
     #     if os.path.isdir(file_path):
     #         child_files = sorted(os.listdir(file_path))
+    #         # 查看一下文件的数量
+    #         child_files_count = len(child_files)
     #         for child_file in child_files:
     #             src_child_file_path = file_path + "\\" + child_file
-    #             dst_child_file_path = root_dir + "\\" + child_file
     #             try:
-    #                 os.rename(src_child_file_path, dst_child_file_path)
+    #                 if os.path.isdir(src_child_file_path):
+    #                     # 还是文件夹，将文件夹移出
+    #                     dst_child_file_path = root_dir + "\\" + child_file
+    #                     os.rename(src_child_file_path, dst_child_file_path)
+    #                 else:
+    #                     # 是文件直接改名字移出
+    #                     extension = os.path.splitext(child_file)[-1]
+    #                     if child_files_count == 1:
+    #                         dst_child_file_path = root_dir + "\\" + file + extension
+    #                     else:
+    #                         dst_child_file_path = root_dir + "\\" + child_file + extension
+    #                     os.rename(src_child_file_path, dst_child_file_path)
     #             except WindowsError:
-    #                 os.remove(dst_child_file_path)
-    #                 os.rename(src_child_file_path, dst_child_file_path)
+    #                 os.remove(src_child_file_path)
     #
     #     # 文件后缀不是doc或docx，则删除
-    #     # if os.path.splitext(file)[1] not in [".doc", ".docx"]:
-    #     #     os.remove(file_path)
+    #     if os.path.splitext(file)[1] not in [".doc", ".docx"]:
+    #         os.remove(file_path)
     # exit()
 
     # 第三步：将doc文档转化为docx
-    root_dir = "E:\\workspace\\www.ychedu.com\\2025-03-05\\www.uncompress_ychedu.com\\中考试题"
+    root_dir = "F:\\workspace\\www.ychedu.com\\2025-03-07\\www.uncompress_ychedu.com\\中考试题"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
         print(file_path)
-        docx_dir = "E:\\workspace\\www.ychedu.com\\2025-03-05\\www.docx_ychedu.com\\中考试题"
+        # 删除文件名中含有“图片”字样文件
+        if "图片" in file:
+            os.remove(file_path)
+            continue
+        # 删除文件名中含有“扫描”字样文件
+        if "扫描" in file:
+            os.remove(file_path)
+            continue
+        docx_dir = "F:\\workspace\\www.ychedu.com\\2025-03-07\\www.docx_ychedu.com\\中考试题"
         if not os.path.exists(docx_dir):
             os.makedirs(docx_dir)
 
-        sub_file = file
-        docx_file = docx_dir + "\\" + sub_file.lower().replace(os.path.splitext(sub_file)[1], ".docx")
+        sub_file = os.path.splitext(file)[0].replace(".doc", "").replace(".docx", "") + ".docx"
+        docx_file = docx_dir + "\\" + sub_file
         docx_file = docx_file.strip()
         docx_file = docx_file.replace("（", "(").replace("）", ")")
         docx_file = docx_file.replace("word版", "")
         docx_file = docx_file.replace("()", "")
+        docx_file = docx_file.replace(" ", "")
         docx_file = docx_file.replace("【全免费】", "")
         docx_file = docx_file.replace("【中考真题】", "")
+        docx_file = docx_file.replace("【中考快递】", "")
+        docx_file = docx_file.replace("【真题】", "")
         docx_file = docx_file.replace(",", "")
         docx_file = docx_file.replace("，", "")
         print(docx_file)
@@ -178,44 +233,45 @@ if __name__ == '__main__':
                 print("==========开始转化为docx==============")
                 if not doc2docx(file_path, docx_file):
                     # 删除原文件
+                    os.remove(file_path)
                     os.remove(docx_file)
                     continue
                 print("==========转化完成==============")
 
-        # if os.path.exists(docx_file):
-        #     # 删除只包含图片
-        #     if check_only_image(docx_file):
-        #         # 删除图片文件
-        #         os.remove(docx_file)
-        #         continue
-        #
-        #     # 删除页眉页脚
-        #     if not remove_header_footer(docx_file):
-        #         # 删除原文件
-        #         os.remove(docx_file)
-        #         continue
-        #
-        #     # 改变文档字体
-        #     if not change_word_font(docx_file):
-        #         # 删除原文件
-        #         os.remove(docx_file)
-        #         continue
+        if os.path.exists(docx_file):
+            # 删除只包含图片
+            if check_only_image(docx_file):
+                # 删除图片文件
+                os.remove(docx_file)
+                continue
+
+            # 删除页眉页脚
+            if not remove_header_footer(docx_file):
+                # 删除原文件
+                os.remove(docx_file)
+                continue
+
+            # 改变文档字体
+            if not change_word_font(docx_file):
+                # 删除原文件
+                os.remove(docx_file)
+                continue
 
         # docx文件已存在，跳过继续
-        # if os.path.exists(docx_file):
-        #     # continue
-        #     finish_dir = "E:\\workspace\\www.ychedu.com\\2025-03-05\\www.docx_ychedu.com\\中考试题"
-        #     if not os.path.exists(finish_dir):
-        #         os.makedirs(finish_dir)
-        #     # 将docx文件转化为pdf
-        #     finish_file = docx_file.replace("docx_", "finish_").replace(".docx", ".pdf")
-        #     if not os.path.exists(finish_file):
-        #         # 将docx转化为pdf
-        #         with open(finish_file, "w") as f:
-        #             # 将 Word 文档转换为 PDF
-        #             try:
-        #                 print("==========开始转化为pdf==============")
-        #                 convert(docx_file, finish_file)
-        #                 print("转换成功！")
-        #             except Exception as e:
-        #                 print("转换失败：", str(e))
+        if os.path.exists(docx_file):
+            # continue
+            finish_dir = "F:\\workspace\\www.ychedu.com\\2025-03-07\\www.finish_ychedu.com\\中考试题"
+            if not os.path.exists(finish_dir):
+                os.makedirs(finish_dir)
+            # 将docx文件转化为pdf
+            finish_file = docx_file.replace("docx_", "finish_").replace(".docx", ".pdf")
+            if not os.path.exists(finish_file):
+                # 将docx转化为pdf
+                with open(finish_file, "w") as f:
+                    # 将 Word 文档转换为 PDF
+                    try:
+                        print("==========开始转化为pdf==============")
+                        convert(docx_file, finish_file)
+                        print("转换成功！")
+                    except Exception as e:
+                        print("转换失败：", str(e))
