@@ -124,12 +124,12 @@ def check_only_image(doc_file):
 
 if __name__ == '__main__':
     # 第一步：解压压缩包
-    # zip_rar_root_dir = "F:\\workspace\\www.ychedu.com\\2025-03-07\\www.ychedu.com\\中考试题"
+    # zip_rar_root_dir = "F:\\workspace\\www.ychedu.com\\2025-03-09\\www.ychedu.com\\中考试题"
     # zip_rar_dirs = sorted(os.listdir(zip_rar_root_dir))
     # zip_rar_files = sorted(os.listdir(zip_rar_root_dir))
     # for zip_rar_file in zip_rar_files:
     #     zip_rar_file_path = zip_rar_root_dir + "\\" + zip_rar_file
-    #     dst_file_path = "F:\\workspace\\www.ychedu.com\\2025-03-07\\www.uncompress_ychedu.com\\中考试题"
+    #     dst_file_path = "F:\\workspace\\www.ychedu.com\\2025-03-09\\www.uncompress_ychedu.com\\中考试题"
     #     if not os.path.exists(dst_file_path):
     #         os.makedirs(dst_file_path)
     #     print("==========开始解压==========")
@@ -154,7 +154,7 @@ if __name__ == '__main__':
     # exit()
 
     # 第二步：将文件夹中文件移出，并更改文件名称
-    # root_dir = "F:\\workspace\\www.ychedu.com\\2025-03-07\\www.uncompress_ychedu.com\\中考试题"
+    # root_dir = "F:\\workspace\\www.ychedu.com\\2025-03-09\\www.uncompress_ychedu.com\\中考试题"
     # files = sorted(os.listdir(root_dir))
     # for file in files:
     #     file_path = root_dir + "\\" + file
@@ -184,12 +184,12 @@ if __name__ == '__main__':
     #                 os.remove(src_child_file_path)
     #
     #     # 文件后缀不是doc或docx，则删除
-    #     if os.path.splitext(file)[1] not in [".doc", ".docx"]:
-    #         os.remove(file_path)
+    #     # if os.path.splitext(file)[1] not in [".doc", ".docx"]:
+    #     #     os.remove(file_path)
     # exit()
 
     # 第三步：将doc文档转化为docx
-    root_dir = "F:\\workspace\\www.ychedu.com\\2025-03-07\\www.uncompress_ychedu.com\\中考试题"
+    root_dir = "F:\\workspace\\www.ychedu.com\\2025-03-09\\www.uncompress_ychedu.com\\中考试题"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
@@ -202,21 +202,33 @@ if __name__ == '__main__':
         if "扫描" in file:
             os.remove(file_path)
             continue
-        docx_dir = "F:\\workspace\\www.ychedu.com\\2025-03-07\\www.docx_ychedu.com\\中考试题"
+        docx_dir = "F:\\workspace\\www.ychedu.com\\2025-03-09\\www.docx_ychedu.com\\中考试题"
         if not os.path.exists(docx_dir):
             os.makedirs(docx_dir)
 
-        sub_file = os.path.splitext(file)[0].replace(".doc", "").replace(".docx", "") + ".docx"
+        sub_file = file.replace("【全免费】", "")
+        left_flag_index = sub_file.find("【")
+        right_flag_index = sub_file.find("】")
+        if left_flag_index == 0 and right_flag_index != -1:
+            # 文档名称以“【”开头，以“】”结尾，则替换名称
+            sub_file = sub_file[right_flag_index + 1:]
+        sub_file = os.path.splitext(sub_file)[0].replace(".doc", "").replace(".docx", "") + ".docx"
         docx_file = docx_dir + "\\" + sub_file
-        docx_file = docx_file.strip()
+        docx_file = docx_file.strip().lower()
         docx_file = docx_file.replace("（", "(").replace("）", ")")
         docx_file = docx_file.replace("word版", "")
+        docx_file = docx_file.replace("word", "")
+        docx_file = docx_file.replace("(辽宁地区)", "")
+        docx_file = docx_file.replace("(通用版)", "")
+        docx_file = docx_file.replace("(宜宾专版)", "")
+        docx_file = docx_file.replace("(遵义专版)", "")
+        docx_file = docx_file.replace("(河北专版)", "")
+        docx_file = docx_file.replace("(思想品德定稿)", "")
+        docx_file = docx_file.replace("(定稿)", "")
         docx_file = docx_file.replace("()", "")
+        docx_file = docx_file.replace("|", "-")
+        docx_file = docx_file.replace("｜", "-")
         docx_file = docx_file.replace(" ", "")
-        docx_file = docx_file.replace("【全免费】", "")
-        docx_file = docx_file.replace("【中考真题】", "")
-        docx_file = docx_file.replace("【中考快递】", "")
-        docx_file = docx_file.replace("【真题】", "")
         docx_file = docx_file.replace(",", "")
         docx_file = docx_file.replace("，", "")
         print(docx_file)
@@ -260,7 +272,7 @@ if __name__ == '__main__':
         # docx文件已存在，跳过继续
         if os.path.exists(docx_file):
             # continue
-            finish_dir = "F:\\workspace\\www.ychedu.com\\2025-03-07\\www.finish_ychedu.com\\中考试题"
+            finish_dir = "F:\\workspace\\www.ychedu.com\\2025-03-09\\www.finish_ychedu.com\\中考试题"
             if not os.path.exists(finish_dir):
                 os.makedirs(finish_dir)
             # 将docx文件转化为pdf
