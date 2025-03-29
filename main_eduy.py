@@ -124,37 +124,37 @@ def check_only_image(doc_file):
 
 if __name__ == '__main__':
     # 第一步：解压压缩包
-    zip_rar_root_dir = "F:\\workspace\\hao123.eduy.net\\2025-03-17\\hao123.eduy.net\\高中"
-    zip_rar_dirs = sorted(os.listdir(zip_rar_root_dir))
-    zip_rar_files = sorted(os.listdir(zip_rar_root_dir))
-    for zip_rar_file in zip_rar_files:
-        zip_rar_file_path = zip_rar_root_dir + "\\" + zip_rar_file
-        dst_file_path = "F:\\workspace\\hao123.eduy.net\\2025-03-17\\hao123.uncompress_eduy.net\\高中"
-        if not os.path.exists(dst_file_path):
-            os.makedirs(dst_file_path)
-        print("==========开始解压==========")
-        try:
-            dst_file_name = zip_rar_file.replace(",", "-").replace("|", "-").replace(" ", "-").replace("", "-")
-            print(dst_file_name)
-            # 查看文件是zip还是rar文件
-            zip_rar_file_ext = os.path.splitext(zip_rar_file)[1]
-            if zip_rar_file_ext == ".zip":
-                # 是zip文件
-                decompress_zip(zip_rar_file_path, dst_file_path + "\\" + dst_file_name.replace(".zip", ""))
-            elif zip_rar_file_ext == ".rar":
-                # 是rar文件
-                decompress_rar(zip_rar_file_path, dst_file_path + "\\" + dst_file_name.replace(".rar", ""))
-            elif zip_rar_file_ext in [".doc", ".docx"]:
-                # 是doc或docx文件，直接复制
-                shutil.copy(zip_rar_file_path, dst_file_path + "\\" + zip_rar_file)
-        except Exception as e:
-            print(e)
-            continue
-        print("==========" + "解压完成" + "==========")
-    exit()
+    # zip_rar_root_dir = "F:\\workspace\\hao123.eduy.net\\2025-03-24\\hao123.eduy.net\\高中"
+    # zip_rar_dirs = sorted(os.listdir(zip_rar_root_dir))
+    # zip_rar_files = sorted(os.listdir(zip_rar_root_dir))
+    # for zip_rar_file in zip_rar_files:
+    #     zip_rar_file_path = zip_rar_root_dir + "\\" + zip_rar_file
+    #     dst_file_path = "F:\\workspace\\hao123.eduy.net\\2025-03-24\\hao123.uncompress_eduy.net\\高中"
+    #     if not os.path.exists(dst_file_path):
+    #         os.makedirs(dst_file_path)
+    #     print("==========开始解压==========")
+    #     try:
+    #         dst_file_name = zip_rar_file.replace(",", "-").replace("|", "-").replace(" ", "-").replace("", "-")
+    #         print(dst_file_name)
+    #         # 查看文件是zip还是rar文件
+    #         zip_rar_file_ext = os.path.splitext(zip_rar_file)[1]
+    #         if zip_rar_file_ext == ".zip":
+    #             # 是zip文件
+    #             decompress_zip(zip_rar_file_path, dst_file_path + "\\" + dst_file_name.replace(".zip", ""))
+    #         elif zip_rar_file_ext == ".rar":
+    #             # 是rar文件
+    #             decompress_rar(zip_rar_file_path, dst_file_path + "\\" + dst_file_name.replace(".rar", ""))
+    #         elif zip_rar_file_ext in [".doc", ".docx"]:
+    #             # 是doc或docx文件，直接复制
+    #             shutil.copy(zip_rar_file_path, dst_file_path + "\\" + zip_rar_file)
+    #     except Exception as e:
+    #         print(e)
+    #         continue
+    #     print("==========" + "解压完成" + "==========")
+    # exit()
 
     # 第二步：将文件夹中文件移出，并更改文件名称
-    # root_dir = "F:\\workspace\\hao123.eduy.net\\2025-03-17\\hao123.uncompress_eduy.net\\高中"
+    # root_dir = "F:\\workspace\\hao123.eduy.net\\2025-03-24\\hao123.uncompress_eduy.net\\高中"
     # files = sorted(os.listdir(root_dir))
     # for file in files:
     #     file_path = root_dir + "\\" + file
@@ -186,17 +186,13 @@ if __name__ == '__main__':
     #                     os.rename(src_child_file_path, dst_child_file_path)
     #             except WindowsError:
     #                 os.remove(src_child_file_path)
-    #
-    #     # 判断文件夹是否为空，如果为空删除
-    #     if len(os.listdir(file_path)) == 0:
-    #         os.remove(file_path)
     #     # 文件后缀不是doc或docx，则删除
     #     # if os.path.splitext(file)[1] not in [".doc", ".docx"]:
     #     #     os.remove(file_path)
     # exit()
 
     # 第三步：将doc文档转化为docx
-    root_dir = "F:\\workspace\\hao123.eduy.net\\2025-03-17\\hao123.uncompress_eduy.net\\高中"
+    root_dir = "F:\\workspace\\hao123.eduy.net\\2025-03-24\\hao123.uncompress_eduy.net\\高中"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
@@ -209,11 +205,7 @@ if __name__ == '__main__':
         if "扫描" in file:
             os.remove(file_path)
             continue
-        # 删除文件名中不含有“数学”字样文件
-        if "数学" not in file:
-            os.remove(file_path)
-            continue
-        docx_dir = "F:\\workspace\\hao123.eduy.net\\2025-03-17\\hao123.docx_eduy.net\\高中"
+        docx_dir = "F:\\workspace\\hao123.eduy.net\\2025-03-24\\hao123.docx_eduy.net\\高中"
         if not os.path.exists(docx_dir):
             os.makedirs(docx_dir)
 
@@ -251,57 +243,82 @@ if __name__ == '__main__':
         docx_file = docx_file.replace("|", "-")
         docx_file = docx_file.replace("｜", "-")
         docx_file = docx_file.replace("—", "-")
+        docx_file = docx_file.replace("：", "-")
+        docx_file = docx_file.replace("+", "-")
         docx_file = docx_file.replace(" ", "")
+        docx_file = docx_file.replace("　", "")
         docx_file = docx_file.replace(",", "")
         docx_file = docx_file.replace("，", "")
         docx_file = docx_file.replace("www.eduy.net", "")
+        docx_file = docx_file.replace("小题专练", "")
         docx_file = docx_file.replace("【阳光数学网】", "")
+        docx_file = docx_file.replace("【阳光高中数学网】", "")
         print(docx_file)
 
-        if not os.path.exists(docx_file):
-            # 获取文件后缀
-            file_ext = os.path.splitext(file_path)[-1]
-            if file_ext == ".docx":
-                # 已经是docx文件了，直接复制过去
-                shutil.copy(file_path, docx_file)
-            else:
-                with open(docx_file, 'w') as f:
-                    pass
-                print("==========开始转化为docx==============")
-                if not doc2docx(file_path, docx_file):
+        # 删除文件名中不含有“数学”字样文件
+        if "数学" not in docx_file:
+            os.remove(file_path)
+            continue
+
+        finish_dir = "F:\\workspace\\hao123.eduy.net\\2025-03-24\\hao123.finish_eduy.net\\高中"
+        if not os.path.exists(finish_dir):
+            os.makedirs(finish_dir)
+        # 将docx文件转化为pdf
+        finish_file = docx_file.replace("docx_", "finish_").replace(".docx", ".pdf")
+        if not os.path.exists(finish_file):
+            if not os.path.exists(docx_file):
+                # 获取文件后缀
+                file_ext = os.path.splitext(file_path)[-1]
+                if file_ext == ".docx":
+                    # 已经是docx文件了，直接复制过去
+                    shutil.copy(file_path, docx_file)
+                else:
+                    with open(docx_file, 'w') as f:
+                        pass
+                    print("==========开始转化为docx==============")
+                    if not doc2docx(file_path, docx_file):
+                        # 删除原文件
+                        try:
+                            os.remove(file_path)
+                            os.remove(docx_file)
+                            continue
+                        except Exception as e:
+                            print(e)
+                    print("==========转化完成==============")
+
+            if os.path.exists(docx_file):
+                # 删除只包含图片
+                if check_only_image(docx_file):
                     # 删除原文件
-                    os.remove(file_path)
-                    os.remove(docx_file)
-                    continue
-                print("==========转化完成==============")
+                    try:
+                        os.remove(file_path)
+                        os.remove(docx_file)
+                        continue
+                    except Exception as e:
+                        print(e)
 
-        if os.path.exists(docx_file):
-            # 删除只包含图片
-            if check_only_image(docx_file):
-                # 删除图片文件
-                os.remove(docx_file)
-                continue
+                # 删除页眉页脚
+                if not remove_header_footer(docx_file):
+                    # 删除原文件
+                    try:
+                        os.remove(file_path)
+                        os.remove(docx_file)
+                        continue
+                    except Exception as e:
+                        print(e)
 
-            # 删除页眉页脚
-            if not remove_header_footer(docx_file):
-                # 删除原文件
-                os.remove(docx_file)
-                continue
-
-            # 改变文档字体
-            if not change_word_font(docx_file):
-                # 删除原文件
-                os.remove(docx_file)
-                continue
+                # 改变文档字体
+                if not change_word_font(docx_file):
+                    # 删除原文件
+                    try:
+                        os.remove(file_path)
+                        os.remove(docx_file)
+                        continue
+                    except Exception as e:
+                        print(e)
 
         # docx文件已存在，跳过继续
         if os.path.exists(docx_file):
-            # continue
-            finish_dir = "F:\\workspace\\hao123.eduy.net\\2025-03-17\\hao123.finish_eduy.net\\高中"
-            if not os.path.exists(finish_dir):
-                os.makedirs(finish_dir)
-            # 将docx文件转化为pdf
-            finish_file = docx_file.replace("docx_", "finish_").replace(".docx", ".pdf")
             if not os.path.exists(finish_file):
                 # 将docx转化为pdf
                 with open(finish_file, "w") as f:
@@ -312,3 +329,8 @@ if __name__ == '__main__':
                         print("转换成功！")
                     except Exception as e:
                         print("转换失败：", str(e))
+        try:
+            os.remove(file_path)
+            continue
+        except Exception as e:
+            print(e)
