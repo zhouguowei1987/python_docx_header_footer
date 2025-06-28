@@ -8,11 +8,9 @@ from docx2pdf import convert
 from docx.shared import RGBColor  # 设置字体的颜色
 from docx.oxml.ns import qn
 from win32com import client as wc
+from pptx import Presentation
 import os
 import shutil
-import rarfile
-
-rarfile.UNRAR_TOOL = "D:\\Program Files (x86)\\WinRAR\\UnRAR.exe"
 
 
 def change_word_font(doc_file):
@@ -47,16 +45,14 @@ def doc2docx(in_file, out_file):
     try:
         word = wc.Dispatch("Word.Application")
         try:
-            print(in_file)
-            print(out_file)
             doc = word.Documents.Open(in_file)
-            doc.SaveAs(out_file, 12, False, "", True, "", False, False, False, False)
-            print('转换成功')
-            doc.Close()
+            doc.SaveAs(out_file, 16, False, "", True, "", False, False, False, False)
+            # doc.Close()
             word.Quit()
             return True
         except Exception as e:
             print(e)
+            return False
     except Exception as e:
         print(e)
     return False
@@ -81,83 +77,40 @@ def check_only_image(doc_file):
     return False
 
 
-def decompress_rar(rar_file_name, dir_name):
-    """
-    .rar 文件解压
-    :param rar_file_name: rar 文件路径
-    :param dir_name: 文件解压目录
-    :return:
-    """
-    # 创建 rar 对象
-    rar_obj = rarfile.RarFile(rar_file_name)
-    # 目录切换
-    if not os.path.exists(dir_name):
-        os.mkdir(dir_name)
-    os.chdir(dir_name)
-    # Extract all files into current directory.
-    rar_obj.extractall()
-    # rar_obj.extractall(dir_name)
-    # 关闭
-    rar_obj.close()
-
-
 if __name__ == '__main__':
-    # 解压压缩包
-    # rar_root_dir = "E:\\workspace\\www.gzenxx.com\\2025-05-16\\www.rar_gzenxx.com"
-    # rar_dirs = sorted(os.listdir(rar_root_dir))
-    # rar_files = sorted(os.listdir(rar_root_dir))
-    # for rar_file in rar_files:
-    #     rar_file_path = rar_root_dir + "\\" + rar_file
-    #     print("==========" + "开始解压" + rar_file_path + "==========")
-    #     try:
-    #         decompress_rar(rar_file_path, "E:\\workspace\\www.gzenxx.com\\2025-05-16\\www.uncompress_gzenxx.com")
-    #     except Exception as e:
-    #         print(e)
-    #         continue
-    #     print("==========" + "解压完成" + "==========")
-    # exit()
-
-    root_dir = "E:\\workspace\\www.gzenxx.com\\2025-05-16\\www.uncompress_gzenxx.com"
+    # 将doc文档转化为docx
+    root_dir = "F:\\workspace\\www.czwlzx.cn\\2025-06-28\\www.czwlzx.cn"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
         print(file_path)
-
-        # 查看一下是否是文件夹，如果是文件夹，则将文件移出
-        # if os.path.isdir(file_path):
-        #     child_files = sorted(os.listdir(file_path))
-        #     for child_file in child_files:
-        #         extension = os.path.splitext(child_file)[-1]
-        #         if extension not in [".doc", ".docx"]:
-        #             continue
-        #         src_child_file_path = file_path + "\\" + child_file
-        #         dst_child_file_path = root_dir + "\\" + child_file
-        #         try:
-        #             os.rename(src_child_file_path, dst_child_file_path)
-        #         except WindowsError:
-        #             os.remove(dst_child_file_path)
-        #             os.rename(src_child_file_path, dst_child_file_path)
-        #
-        # # 文件后缀不是doc或docx，则删除
-        # if os.path.splitext(file)[1] not in [".doc", ".docx"]:
-        #     os.remove(file_path)
-
-        docx_dir = "E:\\workspace\\www.gzenxx.com\\2025-05-16\\docx.gzenxx.com"
+        docx_dir = "F:\\workspace\\www.czwlzx.cn\\2025-06-28\\www.docx_czwlzx.cn"
         if not os.path.exists(docx_dir):
             os.makedirs(docx_dir)
 
         sub_file = file
-        left_flag_index = file.find("【")
-        right_flag_index = file.find("】")
+        left_flag_index = sub_file.find("【")
+        right_flag_index = sub_file.find("】")
         if left_flag_index == 0 and right_flag_index != -1:
             # 文档名称以“【”开头，以“】”结尾，则替换名称
-            sub_file = file[right_flag_index + 1:]
-        docx_file = docx_dir + "\\" + sub_file.lower().replace(os.path.splitext(sub_file)[1], ".docx")
-        docx_file = docx_file.strip()
+            sub_file = sub_file[right_flag_index + 1:]
+        sub_file = os.path.splitext(sub_file)[0].replace(".doc", "").replace(".docx", "") + ".docx"
+        docx_file = docx_dir + "\\" + sub_file
+        docx_file = docx_file.strip().lower()
         docx_file = docx_file.replace("（", "(").replace("）", ")")
+        docx_file = docx_file.replace("word版，", "")
         docx_file = docx_file.replace("word版", "")
+        docx_file = docx_file.replace("word", "")
+        docx_file = docx_file.replace("[", "(")
+        docx_file = docx_file.replace("]", ")")
+        docx_file = docx_file.replace("：", "-")
+        docx_file = docx_file.replace("()", "")
+        docx_file = docx_file.replace("|", "-")
+        docx_file = docx_file.replace("｜", "-")
+        docx_file = docx_file.replace(" ", "")
         docx_file = docx_file.replace(",", "")
         docx_file = docx_file.replace("，", "")
+        print(docx_file)
 
         if not os.path.exists(docx_file):
             # 获取文件后缀
@@ -179,8 +132,6 @@ if __name__ == '__main__':
         if os.path.exists(docx_file):
             # 删除只包含图片
             if check_only_image(docx_file):
-                # 删除原文件
-                os.remove(file_path)
                 # 删除图片文件
                 os.remove(docx_file)
                 continue
@@ -188,25 +139,23 @@ if __name__ == '__main__':
             # 删除页眉页脚
             if not remove_header_footer(docx_file):
                 # 删除原文件
-                os.remove(file_path)
                 os.remove(docx_file)
                 continue
 
             # 改变文档字体
             if not change_word_font(docx_file):
                 # 删除原文件
-                os.remove(file_path)
                 os.remove(docx_file)
                 continue
 
         # docx文件已存在，跳过继续
         if os.path.exists(docx_file):
             # continue
-            finish_dir = "E:\\workspace\\www.gzenxx.com\\2025-05-16\\finish.gzenxx.com"
+            finish_dir = "F:\\workspace\\www.czwlzx.cn\\2025-06-28\\www.finish_czwlzx.cn"
             if not os.path.exists(finish_dir):
                 os.makedirs(finish_dir)
             # 将docx文件转化为pdf
-            finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
+            finish_file = docx_file.replace("docx_", "finish_").replace(".docx", ".pdf")
             if not os.path.exists(finish_file):
                 # 将docx转化为pdf
                 with open(finish_file, "w") as f:

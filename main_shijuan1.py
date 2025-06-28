@@ -103,8 +103,8 @@ def decompress_rar(rar_file_name, dir_name):
 
 if __name__ == '__main__':
     # 解压压缩包
-    # category_rars_arr = ['中考试卷']
-    # rar_root_dir = "E:\\workspace\\www.shijuan1.com\\2024-01-01\\www.rar_shijuan1.com"
+    # category_rars_arr = ['小学试卷']
+    # rar_root_dir = "E:\\workspace\\www.shijuan1.com\\2024-08-22\\www.rar_shijuan1.com"
     # rar_dirs = sorted(os.listdir(rar_root_dir))
     # for category_rar in category_rars_arr:
     #     rar_files = sorted(os.listdir(rar_root_dir + "\\" + category_rar))
@@ -112,7 +112,7 @@ if __name__ == '__main__':
     #         rar_file_path = rar_root_dir+ "\\" + category_rar + "\\" + rar_file
     #         print("==========" + "开始解压" + rar_file_path + "==========")
     #         try:
-    #             decompress_dir = "E:\\workspace\\www.shijuan1.com\\2024-01-01\\www.uncompress_shijuan1.com\\" + category_rar
+    #             decompress_dir = "E:\\workspace\\www.shijuan1.com\\2024-08-22\\www.uncompress_shijuan1.com\\" + category_rar
     #             if not os.path.exists(decompress_dir):
     #                 os.makedirs(decompress_dir)
     #             decompress_rar(rar_file_path, decompress_dir)
@@ -122,8 +122,8 @@ if __name__ == '__main__':
     #         print("==========" + "解压完成" + "==========")
     # exit()
 
-    category_dirs_arr = ['中考试卷']
-    root_dir = "E:\\workspace\\www.shijuan1.com\\2024-01-01\\www.uncompress_shijuan1.com"
+    category_dirs_arr = ['小学试卷']
+    root_dir = "E:\\workspace\\www.shijuan1.com\\2024-08-22\\www.uncompress_shijuan1.com"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
@@ -146,12 +146,12 @@ if __name__ == '__main__':
                 #         except WindowsError:
                 #             os.remove(dst_child_file_path)
                 #             os.rename(src_child_file_path, dst_child_file_path)
-
-                # 文件后缀不是doc或docx，则删除
+                #
+                # # 文件后缀不是doc或docx，则删除
                 # if os.path.splitext(file)[1] not in [".doc", ".docx"]:
                 #     os.remove(file_path)
 
-                docx_dir = "E:\\workspace\\www.shijuan1.com\\2024-01-01\\www.docx_shijuan1.com" + "\\" + category
+                docx_dir = "E:\\workspace\\www.shijuan1.com\\2024-08-22\\www.docx_shijuan1.com" + "\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
@@ -230,7 +230,7 @@ if __name__ == '__main__':
                 # docx文件已存在，跳过继续
                 if os.path.exists(docx_file):
                     # continue
-                    finish_dir = "E:\\workspace\\www.shijuan1.com\\2024-01-01\\www.finish_shijuan1.com"+ "\\" + category
+                    finish_dir = "E:\\workspace\\www.shijuan1.com\\2024-08-22\\www.finish_shijuan1.com"+ "\\" + category
                     if not os.path.exists(finish_dir):
                         os.makedirs(finish_dir)
                     # 将docx文件转化为pdf

@@ -185,6 +185,11 @@ if __name__ == '__main__':
         docx_file = docx_file.replace(",", "")
         docx_file = docx_file.replace("，", "")
 
+        # 删除文件名中不含有“数学”字样文件
+        if "语文" not in docx_file:
+            os.remove(file_path)
+            continue
+
         # if not os.path.exists(docx_file):
         #     # 获取文件后缀
         #     file_ext = os.path.splitext(file_path)[-1]

@@ -27,6 +27,15 @@ def change_word_font(doc_file):
         return False
 
 
+def convertDocxToPDF(infile, outfile):
+    wdFormatPDF = 17
+    word = wc.Dispatch('Word.Application')
+    doc = word.Documents.Open(infile)
+    doc.SaveAs(outfile, FileFormat=wdFormatPDF)
+    doc.Close()
+    word.Quit()
+
+
 def check_only_image(doc_file):
     try:
         doc = Document(doc_file)
@@ -34,7 +43,8 @@ def check_only_image(doc_file):
             return True
         else:
             # 连续5个段落都是空，则按照纯图片处理
-            if doc.paragraphs[0].text == "" and doc.paragraphs[1].text == "" and doc.paragraphs[2].text == "" and doc.paragraphs[3].text == "" and doc.paragraphs[4].text == "":
+            if doc.paragraphs[0].text == "" and doc.paragraphs[1].text == "" and doc.paragraphs[2].text == "" and \
+                    doc.paragraphs[3].text == "" and doc.paragraphs[4].text == "":
                 doc.save(doc_file)
                 return True
         doc.save(doc_file)
@@ -86,9 +96,9 @@ def doc2docx(in_file, out_file):
 
 if __name__ == '__main__':
     # category_dirs_arr = ['语文',	'数学', '英语', '道德与法治', '音乐', '美术', '信息技术']
-    # category_dirs_arr = ['语文', '数学', '英语', '物理', '化学', '生物', '道德与法治', '历史', '地理', '音乐', '美术', '信息技术']
-    category_dirs_arr = ['语文', '数学', '英语', '物理', '化学', '生物', '政治', '历史', '地理']
-    root_dir = "E:\\workspace\\www2.zzstep.com\\2025-02-27\\www2.zzstep.com\\高中"
+    category_dirs_arr = ['语文', '数学', '英语', '物理', '化学', '生物', '道德与法治', '历史', '地理', '音乐', '美术', '信息技术']
+    # category_dirs_arr = ['语文', '数学', '英语', '物理', '化学', '生物', '政治', '历史', '地理']
+    root_dir = "E:\\workspace\\www2.zzstep.com\\2025-06-15\\www2.zzstep.com\\初中"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
@@ -98,22 +108,23 @@ if __name__ == '__main__':
 
                 file_path = root_dir + "/" + category + "/" + file
                 print(file_path)
-                docx_dir = "E:\\workspace\\www2.zzstep.com\\2025-02-27\\docx.zzstep.com\\高中\\" + category
+                docx_dir = "E:\\workspace\\www2.zzstep.com\\2025-06-15\\docx.zzstep.com\\初中\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
                 sub_file = file
-                left_flag_index = file.find("【")
-                right_flag_index = file.find("】")
-                if left_flag_index == 0 and right_flag_index != -1:
-                    # 文档名称以“【”开头，以“】”结尾，则替换名称
-                    sub_file = file[right_flag_index + 1:]
+                # left_flag_index = file.find("【")
+                # right_flag_index = file.find("】")
+                # if left_flag_index == 0 and right_flag_index != -1:
+                #     # 文档名称以“【”开头，以“】”结尾，则替换名称
+                #     sub_file = file[right_flag_index + 1:]
                 docx_file = docx_dir + "\\" + sub_file.lower().replace(os.path.splitext(sub_file)[1], ".docx")
                 docx_file = docx_file.replace("word版", "")
                 docx_file = docx_file.replace(" ", "")
                 docx_file = docx_file.replace("(无答案)", "")
                 docx_file = docx_file.replace("(免费)", "")
                 docx_file = docx_file.replace("——", "-")
+                docx_file = docx_file.replace("()", "")
 
                 if docx_file.replace(docx_dir, "").find(category) == -1:
                     # 文档标题不包含分类名称
@@ -160,7 +171,7 @@ if __name__ == '__main__':
                 # docx文件已存在，跳过继续
                 if os.path.exists(docx_file):
                     # continue
-                    finish_dir = "E:\\workspace\\www2.zzstep.com\\2025-02-27\\finish.zzstep.com\\高中\\" + category
+                    finish_dir = "E:\\workspace\\www2.zzstep.com\\2025-06-15\\finish.zzstep.com\\初中\\" + category
                     if not os.path.exists(finish_dir):
                         os.makedirs(finish_dir)
                     # 将docx文件转化为pdf
@@ -171,7 +182,8 @@ if __name__ == '__main__':
                             # 将 Word 文档转换为 PDF
                             try:
                                 print("==========开始转化为pdf==============")
-                                convert(docx_file, finish_file)
+                                # convert(docx_file, finish_file)
+                                convertDocxToPDF(docx_file, finish_file)
                                 print("转换成功！")
                             except Exception as e:
                                 print("转换失败：", str(e))
