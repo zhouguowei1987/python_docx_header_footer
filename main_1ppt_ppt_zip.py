@@ -60,13 +60,13 @@ def replace_text_in_slide(slide, old_text, new_text):
 
 if __name__ == '__main__':
     # 第一步：解压压缩包
-    # zip_root_dir = "F:\\workspace\\www.1ppt.com\\2025-05-16\\www.zip_1ppt.com"
+    # zip_root_dir = "F:\\workspace\\www.1ppt.com\\2025-08-12\\www.zip_1ppt.com"
     # zip_dirs = sorted(os.listdir(zip_root_dir))
     # zip_files = sorted(os.listdir(zip_root_dir))
     # for zip_file in zip_files:
     #
     #     zip_file_path = zip_root_dir + "\\" + zip_file
-    #     dst_file_path = "F:\\workspace\\www.1ppt.com\\2025-05-16\\www.uncompress_zip_1ppt.com"
+    #     dst_file_path = "F:\\workspace\\www.1ppt.com\\2025-08-12\\www.uncompress_zip_1ppt.com"
     #     if not os.path.exists(dst_file_path):
     #         os.makedirs(dst_file_path)
     #     print("==========" + "开始解压" + zip_file_path + "==========")
@@ -107,7 +107,7 @@ if __name__ == '__main__':
     # exit()
 
     # 第二步：将文件夹中文件移出，并更改文件名称
-    # root_dir = "F:\\workspace\\www.1ppt.com\\2025-05-16\\www.uncompress_zip_1ppt.com"
+    # root_dir = "F:\\workspace\\www.1ppt.com\\2025-08-12\\www.uncompress_zip_1ppt.com"
     # files = sorted(os.listdir(root_dir))
     # for file in files:
     #     file_path = root_dir + "\\" + file
@@ -130,8 +130,8 @@ if __name__ == '__main__':
     # exit()
 
     # 第三步：替换幻灯片中文字
-    root_dir = "F:\\workspace\\www.1ppt.com\\2025-05-16\\www.uncompress_zip_1ppt.com"
-    finish_dir = "F:\\workspace\\www.1ppt.com\\2025-05-16\\www.finish_zip_1ppt.com"
+    root_dir = "F:\\workspace\\www.1ppt.com\\2025-08-12\\www.uncompress_zip_1ppt.com"
+    finish_dir = "F:\\workspace\\www.1ppt.com\\2025-08-12\\www.finish_zip_1ppt.com"
     if not os.path.exists(finish_dir):
         os.makedirs(finish_dir)
     files = sorted(os.listdir(root_dir))

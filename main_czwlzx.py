@@ -79,12 +79,12 @@ def check_only_image(doc_file):
 
 if __name__ == '__main__':
     # 将doc文档转化为docx
-    root_dir = "F:\\workspace\\www.czwlzx.cn\\2025-06-28\\www.czwlzx.cn"
+    root_dir = "F:\\workspace\\www.czwlzx.cn\\2025-07-11\\www.czwlzx.cn"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
         print(file_path)
-        docx_dir = "F:\\workspace\\www.czwlzx.cn\\2025-06-28\\www.docx_czwlzx.cn"
+        docx_dir = "F:\\workspace\\www.czwlzx.cn\\2025-07-11\\www.docx_czwlzx.cn"
         if not os.path.exists(docx_dir):
             os.makedirs(docx_dir)
 
@@ -101,6 +101,7 @@ if __name__ == '__main__':
         docx_file = docx_file.replace("word版，", "")
         docx_file = docx_file.replace("word版", "")
         docx_file = docx_file.replace("word", "")
+        docx_file = docx_file.replace("无答案", "")
         docx_file = docx_file.replace("[", "(")
         docx_file = docx_file.replace("]", ")")
         docx_file = docx_file.replace("：", "-")
@@ -116,8 +117,18 @@ if __name__ == '__main__':
             # 获取文件后缀
             file_ext = os.path.splitext(file_path)[-1]
             if file_ext == ".docx":
-                # 已经是docx文件了，直接复制过去
-                shutil.copy(file_path, docx_file)
+                try:
+                    # 已经是docx文件了，直接复制过去
+                    shutil.copy(file_path, docx_file)
+                    print("File copied successfully.")
+                except FileNotFoundError:
+                    print("The source file does not exist.")
+                except PermissionError:
+                    print("Permission denied.")
+                except shutil.SameFileError:
+                    print("The source and destination are the same file.")
+                except shutil.Error as e:
+                    print(f"An error occurred: {e}")
             else:
                 with open(docx_file, 'w') as f:
                     pass
@@ -151,7 +162,7 @@ if __name__ == '__main__':
         # docx文件已存在，跳过继续
         if os.path.exists(docx_file):
             # continue
-            finish_dir = "F:\\workspace\\www.czwlzx.cn\\2025-06-28\\www.finish_czwlzx.cn"
+            finish_dir = "F:\\workspace\\www.czwlzx.cn\\2025-07-11\\www.finish_czwlzx.cn"
             if not os.path.exists(finish_dir):
                 os.makedirs(finish_dir)
             # 将docx文件转化为pdf
