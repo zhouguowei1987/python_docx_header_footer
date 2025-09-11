@@ -71,7 +71,7 @@ if __name__ == '__main__':
     for file in files:
         file_path = root_dir + "\\" + file
         print(file_path)
-        docx_dir = "E:\\workspace\\flk.npc.gov.cn\\2025-09-11\\docx_flk.npc.gov.cn"
+        docx_dir = "E:\\workspace\\upload.doc88.com\\flk.npc.gov.cn"
         if not os.path.exists(docx_dir):
             os.makedirs(docx_dir)
 
@@ -123,11 +123,11 @@ if __name__ == '__main__':
         # docx文件已存在，跳过继续
         if os.path.exists(docx_file):
             # continue
-            finish_dir = "E:\\workspace\\flk.npc.gov.cn\\2025-09-11\\finish_flk.npc.gov.cn"
+            finish_dir = "E:\\workspace\\upload.doc88.com\\flk.npc.gov.cn"
             if not os.path.exists(finish_dir):
                 os.makedirs(finish_dir)
             # 将docx文件转化为pdf
-            finish_file = docx_file.replace("docx_", "finish_").replace(".docx", ".pdf")
+            finish_file = docx_file.replace(".docx", ".pdf")
             if not os.path.exists(finish_file):
                 # 将docx转化为pdf
                 with open(finish_file, "w") as f:
@@ -138,5 +138,7 @@ if __name__ == '__main__':
                         print("转换成功！")
                     except Exception as e:
                         print("转换失败：", str(e))
+                        os.remove(finish_file)
+                        continue
         # 删除temp文件夹文件
         os.remove(file_path)
