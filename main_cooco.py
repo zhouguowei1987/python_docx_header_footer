@@ -86,10 +86,8 @@ def doc2docx(in_file, out_file):
 
 
 if __name__ == '__main__':
-    # category_dirs_arr = ['语文', '数学', '英语', '物理', '化学', '地理', '历史', '生物', '政治']
-    # category_dirs_arr = ['语文', '数学', '英语', '物理', '化学', '地理', '历史', '生物', '政治']
-    category_dirs_arr = ['语文', '数学', '英语', '政治']
-    root_dir = "E:\\workspace\\bk.cooco.net.cn\\bk.cooco.net.cn\\小学"
+    category_dirs_arr = ['语文', '数学', '英语', '物理', '化学', '地理', '历史', '生物', '政治']
+    root_dir = "E:\\workspace\\bk.cooco.net.cn\\jiaoan\\bk.cooco.net.cn\\高中"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
@@ -99,7 +97,7 @@ if __name__ == '__main__':
 
                 file_path = root_dir + "/" + category + "/" + file
                 print(file_path)
-                docx_dir = "E:\\workspace\\bk.cooco.net.cn\\bk.docx_cooco.net.cn\\小学\\" + category
+                docx_dir = "E:\\workspace\\bk.cooco.net.cn\\jiaoan\\bk.docx_cooco.net.cn\\高中\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
@@ -170,7 +168,7 @@ if __name__ == '__main__':
                 # docx文件已存在，跳过继续
                 if os.path.exists(docx_file):
                     # continue
-                    finish_dir = "E:\\workspace\\bk.cooco.net.cn\\bk.finish_cooco.net.cn\\小学\\" + category
+                    finish_dir = "E:\\workspace\\bk.cooco.net.cn\\jiaoan\\bk.finish_cooco.net.cn\\高中\\" + category
                     if not os.path.exists(finish_dir):
                         os.makedirs(finish_dir)
                     # 将docx文件转化为pdf
