@@ -138,7 +138,5 @@ if __name__ == '__main__':
                         print("转换成功！")
                     except Exception as e:
                         print("转换失败：", str(e))
-                        os.remove(finish_file)
-                        continue
         # 删除temp文件夹文件
         os.remove(file_path)
