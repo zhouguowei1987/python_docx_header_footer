@@ -76,6 +76,11 @@ if __name__ == '__main__':
             os.makedirs(docx_dir)
 
         sub_file = file
+        left_flag_index = file.find("【")
+        right_flag_index = file.find("】")
+        if left_flag_index == 0 and right_flag_index != -1:
+            # 文档名称以“【”开头，以“】”结尾，则替换名称
+            sub_file = file[right_flag_index + 1:]
         sub_file = os.path.splitext(sub_file)[0].replace(".doc", "").replace(".docx", "") + ".docx"
         docx_file = docx_dir + "\\" + sub_file
         print(docx_file)

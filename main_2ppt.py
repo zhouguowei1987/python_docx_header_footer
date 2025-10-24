@@ -37,8 +37,8 @@ def replace_text_in_slide(slide, old_text, new_text):
 
 
 if __name__ == '__main__':
-    root_dir = "F:\\workspace\\www.2ppt.com\\2025-09-04\\www.2ppt.com"
-    finish_dir = "F:\\workspace\\www.2ppt.com\\2025-09-04\\www.finish_2ppt.com"
+    root_dir = "F:\\workspace\\www.2ppt.com\\2025-10-15\\www.2ppt.com"
+    finish_dir = "F:\\workspace\\www.2ppt.com\\2025-10-15\\www.finish_2ppt.com"
     if not os.path.exists(finish_dir):
         os.makedirs(finish_dir)
     files = sorted(os.listdir(root_dir))

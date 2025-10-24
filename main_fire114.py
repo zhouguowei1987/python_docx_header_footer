@@ -102,47 +102,13 @@ def decompress_rar(rar_file_name, dir_name):
 
 
 if __name__ == '__main__':
-    # 解压压缩包
-    # rar_root_dir = "E:\\workspace\\www.gzenxx.com\\2025-08-12\\www.rar_gzenxx.com"
-    # rar_dirs = sorted(os.listdir(rar_root_dir))
-    # rar_files = sorted(os.listdir(rar_root_dir))
-    # for rar_file in rar_files:
-    #     rar_file_path = rar_root_dir + "\\" + rar_file
-    #     print("==========" + "开始解压" + rar_file_path + "==========")
-    #     try:
-    #         decompress_rar(rar_file_path, "E:\\workspace\\www.gzenxx.com\\2025-08-12\\www.uncompress_gzenxx.com")
-    #     except Exception as e:
-    #         print(e)
-    #         continue
-    #     print("==========" + "解压完成" + "==========")
-    # exit()
-
-    root_dir = "E:\\workspace\\www.gzenxx.com\\2025-08-12\\www.uncompress_gzenxx.com"
+    root_dir = "E:\\workspace\\temp-www.fire114.cn"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
         print(file_path)
 
-        # 查看一下是否是文件夹，如果是文件夹，则将文件移出
-        # if os.path.isdir(file_path):
-        #     child_files = sorted(os.listdir(file_path))
-        #     for child_file in child_files:
-        #         extension = os.path.splitext(child_file)[-1]
-        #         if extension not in [".doc", ".docx"]:
-        #             continue
-        #         src_child_file_path = file_path + "\\" + child_file
-        #         dst_child_file_path = root_dir + "\\" + child_file
-        #         try:
-        #             os.rename(src_child_file_path, dst_child_file_path)
-        #         except WindowsError:
-        #             os.remove(dst_child_file_path)
-        #             os.rename(src_child_file_path, dst_child_file_path)
-        #
-        # # 文件后缀不是doc或docx，则删除
-        # if os.path.splitext(file)[1] not in [".doc", ".docx"]:
-        #     os.remove(file_path)
-
-        docx_dir = "E:\\workspace\\www.gzenxx.com\\2025-08-12\\docx.gzenxx.com"
+        docx_dir = "E:\\workspace\\upload.doc88.com\\www.fire114.cn"
         if not os.path.exists(docx_dir):
             os.makedirs(docx_dir)
 
@@ -155,7 +121,6 @@ if __name__ == '__main__':
         docx_file = docx_dir + "\\" + sub_file.lower().replace(os.path.splitext(sub_file)[1], ".docx")
         docx_file = docx_file.strip()
         docx_file = docx_file.replace("（", "(").replace("）", ")")
-        docx_file = docx_file.replace("word版", "")
         docx_file = docx_file.replace(",", "")
         docx_file = docx_file.replace("，", "")
 
@@ -202,11 +167,11 @@ if __name__ == '__main__':
         # docx文件已存在，跳过继续
         if os.path.exists(docx_file):
             # continue
-            finish_dir = "E:\\workspace\\www.gzenxx.com\\2025-08-12\\finish.gzenxx.com"
+            finish_dir = "E:\\workspace\\upload.doc88.com\\www.fire114.cn"
             if not os.path.exists(finish_dir):
                 os.makedirs(finish_dir)
             # 将docx文件转化为pdf
-            finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
+            finish_file = docx_file.replace(".docx", ".pdf")
             if not os.path.exists(finish_file):
                 # 将docx转化为pdf
                 with open(finish_file, "w") as f:
