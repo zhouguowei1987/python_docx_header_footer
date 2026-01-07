@@ -79,12 +79,12 @@ def check_only_image(doc_file):
 
 if __name__ == '__main__':
     # 将doc文档转化为docx
-    root_dir = "F:\\workspace\\www.czwlzx.cn\\2025-07-11\\www.czwlzx.cn"
+    root_dir = "F:\\workspace\\www.czwlzx.cn\\2025-11-26\\www.czwlzx.cn"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
         print(file_path)
-        docx_dir = "F:\\workspace\\www.czwlzx.cn\\2025-07-11\\www.docx_czwlzx.cn"
+        docx_dir = "F:\\workspace\\www.czwlzx.cn\\2025-11-26\\www.docx_czwlzx.cn"
         if not os.path.exists(docx_dir):
             os.makedirs(docx_dir)
 
@@ -162,7 +162,7 @@ if __name__ == '__main__':
         # docx文件已存在，跳过继续
         if os.path.exists(docx_file):
             # continue
-            finish_dir = "F:\\workspace\\www.czwlzx.cn\\2025-07-11\\www.finish_czwlzx.cn"
+            finish_dir = "F:\\workspace\\www.czwlzx.cn\\2025-11-26\\www.finish_czwlzx.cn"
             if not os.path.exists(finish_dir):
                 os.makedirs(finish_dir)
             # 将docx文件转化为pdf

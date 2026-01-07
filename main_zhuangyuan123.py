@@ -3,7 +3,6 @@ import time
 from docx import Document
 from docx.shared import Pt
 from docx.shared import Cm
-from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.oxml.ns import nsdecls
 from docx.oxml import parse_xml
 from docx2pdf import convert
@@ -95,10 +94,10 @@ def doc2docx(in_file, out_file):
 
 
 if __name__ == '__main__':
-    # category_dirs_arr = ['语文',	'数学', '英语', '道德与法治', '音乐', '美术', '信息技术']
-    category_dirs_arr = ['语文', '数学', '英语', '物理', '化学', '生物', '道德与法治', '历史', '地理', '音乐', '美术', '信息技术']
+    category_dirs_arr = ['语文']
+    # category_dirs_arr = ['语文', '数学', '英语', '物理', '化学', '生物', '道德与法治', '历史', '地理', '音乐', '美术', '信息技术']
     # category_dirs_arr = ['语文', '数学', '英语', '物理', '化学', '生物', '政治', '历史', '地理']
-    root_dir = "E:\\workspace\\www2.zzstep.com\\2025-12-13\\www2.zzstep.com\\初中"
+    root_dir = "E:\\workspace\\www.zhuangyuan123.com\\2026-01-04\\www.zhuangyuan123.com\\小学"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
@@ -108,13 +107,13 @@ if __name__ == '__main__':
 
                 file_path = root_dir + "/" + category + "/" + file
                 print(file_path)
-                docx_dir = "E:\\workspace\\www2.zzstep.com\\2025-12-13\\docx.zzstep.com\\初中\\" + category
+                docx_dir = "E:\\workspace\\www.zhuangyuan123.com\\2026-01-04\\docx.zhuangyuan123.com\\小学\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
                 sub_file = file
-                left_flag_index = file.find("《")
-                right_flag_index = file.find("》")
+                left_flag_index = file.find("【")
+                right_flag_index = file.find("】")
                 if left_flag_index == 0 and right_flag_index != -1:
                     # 文档名称以“【”开头，以“】”结尾，则替换名称
                     sub_file = file[right_flag_index + 1:]
@@ -169,21 +168,21 @@ if __name__ == '__main__':
                         continue
 
                 # docx文件已存在，跳过继续
-                if os.path.exists(docx_file):
-                    # continue
-                    finish_dir = "E:\\workspace\\www2.zzstep.com\\2025-12-13\\finish.zzstep.com\\初中\\" + category
-                    if not os.path.exists(finish_dir):
-                        os.makedirs(finish_dir)
-                    # 将docx文件转化为pdf
-                    finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
-                    if not os.path.exists(finish_file):
-                        # 将docx转化为pdf
-                        with open(finish_file, "w") as f:
-                            # 将 Word 文档转换为 PDF
-                            try:
-                                print("==========开始转化为pdf==============")
-                                # convert(docx_file, finish_file)
-                                convertDocxToPDF(docx_file, finish_file)
-                                print("转换成功！")
-                            except Exception as e:
-                                print("转换失败：", str(e))
+                # if os.path.exists(docx_file):
+                #     # continue
+                #     finish_dir = "E:\\workspace\\www.zhuangyuan123.com\\2026-01-04\\finish.zhuangyuan123.com\\小学\\" + category
+                #     if not os.path.exists(finish_dir):
+                #         os.makedirs(finish_dir)
+                #     # 将docx文件转化为pdf
+                #     finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
+                #     if not os.path.exists(finish_file):
+                #         # 将docx转化为pdf
+                #         with open(finish_file, "w") as f:
+                #             # 将 Word 文档转换为 PDF
+                #             try:
+                #                 print("==========开始转化为pdf==============")
+                #                 # convert(docx_file, finish_file)
+                #                 convertDocxToPDF(docx_file, finish_file)
+                #                 print("转换成功！")
+                #             except Exception as e:
+                #                 print("转换失败：", str(e))
