@@ -94,10 +94,10 @@ def doc2docx(in_file, out_file):
 
 
 if __name__ == '__main__':
-    category_dirs_arr = ['语文']
-    # category_dirs_arr = ['语文', '数学', '英语', '物理', '化学', '生物', '道德与法治', '历史', '地理', '音乐', '美术', '信息技术']
-    # category_dirs_arr = ['语文', '数学', '英语', '物理', '化学', '生物', '政治', '历史', '地理']
-    root_dir = "E:\\workspace\\www.zhuangyuan123.com\\2026-01-04\\www.zhuangyuan123.com\\小学"
+    # category_dirs_arr = ['语文', '英语', '数学', '科学', '道德与法治']
+    # category_dirs_arr = ['语文', '数学', '英语','道德与法治','地理','化学','科学','历史','历史与社会','美术','生物','体育与健康','物理','信息技术','音乐','综合']
+    category_dirs_arr = ['语文', '数学','英语', '物理', '化学', '生物', '通用技术', '信息技术', '综合', '政治', '地理', '历史']
+    root_dir = "E:\\workspace\\www.zhuangyuan123.com\\temp.zhuangyuan123.com\\高中"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
@@ -107,7 +107,7 @@ if __name__ == '__main__':
 
                 file_path = root_dir + "/" + category + "/" + file
                 print(file_path)
-                docx_dir = "E:\\workspace\\www.zhuangyuan123.com\\2026-01-04\\docx.zhuangyuan123.com\\小学\\" + category
+                docx_dir = "E:\\workspace\\www.zhuangyuan123.com\\docx.zhuangyuan123.com\\高中\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
@@ -125,10 +125,11 @@ if __name__ == '__main__':
                 docx_file = docx_file.replace("——", "-")
                 docx_file = docx_file.replace("()", "")
 
-                if docx_file.replace(docx_dir, "").find(category) == -1:
-                    # 文档标题不包含分类名称
-                    print("文档标题不包含分类名称，跳过")
-                    continue
+                # if docx_file.replace(docx_dir, "").find(category) == -1:
+                #     # 文档标题不包含分类名称
+                #     print("文档标题不包含分类名称，跳过")
+                #     os.remove(file_path)
+                #     continue
 
                 # docx文件已存在，跳过继续
                 if not os.path.exists(docx_file):
@@ -144,6 +145,7 @@ if __name__ == '__main__':
                         if not doc2docx(file_path, docx_file):
                             print("转换失败，删除文件")
                             os.remove(docx_file)
+                            os.remove(file_path)
                             continue
                         print("==========转化完成==============")
 
@@ -153,24 +155,29 @@ if __name__ == '__main__':
                     if not remove_header_footer(docx_file):
                         print("删除页眉页脚失败，删除文件")
                         os.remove(docx_file)
+                        os.remove(file_path)
                         continue
 
                     # 删除只包含图片
                     if check_only_image(docx_file):
                         print("文档只包含图片，删除文件")
                         os.remove(docx_file)
+                        os.remove(file_path)
                         continue
 
                     # 改变文档字体
                     if not change_word_font(docx_file):
                         print("改变文档字体失败，删除文件")
                         os.remove(docx_file)
+                        os.remove(file_path)
                         continue
+
+                os.remove(file_path)
 
                 # docx文件已存在，跳过继续
                 # if os.path.exists(docx_file):
                 #     # continue
-                #     finish_dir = "E:\\workspace\\www.zhuangyuan123.com\\2026-01-04\\finish.zhuangyuan123.com\\小学\\" + category
+                #     finish_dir = "E:\\workspace\\www.zhuangyuan123.com\\finish.zhuangyuan123.com\\高中\\" + category
                 #     if not os.path.exists(finish_dir):
                 #         os.makedirs(finish_dir)
                 #     # 将docx文件转化为pdf

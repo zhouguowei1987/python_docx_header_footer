@@ -14,8 +14,8 @@ import shutil
 import zipfile
 import rarfile
 
-zipfile.UNRAR_TOOL = "D:\\Program Files (x86)\\WinRAR\\UnRAR.exe"
-rarfile.UNRAR_TOOL = "D:\\Program Files (x86)\\WinRAR\\UnRAR.exe"
+zipfile.UNRAR_TOOL = "D:\\Program Files\\WinRAR\\UnRAR.exe"
+rarfile.UNRAR_TOOL = "D:\\Program Files\\WinRAR\\UnRAR.exe"
 
 
 def decompress_zip(zip_file_name, dir_name):
