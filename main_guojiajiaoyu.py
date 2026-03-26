@@ -96,7 +96,7 @@ if __name__ == '__main__':
 
                 file_path = root_dir + "/" + category + "/" + file
                 print(file_path)
-                docx_dir = "E:\\workspace\\www.guojiajiaoyu.com\\docx.zhuangyuan123.com\\" + category
+                docx_dir = "E:\\workspace\\www.guojiajiaoyu.com\\docx.guojiajiaoyu.com\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
@@ -113,7 +113,7 @@ if __name__ == '__main__':
                     if file_ext == ".docx":
                         # 已经是docx文件了，直接复制过去
                         shutil.copy(file_path, docx_file)
-                    else:
+                    if file_ext == ".doc":
                         with open(docx_file, 'w') as f:
                             pass
                         print("==========开始转化为docx==============")
