@@ -128,13 +128,15 @@ if __name__ == '__main__':
         if not os.path.exists(finish_dir):
             os.makedirs(finish_dir)
         # 将docx文件转化为pdf
-        finish_file = docx_file.replace(".docx", ".pdf")
+        finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
 
         # 获取文件后缀
         file_ext = os.path.splitext(file_path)[-1]
         if file_ext == ".docx":
             # 已经是docx文件了，直接复制过去
             shutil.copy(file_path, docx_file)
+            # 删除原文件
+            os.remove(file_path)
         elif file_ext == ".pdf":
             # 已经是pdf文件了，直接复制过去
             shutil.copy(file_path, finish_file)
