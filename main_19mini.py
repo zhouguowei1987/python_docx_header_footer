@@ -124,12 +124,12 @@ def check_only_image(doc_file):
 
 if __name__ == '__main__':
     # 第一步：解压压缩包
-    # zip_rar_root_dir = "F:\\workspace\\www.19mini.cn\\2025-06-12\\www.19mini.cn"
+    # zip_rar_root_dir = "F:\\workspace\\www.19mini.cn\\2026-05-02\\www.19mini.cn"
     # zip_rar_dirs = sorted(os.listdir(zip_rar_root_dir))
     # zip_rar_files = sorted(os.listdir(zip_rar_root_dir))
     # for zip_rar_file in zip_rar_files:
     #     zip_rar_file_path = zip_rar_root_dir + "\\" + zip_rar_file
-    #     dst_file_path = "F:\\workspace\\www.19mini.cn\\2025-06-12\\www.uncompress_19mini.cn"
+    #     dst_file_path = "F:\\workspace\\www.19mini.cn\\2026-05-02\\www.uncompress_19mini.cn"
     #     if not os.path.exists(dst_file_path):
     #         os.makedirs(dst_file_path)
     #     print("==========开始解压==========")
@@ -154,7 +154,7 @@ if __name__ == '__main__':
     # exit()
 
     # 第二步：将文件夹中文件移出，并更改文件名称
-    # root_dir = "F:\\workspace\\www.19mini.cn\\2025-06-12\\www.uncompress_19mini.cn"
+    # root_dir = "F:\\workspace\\www.19mini.cn\\2026-05-02\\www.uncompress_19mini.cn"
     # files = sorted(os.listdir(root_dir))
     # for file in files:
     #     file_path = root_dir + "\\" + file
@@ -193,12 +193,12 @@ if __name__ == '__main__':
     # exit()
 
     # 第三步：将doc文档转化为docx
-    root_dir = "F:\\workspace\\www.19mini.cn\\2025-06-12\\www.uncompress_19mini.cn"
+    root_dir = "F:\\workspace\\www.19mini.cn\\2026-05-02\\www.uncompress_19mini.cn"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
         print(file_path)
-        docx_dir = "F:\\workspace\\www.19mini.cn\\2025-06-12\\www.docx_19mini.cn"
+        docx_dir = "F:\\workspace\\www.19mini.cn\\2026-05-02\\www.docx_19mini.cn"
         if not os.path.exists(docx_dir):
             os.makedirs(docx_dir)
 
@@ -264,7 +264,7 @@ if __name__ == '__main__':
         # docx文件已存在，跳过继续
         if os.path.exists(docx_file):
             # continue
-            finish_dir = "F:\\workspace\\www.19mini.cn\\2025-06-12\\www.finish_19mini.cn"
+            finish_dir = "F:\\workspace\\www.19mini.cn\\2026-05-02\\www.finish_19mini.cn"
             if not os.path.exists(finish_dir):
                 os.makedirs(finish_dir)
             # 将docx文件转化为pdf

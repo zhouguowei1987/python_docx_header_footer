@@ -10,8 +10,10 @@ from docx.oxml.ns import qn
 from win32com import client as wc
 import os
 import shutil
+import zipfile
 import rarfile
 
+zipfile.UNRAR_TOOL = "D:\\Program Files\\WinRAR\\UnRAR.exe"
 rarfile.UNRAR_TOOL = "D:\\Program Files\\WinRAR\\UnRAR.exe"
 
 
@@ -80,6 +82,24 @@ def check_only_image(doc_file):
         return True
     return False
 
+def decompress_zip(zip_file_name, dir_name):
+    """
+    .zip 文件解压
+    :param zip_file_name: zip 文件路径
+    :param dir_name: 文件解压目录
+    :return:
+    """
+    # 创建 zip 对象
+    zip_obj = zipfile.ZipFile(zip_file_name)
+    # 目录切换
+    if not os.path.exists(dir_name):
+        os.mkdir(dir_name)
+    os.chdir(dir_name)
+    # Extract all files into current directory.
+    zip_obj.extractall()
+    # zip_obj.extractall(dir_name)
+    # 关闭
+    zip_obj.close()
 
 def decompress_rar(rar_file_name, dir_name):
     """
@@ -103,21 +123,36 @@ def decompress_rar(rar_file_name, dir_name):
 
 if __name__ == '__main__':
     # 解压压缩包
-    # rar_root_dir = "D:\\workspace\\www.gzenxx.com\\2025-10-16\\www.rar_gzenxx.com"
-    # rar_dirs = sorted(os.listdir(rar_root_dir))
-    # rar_files = sorted(os.listdir(rar_root_dir))
-    # for rar_file in rar_files:
-    #     rar_file_path = rar_root_dir + "\\" + rar_file
-    #     print("==========" + "开始解压" + rar_file_path + "==========")
+    # zip_rar_root_dir = "D:\\workspace\\www.gzenxx.com\\2026-03-17\\www.rar_gzenxx.com"
+    # zip_rar_dirs = sorted(os.listdir(zip_rar_root_dir))
+    # zip_rar_files = sorted(os.listdir(zip_rar_root_dir))
+    # for zip_rar_file in zip_rar_files:
+    #     zip_rar_file_path = zip_rar_root_dir + "\\" + zip_rar_file
+    #     dst_file_path = "D:\\workspace\\www.gzenxx.com\\2026-03-17\\www.uncompress_gzenxx.com"
+    #     if not os.path.exists(dst_file_path):
+    #         os.makedirs(dst_file_path)
+    #     print("==========开始解压==========")
     #     try:
-    #         decompress_rar(rar_file_path, "D:\\workspace\\www.gzenxx.com\\2025-10-16\\www.uncompress_gzenxx.com")
+    #         dst_file_name = zip_rar_file.replace(",", "-").replace("|", "-").replace(" ", "-").replace("", "-")
+    #         print(dst_file_name)
+    #         # 查看文件是zip还是rar文件
+    #         zip_rar_file_ext = os.path.splitext(zip_rar_file)[1]
+    #         if zip_rar_file_ext == ".zip":
+    #             # 是zip文件
+    #             decompress_zip(zip_rar_file_path, dst_file_path + "\\" + dst_file_name.replace(".zip", ""))
+    #         elif zip_rar_file_ext == ".rar":
+    #             # 是rar文件
+    #             decompress_rar(zip_rar_file_path, dst_file_path + "\\" + dst_file_name.replace(".rar", ""))
+    #         elif zip_rar_file_ext in [".doc", ".docx"]:
+    #             # 是doc或docx文件，直接复制
+    #             shutil.copy(zip_rar_file_path, dst_file_path + "\\" + zip_rar_file)
     #     except Exception as e:
     #         print(e)
     #         continue
     #     print("==========" + "解压完成" + "==========")
     # exit()
 
-    root_dir = "D:\\workspace\\www.gzenxx.com\\2025-10-16\\www.uncompress_gzenxx.com"
+    root_dir = "D:\\workspace\\www.gzenxx.com\\2026-03-17\\www.uncompress_gzenxx.com"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
@@ -137,12 +172,12 @@ if __name__ == '__main__':
         #         except WindowsError:
         #             os.remove(dst_child_file_path)
         #             os.rename(src_child_file_path, dst_child_file_path)
-
+        #
         # # 文件后缀不是doc或docx，则删除
         # if os.path.splitext(file)[1] not in [".doc", ".docx"]:
         #     os.remove(file_path)
 
-        docx_dir = "D:\\workspace\\www.gzenxx.com\\2025-10-16\\docx.gzenxx.com"
+        docx_dir = "D:\\workspace\\www.gzenxx.com\\2026-03-17\\docx.gzenxx.com"
         if not os.path.exists(docx_dir):
             os.makedirs(docx_dir)
 
@@ -202,7 +237,7 @@ if __name__ == '__main__':
         # docx文件已存在，跳过继续
         if os.path.exists(docx_file):
             # continue
-            finish_dir = "D:\\workspace\\www.gzenxx.com\\2025-10-16\\finish.gzenxx.com"
+            finish_dir = "D:\\workspace\\www.gzenxx.com\\2026-03-17\\finish.gzenxx.com"
             if not os.path.exists(finish_dir):
                 os.makedirs(finish_dir)
             # 将docx文件转化为pdf

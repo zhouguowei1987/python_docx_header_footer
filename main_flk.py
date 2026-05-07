@@ -66,7 +66,7 @@ def check_only_image(doc_file):
 
 if __name__ == '__main__':
     # 将doc文档转化为docx
-    root_dir = "E:\\workspace\\flk.npc.gov.cn\\temp-flk.npc.gov.cn"
+    root_dir = "D:\\workspace\\flk.npc.gov.cn\\temp-flk.npc.gov.cn"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
