@@ -125,11 +125,11 @@ if __name__ == '__main__':
                 docx_file = docx_file.replace("——", "-")
                 docx_file = docx_file.replace("()", "")
 
-                # if docx_file.replace(docx_dir, "").find(category) == -1:
-                #     # 文档标题不包含分类名称
-                #     print("文档标题不包含分类名称，跳过")
-                #     os.remove(file_path)
-                #     continue
+                if docx_file.replace(docx_dir, "").find(category) == -1:
+                    # 文档标题不包含分类名称
+                    print("文档标题不包含分类名称，跳过")
+                    os.remove(file_path)
+                    continue
 
                 # docx文件已存在，跳过继续
                 if not os.path.exists(docx_file):
@@ -172,24 +172,21 @@ if __name__ == '__main__':
                         os.remove(file_path)
                         continue
 
-                os.remove(file_path)
+                    finish_dir = "E:\\workspace\\www.zhuangyuan123.com\\finish.zhuangyuan123.com\\高中\\" + category
+                    if not os.path.exists(finish_dir):
+                        os.makedirs(finish_dir)
+                    # 将docx文件转化为pdf
+                    finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
+                    if not os.path.exists(finish_file):
+                        # 将docx转化为pdf
+                        with open(finish_file, "w") as f:
+                            # 将 Word 文档转换为 PDF
+                            try:
+                                print("==========开始转化为pdf==============")
+                                # convert(docx_file, finish_file)
+                                convertDocxToPDF(docx_file, finish_file)
+                                print("转换成功！")
+                            except Exception as e:
+                                print("转换失败：", str(e))
 
-                # docx文件已存在，跳过继续
-                # if os.path.exists(docx_file):
-                #     # continue
-                #     finish_dir = "E:\\workspace\\www.zhuangyuan123.com\\finish.zhuangyuan123.com\\高中\\" + category
-                #     if not os.path.exists(finish_dir):
-                #         os.makedirs(finish_dir)
-                #     # 将docx文件转化为pdf
-                #     finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
-                #     if not os.path.exists(finish_file):
-                #         # 将docx转化为pdf
-                #         with open(finish_file, "w") as f:
-                #             # 将 Word 文档转换为 PDF
-                #             try:
-                #                 print("==========开始转化为pdf==============")
-                #                 # convert(docx_file, finish_file)
-                #                 convertDocxToPDF(docx_file, finish_file)
-                #                 print("转换成功！")
-                #             except Exception as e:
-                #                 print("转换失败：", str(e))
+                os.remove(file_path)

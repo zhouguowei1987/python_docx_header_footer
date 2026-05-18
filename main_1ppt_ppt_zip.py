@@ -60,13 +60,13 @@ def replace_text_in_slide(slide, old_text, new_text):
 
 if __name__ == '__main__':
     # 第一步：解压压缩包
-    # zip_root_dir = "F:\\workspace\\www.1ppt.com\\2026-04-13\\www.zip_1ppt.com"
+    # zip_root_dir = "F:\\workspace\\www.1ppt.com\\2026-05-09\\www.zip_1ppt.com"
     # zip_dirs = sorted(os.listdir(zip_root_dir))
     # zip_files = sorted(os.listdir(zip_root_dir))
     # for zip_file in zip_files:
     #
     #     zip_file_path = zip_root_dir + "\\" + zip_file
-    #     dst_file_path = "F:\\workspace\\www.1ppt.com\\2026-04-13\\www.uncompress_zip_1ppt.com"
+    #     dst_file_path = "F:\\workspace\\www.1ppt.com\\2026-05-09\\www.uncompress_zip_1ppt.com"
     #     if not os.path.exists(dst_file_path):
     #         os.makedirs(dst_file_path)
     #     print("==========" + "开始解压" + zip_file_path + "==========")
@@ -107,7 +107,7 @@ if __name__ == '__main__':
     # exit()
 
     # 第二步：将文件夹中文件移出，并更改文件名称
-    # root_dir = "F:\\workspace\\www.1ppt.com\\2026-04-13\\www.uncompress_zip_1ppt.com"
+    # root_dir = "F:\\workspace\\www.1ppt.com\\2026-05-09\\www.uncompress_zip_1ppt.com"
     # files = sorted(os.listdir(root_dir))
     # for file in files:
     #     file_path = root_dir + "\\" + file
@@ -130,8 +130,8 @@ if __name__ == '__main__':
     # exit()
 
     # 第三步：替换幻灯片中文字
-    root_dir = "F:\\workspace\\www.1ppt.com\\2026-04-13\\www.uncompress_zip_1ppt.com"
-    finish_dir = "F:\\workspace\\www.1ppt.com\\2026-04-13\\www.finish_zip_1ppt.com"
+    root_dir = "F:\\workspace\\www.1ppt.com\\2026-05-09\\www.uncompress_zip_1ppt.com"
+    finish_dir = "F:\\workspace\\www.1ppt.com\\2026-05-09\\www.finish_zip_1ppt.com"
     if not os.path.exists(finish_dir):
         os.makedirs(finish_dir)
     files = sorted(os.listdir(root_dir))
@@ -140,26 +140,26 @@ if __name__ == '__main__':
         print(file_path)
 
         finish_file_path = file_path.replace("uncompress", "finish")
-        if not os.path.exists(finish_file_path):
-            # 获取pptx文件总页数
-            pptx_pages_count = get_slide_count(file_path)
-            if pptx_pages_count <= 5:
-                print(f"幻灯片数量（页数）: {pptx_pages_count}少于5，删除文件")
-                os.remove(file_path)
-                continue
+        # 获取pptx文件总页数
+        pptx_pages_count = get_slide_count(file_path)
+        if pptx_pages_count <= 5:
+            print(f"幻灯片数量（页数）: {pptx_pages_count}少于5，删除文件")
+            os.remove(file_path)
+            continue
 
-            # 加载PPTX文件
-            prs = Presentation(file_path)
-            # 遍历所有幻灯片并替换文本
-            for slide in prs.slides:
-                # 替换文本
-                replace_text_in_slide(slide, '第一PPT', 'XXXX')
-                replace_text_in_slide(slide, '第一ppt', 'XXXX')
-                replace_text_in_slide(slide, '1ppt', 'XXXX')
-                replace_text_in_slide(slide, '1PPT', 'XXXX')
-            # 删除最后一页
-            rId = prs.slides._sldIdLst[-1].rId
-            prs.part.drop_rel(rId)
-            del prs.slides._sldIdLst[-1]
-            # 保存修改后的PPTX文件
-            prs.save(finish_file_path)
+        # 加载PPTX文件
+        prs = Presentation(file_path)
+        # 遍历所有幻灯片并替换文本
+        for slide in prs.slides:
+            # 替换文本
+            replace_text_in_slide(slide, '第一PPT', 'XXXX')
+            replace_text_in_slide(slide, '第一ppt', 'XXXX')
+            replace_text_in_slide(slide, '1ppt', 'XXXX')
+            replace_text_in_slide(slide, '1PPT', 'XXXX')
+        # 删除最后一页
+        rId = prs.slides._sldIdLst[-1].rId
+        prs.part.drop_rel(rId)
+        del prs.slides._sldIdLst[-1]
+        # 保存修改后的PPTX文件
+        prs.save(finish_file_path)
+        os.remove(file_path)
