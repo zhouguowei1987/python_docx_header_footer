@@ -122,6 +122,7 @@ if __name__ == '__main__':
                 docx_file = docx_file.replace(" ", "")
                 docx_file = docx_file.replace("(无答案)", "")
                 docx_file = docx_file.replace("(免费)", "")
+                docx_file = docx_file.replace("精品解析：", "")
                 docx_file = docx_file.replace("——", "-")
                 docx_file = docx_file.replace("()", "")
 
