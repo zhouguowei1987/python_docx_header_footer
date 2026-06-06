@@ -11,6 +11,11 @@ from win32com import client as wc
 from pptx import Presentation
 import os
 import shutil
+import zipfile
+import rarfile
+
+zipfile.UNRAR_TOOL = "D:\\Program Files\\WinRAR\\UnRAR.exe"
+rarfile.UNRAR_TOOL = "D:\\Program Files\\WinRAR\\UnRAR.exe"
 
 
 def change_word_font(doc_file):
@@ -77,58 +82,124 @@ def check_only_image(doc_file):
     return False
 
 
+def decompress_zip(zip_file_name, dir_name):
+    """
+    .zip 文件解压
+    :param zip_file_name: zip 文件路径
+    :param dir_name: 文件解压目录
+    :return:
+    """
+    # 创建 zip 对象
+    zip_obj = zipfile.ZipFile(zip_file_name)
+    # 目录切换
+    if not os.path.exists(dir_name):
+        os.mkdir(dir_name)
+    os.chdir(dir_name)
+    # Extract all files into current directory.
+    zip_obj.extractall()
+    # zip_obj.extractall(dir_name)
+    # 关闭
+    zip_obj.close()
+
+
+def decompress_rar(rar_file_name, dir_name):
+    """
+    .rar 文件解压
+    :param rar_file_name: rar 文件路径
+    :param dir_name: 文件解压目录
+    :return:
+    """
+    # 创建 rar 对象
+    rar_obj = rarfile.RarFile(rar_file_name)
+    # 目录切换
+    if not os.path.exists(dir_name):
+        os.mkdir(dir_name)
+    os.chdir(dir_name)
+    # Extract all files into current directory.
+    rar_obj.extractall()
+    # rar_obj.extractall(dir_name)
+    # 关闭
+    rar_obj.close()
+
+
 if __name__ == '__main__':
-    # 将doc文档转化为docx
-    root_dir = "F:\\workspace\\www.czwlzx.cn\\2025-11-26\\www.czwlzx.cn"
+    # 解压压缩包
+    # zip_rar_root_dir = "F:\\workspace\\www.czwlzx.cn\\2026-06-04\\www.rar_czwlzx.cn"
+    # zip_rar_dirs = sorted(os.listdir(zip_rar_root_dir))
+    # zip_rar_files = sorted(os.listdir(zip_rar_root_dir))
+    # for zip_rar_file in zip_rar_files:
+    #     zip_rar_file_path = zip_rar_root_dir + "\\" + zip_rar_file
+    #     dst_file_path = "F:\\workspace\\www.czwlzx.cn\\2026-06-04\\www.uncompress_czwlzx.cn"
+    #     if not os.path.exists(dst_file_path):
+    #         os.makedirs(dst_file_path)
+    #     print("==========开始解压==========")
+    #     try:
+    #         dst_file_name = zip_rar_file.replace(",", "-").replace("|", "-").replace(" ", "-").replace("", "-")
+    #         print(dst_file_name)
+    #         # 查看文件是zip还是rar文件
+    #         zip_rar_file_ext = os.path.splitext(zip_rar_file)[1]
+    #         if zip_rar_file_ext == ".zip":
+    #             # 是zip文件
+    #             decompress_zip(zip_rar_file_path, dst_file_path + "\\" + dst_file_name.replace(".zip", ""))
+    #         elif zip_rar_file_ext == ".rar":
+    #             # 是rar文件
+    #             decompress_rar(zip_rar_file_path, dst_file_path + "\\" + dst_file_name.replace(".rar", ""))
+    #         elif zip_rar_file_ext in [".doc", ".docx", ".pptx", ".pdf"]:
+    #             # 是doc或docx文件，直接复制
+    #             shutil.copy(zip_rar_file_path, dst_file_path + "\\" + zip_rar_file)
+    #     except Exception as e:
+    #         print(e)
+    #         continue
+    #     print("==========" + "解压完成" + "==========")
+    # exit()
+
+    root_dir = "F:\\workspace\\www.czwlzx.cn\\2026-06-04\\www.uncompress_czwlzx.cn"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
         print(file_path)
-        docx_dir = "F:\\workspace\\www.czwlzx.cn\\2025-11-26\\www.docx_czwlzx.cn"
+
+        # 查看一下是否是文件夹，如果是文件夹，则将文件移出
+        # if os.path.isdir(file_path):
+        #     child_files = sorted(os.listdir(file_path))
+        #     for child_file in child_files:
+        #         src_child_file_path = file_path + "\\" + child_file
+        #         print(src_child_file_path)
+        #         extension = os.path.splitext(child_file)[-1]
+        #         if extension in [".doc", ".docx", ".pptx", ".pdf"]:
+        #             dst_child_file_path = root_dir + "\\" + child_file
+        #             os.rename(src_child_file_path, dst_child_file_path)
+        #         if os.path.isdir(src_child_file_path):
+        #             dst_child_file_path = root_dir + "\\" + child_file + "_child"
+        #             os.rename(src_child_file_path, dst_child_file_path)
+
+        # 文件后缀不是doc或docx，则删除
+        # if os.path.splitext(file)[1] not in [".doc", ".docx", ".pptx", ".pdf"]:
+        #     os.remove(file_path)
+
+        docx_dir = "F:\\workspace\\www.czwlzx.cn\\2026-06-04\\www.docx_czwlzx.cn"
         if not os.path.exists(docx_dir):
             os.makedirs(docx_dir)
 
         sub_file = file
-        left_flag_index = sub_file.find("【")
-        right_flag_index = sub_file.find("】")
+        left_flag_index = file.find("【")
+        right_flag_index = file.find("】")
         if left_flag_index == 0 and right_flag_index != -1:
             # 文档名称以“【”开头，以“】”结尾，则替换名称
-            sub_file = sub_file[right_flag_index + 1:]
-        sub_file = os.path.splitext(sub_file)[0].replace(".doc", "").replace(".docx", "") + ".docx"
-        docx_file = docx_dir + "\\" + sub_file
-        docx_file = docx_file.strip().lower()
+            sub_file = file[right_flag_index + 1:]
+        docx_file = docx_dir + "\\" + sub_file.lower().replace(os.path.splitext(sub_file)[1], ".docx")
+        docx_file = docx_file.strip()
         docx_file = docx_file.replace("（", "(").replace("）", ")")
-        docx_file = docx_file.replace("word版，", "")
         docx_file = docx_file.replace("word版", "")
-        docx_file = docx_file.replace("word", "")
-        docx_file = docx_file.replace("无答案", "")
-        docx_file = docx_file.replace("[", "(")
-        docx_file = docx_file.replace("]", ")")
-        docx_file = docx_file.replace("：", "-")
-        docx_file = docx_file.replace("()", "")
-        docx_file = docx_file.replace("|", "-")
-        docx_file = docx_file.replace("｜", "-")
-        docx_file = docx_file.replace(" ", "")
         docx_file = docx_file.replace(",", "")
         docx_file = docx_file.replace("，", "")
-        print(docx_file)
 
         if not os.path.exists(docx_file):
             # 获取文件后缀
             file_ext = os.path.splitext(file_path)[-1]
             if file_ext == ".docx":
-                try:
-                    # 已经是docx文件了，直接复制过去
-                    shutil.copy(file_path, docx_file)
-                    print("File copied successfully.")
-                except FileNotFoundError:
-                    print("The source file does not exist.")
-                except PermissionError:
-                    print("Permission denied.")
-                except shutil.SameFileError:
-                    print("The source and destination are the same file.")
-                except shutil.Error as e:
-                    print(f"An error occurred: {e}")
+                # 已经是docx文件了，直接复制过去
+                shutil.copy(file_path, docx_file)
             else:
                 with open(docx_file, 'w') as f:
                     pass
@@ -143,6 +214,8 @@ if __name__ == '__main__':
         if os.path.exists(docx_file):
             # 删除只包含图片
             if check_only_image(docx_file):
+                # 删除原文件
+                os.remove(file_path)
                 # 删除图片文件
                 os.remove(docx_file)
                 continue
@@ -150,19 +223,21 @@ if __name__ == '__main__':
             # 删除页眉页脚
             if not remove_header_footer(docx_file):
                 # 删除原文件
+                os.remove(file_path)
                 os.remove(docx_file)
                 continue
 
             # 改变文档字体
             if not change_word_font(docx_file):
                 # 删除原文件
+                os.remove(file_path)
                 os.remove(docx_file)
                 continue
 
         # docx文件已存在，跳过继续
         if os.path.exists(docx_file):
             # continue
-            finish_dir = "F:\\workspace\\www.czwlzx.cn\\2025-11-26\\www.finish_czwlzx.cn"
+            finish_dir = "F:\\workspace\\www.czwlzx.cn\\2026-06-04\\www.finish_czwlzx.cn"
             if not os.path.exists(finish_dir):
                 os.makedirs(finish_dir)
             # 将docx文件转化为pdf

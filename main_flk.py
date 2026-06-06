@@ -83,46 +83,46 @@ if __name__ == '__main__':
         if not os.path.exists(docx_file):
             with open(docx_file, 'w') as f:
                 pass
-            print("==========开始转化为docx==============")
-            if not doc2docx(file_path, docx_file):
-                # 删除原文件
-                os.remove(file_path)
-                os.remove(docx_file)
-                continue
-            print("==========转化完成==============")
+            # print("==========开始转化为docx==============")
+            # if not doc2docx(file_path, docx_file):
+            #     # 删除原文件
+            #     os.remove(file_path)
+            #     os.remove(docx_file)
+            #     continue
+            # print("==========转化完成==============")
             # 获取文件后缀
-            # file_ext = os.path.splitext(file_path)[-1]
-            # if file_ext == ".docx":
-            #     try:
-            #         # 已经是docx文件了，直接复制过去
-            #         shutil.copy(file_path, docx_file)
-            #         print("File copied successfully.")
-            #     except FileNotFoundError:
-            #         print("The source file does not exist.")
-            #     except PermissionError:
-            #         print("Permission denied.")
-            #     except shutil.SameFileError:
-            #         print("The source and destination are the same file.")
-            #     except shutil.Error as e:
-            #         print(f"An error occurred: {e}")
-            # else:
-            #     with open(docx_file, 'w') as f:
-            #         pass
-            #     print("==========开始转化为docx==============")
-            #     if not doc2docx(file_path, docx_file):
-            #         # 删除原文件
-            #         os.remove(file_path)
-            #         os.remove(docx_file)
-            #         continue
-            #     print("==========转化完成==============")
+            file_ext = os.path.splitext(file_path)[-1]
+            if file_ext == ".docx":
+                try:
+                    # 已经是docx文件了，直接复制过去
+                    shutil.copy(file_path, docx_file)
+                    print("File copied successfully.")
+                except FileNotFoundError:
+                    print("The source file does not exist.")
+                except PermissionError:
+                    print("Permission denied.")
+                except shutil.SameFileError:
+                    print("The source and destination are the same file.")
+                except shutil.Error as e:
+                    print(f"An error occurred: {e}")
+            else:
+                with open(docx_file, 'w') as f:
+                    pass
+                print("==========开始转化为docx==============")
+                if not doc2docx(file_path, docx_file):
+                    # 删除原文件
+                    os.remove(file_path)
+                    os.remove(docx_file)
+                    continue
+                print("==========转化完成==============")
 
         if os.path.exists(docx_file):
             # 删除只包含图片
-            if check_only_image(docx_file):
-                # 删除原文件
-                os.remove(file_path)
-                os.remove(docx_file)
-                continue
+            # if check_only_image(docx_file):
+            #     # 删除原文件
+            #     os.remove(file_path)
+            #     os.remove(docx_file)
+            #     continue
 
             # 删除页眉页脚
             if not remove_header_footer(docx_file):

@@ -94,10 +94,10 @@ def doc2docx(in_file, out_file):
 
 
 if __name__ == '__main__':
-    # category_dirs_arr = ['语文', '英语', '数学', '科学', '道德与法治']
-    category_dirs_arr = ['语文', '数学', '英语','道德与法治','地理','化学','科学','历史','历史与社会','美术','生物','体育与健康','物理','信息技术','音乐','综合']
+    category_dirs_arr = ['语文', '英语', '数学', '科学', '道德与法治']
+    # category_dirs_arr = ['语文', '数学', '英语','道德与法治','地理','化学','科学','历史','历史与社会','美术','生物','体育与健康','物理','信息技术','音乐','综合']
     # category_dirs_arr = ['语文', '数学','英语', '物理', '化学', '生物', '通用技术', '信息技术', '综合', '政治', '地理', '历史']
-    root_dir = "E:\\workspace\\www.zhuangyuan123.com\\temp.zhuangyuan123.com\\初中"
+    root_dir = "E:\\workspace\\www.zhuangyuan123.com\\temp.zhuangyuan123.com\\小学"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
@@ -107,7 +107,7 @@ if __name__ == '__main__':
 
                 file_path = root_dir + "\\" + category + "\\" + file
                 print(file_path)
-                docx_dir = "E:\\workspace\\www.zhuangyuan123.com\\docx.zhuangyuan123.com\\初中\\" + category
+                docx_dir = "E:\\workspace\\www.zhuangyuan123.com\\docx.zhuangyuan123.com\\小学\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
@@ -173,7 +173,7 @@ if __name__ == '__main__':
                         os.remove(file_path)
                         continue
 
-                    finish_dir = "E:\\workspace\\www.zhuangyuan123.com\\finish.zhuangyuan123.com\\初中\\" + category
+                    finish_dir = "E:\\workspace\\www.zhuangyuan123.com\\finish.zhuangyuan123.com\\小学\\" + category
                     if not os.path.exists(finish_dir):
                         os.makedirs(finish_dir)
                     # 将docx文件转化为pdf
