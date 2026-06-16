@@ -89,17 +89,18 @@ if __name__ == '__main__':
             os.makedirs(docx_dir)
 
         sub_file = file
-        flag_index = file.find("(纲要")
-
-        if flag_index != -1:
+        left_flag_index = file.find("(纲要")
+        right_flag_index = file.find(")")
+        if left_flag_index != -1 and right_flag_index != -1:
             # 文档名称以“(纲要“”开头，则替换名称
-            sub_file = file[:flag_index]
-        docx_file = docx_dir + "\\" + sub_file.lower().replace(os.path.splitext(file_path)[1], ".docx")
+            sub_file = file[:left_flag_index] + ".docx"
+        docx_file = docx_dir + "\\" + sub_file.lower().replace(os.path.splitext(sub_file)[1], ".docx")
         docx_file = docx_file.strip()
         docx_file = docx_file.replace("（", "(").replace("）", ")")
         docx_file = docx_file.replace("word版", "")
         docx_file = docx_file.replace(",", "")
         docx_file = docx_file.replace("，", "")
+        print(docx_file)
 
         if not os.path.exists(docx_file):
             # 获取文件后缀
@@ -159,3 +160,5 @@ if __name__ == '__main__':
                         print("转换成功！")
                     except Exception as e:
                         print("转换失败：", str(e))
+        # 删除原文件
+        os.remove(file_path)
