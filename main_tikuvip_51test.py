@@ -95,7 +95,7 @@ def doc2docx(in_file, out_file):
 
 
 if __name__ == '__main__':
-    category_dirs_arr = ['中考']
+    category_dirs_arr = ['中考', '高考', '高中会考']
     root_dir = "E:\\workspace\\tikuvip.51test.net\\temp-tikuvip.51test.net"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
@@ -106,7 +106,7 @@ if __name__ == '__main__':
 
                 file_path = root_dir + "\\" + category + "\\" + file
                 print(file_path)
-                docx_dir = "E:\\workspace\\tikuvip.51test.net\\2026-07-04\\docx.tikuvip.51test.net\\" + category
+                docx_dir = "E:\\workspace\\tikuvip.51test.net\\2026-07-11\\docx.tikuvip.51test.net\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
@@ -138,6 +138,7 @@ if __name__ == '__main__':
                         if not doc2docx(file_path, docx_file):
                             print("转换失败，删除文件")
                             os.remove(docx_file)
+                            os.remove(file_path)
                             continue
                         print("==========转化完成==============")
 
@@ -147,24 +148,27 @@ if __name__ == '__main__':
                     if not remove_header_footer(docx_file):
                         print("删除页眉页脚失败，删除文件")
                         os.remove(docx_file)
+                        os.remove(file_path)
                         continue
 
                     # 删除只包含图片
                     if check_only_image(docx_file):
                         print("文档只包含图片，删除文件")
                         os.remove(docx_file)
+                        os.remove(file_path)
                         continue
 
                     # 改变文档字体
                     if not change_word_font(docx_file):
                         print("改变文档字体失败，删除文件")
                         os.remove(docx_file)
+                        os.remove(file_path)
                         continue
 
                 # docx文件已存在，跳过继续
                 if os.path.exists(docx_file):
                     # continue
-                    finish_dir = "E:\\workspace\\tikuvip.51test.net\\2026-07-04\\finish.tikuvip.51test.net\\" + category
+                    finish_dir = "E:\\workspace\\tikuvip.51test.net\\2026-07-11\\finish.tikuvip.51test.net\\" + category
                     if not os.path.exists(finish_dir):
                         os.makedirs(finish_dir)
                     # 将docx文件转化为pdf
