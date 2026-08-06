@@ -12,7 +12,7 @@ import os
 import shutil
 import rarfile
 
-rarfile.UNRAR_TOOL = "D:\\Program Files (x86)\\WinRAR\\UnRAR.exe"
+rarfile.UNRAR_TOOL = "D:\\Program Files\\WinRAR\\UnRAR.exe"
 
 
 def change_word_font(doc_file):

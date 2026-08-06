@@ -4,6 +4,8 @@ from docx import Document
 from docx.shared import Pt
 from docx.shared import Cm
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+from docx.oxml.ns import nsdecls
+from docx.oxml import parse_xml
 from docx2pdf import convert
 from docx.shared import RGBColor  # 设置字体的颜色
 from docx.oxml.ns import qn
@@ -12,95 +14,26 @@ import os
 import shutil
 
 
-def remove_and_set_header_footer(doc, save_doc):
-    # doc：需要去页眉页脚的docx 文件
-    # finish_doc： 需要另存为的新文件名
-    document = Document(doc)
-    for section in document.sections:
-        section.different_first_page_header_footer = False
-        section.header.is_linked_to_previous = True
-        section.footer.is_linked_to_previous = True
-
-    document.sections[0].header_distance = Cm(1.5)
-    document.sections[0].footer_distance = Cm(1.75)
-    # 设置页眉
-    header = document.sections[0].header  # 获取第一个节的页眉（所有的页眉都一致）
-    paragraph = header.paragraphs[0]  # 获取页眉的文字part
-    text = paragraph.add_run('烦恼多多少少，放松必不可少；给自己一个微笑，迎来的将是一片美好！')
-    text.font.size = Pt(10)  # 页眉字体大小
-    text.font.color.rgb = RGBColor(255, 0, 0)
-    # text.bold = True  # 页眉字体是否加粗
-    text.font.name = 'Times New Roman'  # 控制是英文时的字体
-    text.element.rPr.rFonts.set(qn('w:eastAsia'), '微软雅黑')  # 控制是中文时的字体
-    paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER  # 设置页眉居中
-
-    document.save(save_doc)
-
-
-def get_word_pages(in_file):
-    pages = 0
-    try:
-        word = wc.Dispatch("Word.Application")
-        try:
-            doc = word.Documents.Open(in_file)
-            word.ActiveDocument.Repaginate()
-            pages = word.ActiveDocument.ComputeStatistics(2)
-            doc.Close()
-            word.Quit()
-            return pages
-        except Exception as e:
-            print(e)
-        finally:
-            return pages
-    except Exception as e:
-        print(e)
-    finally:
-        return pages
-
-
-def docx_get_word_pages(in_file):
-    pages = 0
-    try:
-        # 打开Word文档
-        doc = Document(in_file)
-        # 获取总页数
-        pages = len(doc.paragraphs)
-        return pages
-    except Exception as e:
-        print(e)
-    finally:
-        return pages
-
-
-def docx_remove_content(doc_file):
-    # 定义需要去除的内容
-    content_to_remove = '''XXXXXX'''
-    # 打开doc文件
-    doc = Document(doc_file)
-    # 遍历doc文件中的段落
-    for para in doc.paragraphs:
-        # 如果段落中包含需要去除的内容，使用正则表达式替换为空字符串
-        if re.search(content_to_remove, para.text):
-            para.text = re.sub(content_to_remove, 'OfficePLUS', para.text)
-
-    doc.save(doc_file)
-
-
 def change_word_font(doc_file):
-    # 打开doc文件
-    doc = Document(doc_file)
-    doc.styles['Normal'].font.name = u'Times New Roman'  # 设置西文字体
-    doc.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), u'微软雅黑')  # 设置中文字体使用字体2->宋体
+    try:
+        # 打开doc文件
+        doc = Document(doc_file)
+        doc.styles['Normal'].font.name = u'Times New Roman'  # 设置西文字体
+        doc.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), u'微软雅黑')  # 设置中文字体使用字体2->宋体
+        doc.save(doc_file)
+        return True
+    except Exception as e:
+        print(e)
+        return False
 
-    i = 0
-    for para in doc.paragraphs:
-        if i == 0:
-            for run in para.runs:
-                # run.font.bold = True
-                run.font.size = Pt(15)
-                run.font.color.rgb = RGBColor(255, 0, 0)
-        i += 1
-    doc.save(doc_file)
+
+def convertDocxToPDF(infile, outfile):
+    wdFormatPDF = 17
+    word = wc.Dispatch('Word.Application')
+    doc = word.Documents.Open(infile)
+    doc.SaveAs(outfile, FileFormat=wdFormatPDF)
+    doc.Close()
+    word.Quit()
 
 
 def check_only_image(doc_file):
@@ -109,17 +42,31 @@ def check_only_image(doc_file):
         if len(doc.paragraphs) < 5:
             return True
         else:
-            i = 0
-            for para in doc.paragraphs:
-                if i == 4 and para.text == "":
-                    doc.save(doc_file)
-                    return True
-                i += 1
+            # 连续5个段落都是空，则按照纯图片处理
+            if doc.paragraphs[0].text == "" and doc.paragraphs[1].text == "" and doc.paragraphs[2].text == "" and \
+                    doc.paragraphs[3].text == "" and doc.paragraphs[4].text == "":
+                doc.save(doc_file)
+                return True
         doc.save(doc_file)
     except Exception as e:
         print(e)
         return True
     return False
+
+
+def remove_header_footer(doc_file):
+    # doc：需要去页眉页脚的docx 文件
+    try:
+        doc = Document(doc_file)
+        for section in doc.sections:
+            section.different_first_page_header_footer = False
+            section.header.is_linked_to_previous = True
+            section.footer.is_linked_to_previous = True
+        doc.save(doc_file)
+        return True
+    except Exception as e:
+        print(e)
+        return False
 
 
 def doc2docx(in_file, out_file):
@@ -129,11 +76,17 @@ def doc2docx(in_file, out_file):
             print(in_file)
             print(out_file)
             doc = word.Documents.Open(in_file)
-            doc.SaveAs(out_file, 12, False, "", True, "", False, False, False, False)
-            print('转换成功')
-            doc.Close()
-            word.Quit()
-            return True
+            if doc.ProtectionType == 1:
+                print('文档加密，转换失败')
+                doc.Close()
+                word.Quit()
+                return False
+            else:
+                doc.SaveAs(out_file, 12, False, "", True, "", False, False, False, False)
+                print('转换成功')
+                doc.Close()
+                word.Quit()
+                return True
         except Exception as e:
             print(e)
     except Exception as e:
@@ -142,65 +95,93 @@ def doc2docx(in_file, out_file):
 
 
 if __name__ == '__main__':
-    root_dir_years = [
-        "2010-2011",
-        "2012-2013",
-        "2014-2015",
-        "2016-2017",
-        "2018-2019",
-        "2020-2022",
-        "2023",
-    ]
-    for year in root_dir_years:
-        root_dir = "G:\\tikuvip-certification.51test.net\\tikuvip-certification（"+year+"）.51test.net"
-        category_dirs = sorted(os.listdir(root_dir))
-        for category in category_dirs:
-            if not os.path.isdir(root_dir + "\\" + category):
-                continue
+    category_dirs_arr = ['中考', '高考', '高中会考']
+    root_dir = "E:\\workspace\\tikuvip.51test.net\\temp-tikuvip.51test.net"
+    category_dirs = sorted(os.listdir(root_dir))
+    for category in category_dirs:
+        if category in category_dirs_arr:
             files = sorted(os.listdir(root_dir + "\\" + category))
             for file in files:
-                if os.path.splitext(file)[1] == ".doc":
-                    file_path = root_dir + "\\" + category + "\\" + file
-                    print(file_path)
-                    if "答案" not in file:
-                        continue
+                print(file)
 
-                    docx_dir = "G:\\tikuvip-certification.51test.net\\docx.tikuvip-certification（"+year+"）.51test.net" + "\\" + category
-                    if not os.path.exists(docx_dir):
-                        os.makedirs(docx_dir)
+                file_path = root_dir + "\\" + category + "\\" + file
+                print(file_path)
+                docx_dir = "E:\\workspace\\tikuvip.51test.net\\2026-07-11\\docx.tikuvip.51test.net\\" + category
+                if not os.path.exists(docx_dir):
+                    os.makedirs(docx_dir)
 
-                    docx_file = docx_dir + "\\" + file.replace(".doc", ".docx")
-                    if not os.path.exists(docx_file):
+                sub_file = file
+                left_flag_index = file.find("《")
+                right_flag_index = file.find("》")
+                if left_flag_index == 0 and right_flag_index != -1:
+                    # 文档名称以“【”开头，以“】”结尾，则替换名称
+                    sub_file = file[right_flag_index + 1:]
+                docx_file = docx_dir + "\\" + sub_file.lower().replace(os.path.splitext(sub_file)[1], ".docx")
+                docx_file = docx_file.replace("word版", "")
+                docx_file = docx_file.replace(" ", "")
+                docx_file = docx_file.replace("(无答案)", "")
+                docx_file = docx_file.replace("(免费)", "")
+                docx_file = docx_file.replace("——", "-")
+                docx_file = docx_file.replace("()", "")
+
+                # docx文件已存在，跳过继续
+                if not os.path.exists(docx_file):
+                    # 获取文件后缀
+                    file_ext = os.path.splitext(file_path)[-1]
+                    if file_ext == ".docx":
+                        # 已经是docx文件了，直接复制过去
+                        shutil.copy(file_path, docx_file)
+                    else:
+                        with open(docx_file, 'w') as f:
+                            pass
                         print("==========开始转化为docx==============")
                         if not doc2docx(file_path, docx_file):
+                            print("转换失败，删除文件")
+                            os.remove(docx_file)
+                            os.remove(file_path)
                             continue
                         print("==========转化完成==============")
 
-                    finish_dir = "G:\\tikuvip-certification.51test.net\\finish.tikuvip-certification（"+year+"）.51test" \
-                                                                                                            ".net" + \
-                                 "\\" + category
+                if os.path.exists(docx_file):
+
+                    # 删除页眉页脚
+                    if not remove_header_footer(docx_file):
+                        print("删除页眉页脚失败，删除文件")
+                        os.remove(docx_file)
+                        os.remove(file_path)
+                        continue
+
+                    # 删除只包含图片
+                    if check_only_image(docx_file):
+                        print("文档只包含图片，删除文件")
+                        os.remove(docx_file)
+                        os.remove(file_path)
+                        continue
+
+                    # 改变文档字体
+                    if not change_word_font(docx_file):
+                        print("改变文档字体失败，删除文件")
+                        os.remove(docx_file)
+                        os.remove(file_path)
+                        continue
+
+                # docx文件已存在，跳过继续
+                if os.path.exists(docx_file):
+                    # continue
+                    finish_dir = "E:\\workspace\\tikuvip.51test.net\\2026-07-11\\finish.tikuvip.51test.net\\" + category
                     if not os.path.exists(finish_dir):
                         os.makedirs(finish_dir)
-                    finish_file = finish_dir + "\\" + file.replace(".doc", ".pdf")
+                    # 将docx文件转化为pdf
+                    finish_file = docx_file.replace("docx.", "finish.").replace(".docx", ".pdf")
                     if not os.path.exists(finish_file):
-                        # 删除只包含图片
-                        if check_only_image(docx_file):
-                            # 删除图片文件
-                            print("删除文件")
-                            os.remove(file_path)
-                            os.remove(docx_file)
-                            continue
                         # 将docx转化为pdf
                         with open(finish_file, "w") as f:
                             # 将 Word 文档转换为 PDF
                             try:
-                                convert(docx_file, finish_file)
+                                print("==========开始转化为pdf==============")
+                                # convert(docx_file, finish_file)
+                                convertDocxToPDF(docx_file, finish_file)
                                 print("转换成功！")
                             except Exception as e:
                                 print("转换失败：", str(e))
-
-                        # shutil.copy(docx_file, finish_file)
-                        # 删除并设置页眉页脚
-                        # remove_and_set_header_footer(docx_file, finish_file)
-                        # 改变文档字体
-                        # change_word_font(finish_file)
+                os.remove(file_path)

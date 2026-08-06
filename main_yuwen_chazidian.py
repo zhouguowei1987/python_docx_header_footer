@@ -13,7 +13,7 @@ import shutil
 import rarfile
 import re
 
-rarfile.UNRAR_TOOL = "D:\\Program Files (x86)\\WinRAR\\UnRAR.exe"
+rarfile.UNRAR_TOOL = "D:\\Program Files\\WinRAR\\UnRAR.exe"
 
 
 def change_word_font(doc_file):
@@ -184,6 +184,11 @@ if __name__ == '__main__':
         docx_file = docx_file.replace("zhoushile-", "")
         docx_file = docx_file.replace(",", "")
         docx_file = docx_file.replace("，", "")
+
+        # 删除文件名中不含有“数学”字样文件
+        if "语文" not in docx_file:
+            os.remove(file_path)
+            continue
 
         # if not os.path.exists(docx_file):
         #     # 获取文件后缀
