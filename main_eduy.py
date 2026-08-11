@@ -124,12 +124,12 @@ def check_only_image(doc_file):
 
 if __name__ == '__main__':
     # 第一步：解压压缩包
-    # zip_rar_root_dir = "F:\\workspace\\hao123.eduy.net\\2025-03-24\\hao123.eduy.net\\高中"
+    # zip_rar_root_dir = "F:\\workspace\\hao123.eduy.net\\temp-hao123.eduy.net\\高中"
     # zip_rar_dirs = sorted(os.listdir(zip_rar_root_dir))
     # zip_rar_files = sorted(os.listdir(zip_rar_root_dir))
     # for zip_rar_file in zip_rar_files:
     #     zip_rar_file_path = zip_rar_root_dir + "\\" + zip_rar_file
-    #     dst_file_path = "F:\\workspace\\hao123.eduy.net\\2025-03-24\\hao123.uncompress_eduy.net\\高中"
+    #     dst_file_path = "F:\\workspace\\hao123.eduy.net\\2026-07-08\\hao123.uncompress_eduy.net\\高中"
     #     if not os.path.exists(dst_file_path):
     #         os.makedirs(dst_file_path)
     #     print("==========开始解压==========")
@@ -154,7 +154,7 @@ if __name__ == '__main__':
     # exit()
 
     # 第二步：将文件夹中文件移出，并更改文件名称
-    # root_dir = "F:\\workspace\\hao123.eduy.net\\2025-03-24\\hao123.uncompress_eduy.net\\高中"
+    # root_dir = "F:\\workspace\\hao123.eduy.net\\2026-07-08\\hao123.uncompress_eduy.net\\高中"
     # files = sorted(os.listdir(root_dir))
     # for file in files:
     #     file_path = root_dir + "\\" + file
@@ -192,7 +192,7 @@ if __name__ == '__main__':
     # exit()
 
     # 第三步：将doc文档转化为docx
-    root_dir = "F:\\workspace\\hao123.eduy.net\\2025-03-24\\hao123.uncompress_eduy.net\\高中"
+    root_dir = "F:\\workspace\\hao123.eduy.net\\2026-07-08\\hao123.uncompress_eduy.net\\高中"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
@@ -205,11 +205,11 @@ if __name__ == '__main__':
         if "扫描" in file:
             os.remove(file_path)
             continue
-        docx_dir = "F:\\workspace\\hao123.eduy.net\\2025-03-24\\hao123.docx_eduy.net\\高中"
+        docx_dir = "F:\\workspace\\hao123.eduy.net\\2026-07-08\\hao123.docx_eduy.net\\高中"
         if not os.path.exists(docx_dir):
             os.makedirs(docx_dir)
 
-        sub_file = file
+        sub_file = file.replace("x", "")
         left_flag_index1 = sub_file.find("、")
         if left_flag_index1 == 0 or left_flag_index1 == 1 or left_flag_index1 == 2 or left_flag_index1 == 3:
             # 文档名称以“、”开头，则替换名称
@@ -249,6 +249,7 @@ if __name__ == '__main__':
         docx_file = docx_file.replace("　", "")
         docx_file = docx_file.replace(",", "")
         docx_file = docx_file.replace("，", "")
+        docx_file = docx_file.replace("无答案", "")
         docx_file = docx_file.replace("www.eduy.net", "")
         docx_file = docx_file.replace("小题专练", "")
         docx_file = docx_file.replace("【阳光数学网】", "")
@@ -260,7 +261,7 @@ if __name__ == '__main__':
             os.remove(file_path)
             continue
 
-        finish_dir = "F:\\workspace\\hao123.eduy.net\\2025-03-24\\hao123.finish_eduy.net\\高中"
+        finish_dir = "F:\\workspace\\hao123.eduy.net\\2026-07-08\\hao123.finish_eduy.net\\高中"
         if not os.path.exists(finish_dir):
             os.makedirs(finish_dir)
         # 将docx文件转化为pdf

@@ -60,7 +60,7 @@ def replace_text_in_slide(slide, old_text, new_text):
 
 if __name__ == '__main__':
     # 第一步：解压压缩包
-    # zip_root_dir = "F:\\workspace\\www.1ppt.com\\2026-07-01\\www.zip_1ppt.com"
+    # zip_root_dir = "F:\\workspace\\www.1ppt.com\\temp-www.zip_1ppt.com"
     # zip_dirs = sorted(os.listdir(zip_root_dir))
     # zip_files = sorted(os.listdir(zip_root_dir))
     # for zip_file in zip_files:

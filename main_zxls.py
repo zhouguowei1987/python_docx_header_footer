@@ -77,7 +77,6 @@ def check_only_image(doc_file):
         return True
     return False
 
-
 if __name__ == '__main__':
     root_dir = "D:\\workspace\\www.zxls.com\\temp-www.zxls.com"
     files = sorted(os.listdir(root_dir))
