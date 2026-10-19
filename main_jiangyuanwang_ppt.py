@@ -68,3 +68,5 @@ if __name__ == '__main__':
                 replace_text_in_slide(slide, 'KIANGYUAN', 'XXXX')
             # 保存修改后的PPTX文件
             prs.save(finish_file_path)
+            # 删除原文件
+            os.remove(file_path)

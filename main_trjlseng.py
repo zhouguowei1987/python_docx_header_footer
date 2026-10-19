@@ -123,12 +123,12 @@ def decompress_rar(rar_file_name, dir_name):
 
 if __name__ == '__main__':
     # 解压压缩包
-    # zip_rar_root_dir = "D:\\workspace\\www.trjlseng.com\\2026-06-03\\www.rar_trjlseng.com"
+    # zip_rar_root_dir = "D:\\workspace\\www.trjlseng.com\\2026-07-24\\www.rar_trjlseng.com"
     # zip_rar_dirs = sorted(os.listdir(zip_rar_root_dir))
     # zip_rar_files = sorted(os.listdir(zip_rar_root_dir))
     # for zip_rar_file in zip_rar_files:
     #     zip_rar_file_path = zip_rar_root_dir + "\\" + zip_rar_file
-    #     dst_file_path = "D:\\workspace\\www.trjlseng.com\\2026-06-03\\www.uncompress_trjlseng.com"
+    #     dst_file_path = "D:\\workspace\\www.trjlseng.com\\2026-07-24\\www.uncompress_trjlseng.com"
     #     if not os.path.exists(dst_file_path):
     #         os.makedirs(dst_file_path)
     #     print("==========开始解压==========")
@@ -152,7 +152,7 @@ if __name__ == '__main__':
     #     print("==========" + "解压完成" + "==========")
     # exit()
 
-    root_dir = "D:\\workspace\\www.trjlseng.com\\2026-06-03\\www.uncompress_trjlseng.com"
+    root_dir = "D:\\workspace\\www.trjlseng.com\\2026-07-24\\www.uncompress_trjlseng.com"
     files = sorted(os.listdir(root_dir))
     for file in files:
         file_path = root_dir + "\\" + file
@@ -177,7 +177,7 @@ if __name__ == '__main__':
         # if os.path.splitext(file)[1] not in [".doc", ".docx"]:
         #     os.remove(file_path)
 
-        docx_dir = "D:\\workspace\\www.trjlseng.com\\2026-06-03\\docx.trjlseng.com"
+        docx_dir = "D:\\workspace\\www.trjlseng.com\\2026-07-24\\docx.trjlseng.com"
         if not os.path.exists(docx_dir):
             os.makedirs(docx_dir)
 
@@ -237,7 +237,7 @@ if __name__ == '__main__':
         # docx文件已存在，跳过继续
         if os.path.exists(docx_file):
             # continue
-            finish_dir = "D:\\workspace\\www.trjlseng.com\\2026-06-03\\finish.trjlseng.com"
+            finish_dir = "D:\\workspace\\www.trjlseng.com\\2026-07-24\\finish.trjlseng.com"
             if not os.path.exists(finish_dir):
                 os.makedirs(finish_dir)
             # 将docx文件转化为pdf

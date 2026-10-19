@@ -95,8 +95,8 @@ def doc2docx(in_file, out_file):
 
 
 if __name__ == '__main__':
-    category_dirs_arr = ['中考', '高考', '高中会考']
-    root_dir = "E:\\workspace\\tikuvip.51test.net\\temp-tikuvip.51test.net"
+    category_dirs_arr = ['初中一年级', '初中二年级', '初中三年级', '中考', '高一', '高二', '高三', '高考', '高中会考']
+    root_dir = "F:\\workspace\\tikuvip.51test.net\\temp-tikuvip.51test.net"
     category_dirs = sorted(os.listdir(root_dir))
     for category in category_dirs:
         if category in category_dirs_arr:
@@ -106,7 +106,7 @@ if __name__ == '__main__':
 
                 file_path = root_dir + "\\" + category + "\\" + file
                 print(file_path)
-                docx_dir = "E:\\workspace\\tikuvip.51test.net\\2026-07-11\\docx.tikuvip.51test.net\\" + category
+                docx_dir = "F:\\workspace\\tikuvip.51test.net\\2026-09-08\\docx.tikuvip.51test.net\\" + category
                 if not os.path.exists(docx_dir):
                     os.makedirs(docx_dir)
 
@@ -168,7 +168,7 @@ if __name__ == '__main__':
                 # docx文件已存在，跳过继续
                 if os.path.exists(docx_file):
                     # continue
-                    finish_dir = "E:\\workspace\\tikuvip.51test.net\\2026-07-11\\finish.tikuvip.51test.net\\" + category
+                    finish_dir = "F:\\workspace\\tikuvip.51test.net\\2026-09-08\\finish.tikuvip.51test.net\\" + category
                     if not os.path.exists(finish_dir):
                         os.makedirs(finish_dir)
                     # 将docx文件转化为pdf
