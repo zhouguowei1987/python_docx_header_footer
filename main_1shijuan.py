@@ -105,29 +105,29 @@ if __name__ == '__main__':
     category_rars_arr = ['一年级', '二年级', '四年级', '五年级', '六年级', '七年级', '八年级', '九年级', '高一', '高二',
                          '高三', '中考', '高考考']
     # 解压压缩包
-    rar_root_dir = "E:\\workspace\\www.1shijuan.cn\\temp-www.1shijuan.cn"
-    rar_dirs = sorted(os.listdir(rar_root_dir))
-    for category_rar in category_rars_arr:
-        rar_files_dir = rar_root_dir + "\\" + category_rar
-        if not os.path.exists(rar_files_dir):
-            print("==========" + "文件夹" + rar_files_dir + "不存在，跳过==========")
-            continue
-        rar_files = sorted(os.listdir(rar_files_dir))
-        for rar_file in rar_files:
-            rar_file_path = rar_files_dir + "\\" + rar_file
-            print("==========" + "开始解压" + rar_file_path + "==========")
-            try:
-                decompress_dir = "E:\\workspace\\www.1shijuan.cn\\www.uncompress_1shijuan.cn\\" + category_rar
-                if not os.path.exists(decompress_dir):
-                    os.makedirs(decompress_dir)
-                decompress_rar(rar_file_path, decompress_dir)
-            except Exception as e:
-                print(e)
-                continue
-            # 删除原压缩文件
-            os.remove(rar_file_path)
-            print("==========" + "解压完成" + "==========")
-    exit()
+    # rar_root_dir = "E:\\workspace\\www.1shijuan.cn\\temp-www.1shijuan.cn"
+    # rar_dirs = sorted(os.listdir(rar_root_dir))
+    # for category_rar in category_rars_arr:
+    #     rar_files_dir = rar_root_dir + "\\" + category_rar
+    #     if not os.path.exists(rar_files_dir):
+    #         print("==========" + "文件夹" + rar_files_dir + "不存在，跳过==========")
+    #         continue
+    #     rar_files = sorted(os.listdir(rar_files_dir))
+    #     for rar_file in rar_files:
+    #         rar_file_path = rar_files_dir + "\\" + rar_file
+    #         print("==========" + "开始解压" + rar_file_path + "==========")
+    #         try:
+    #             decompress_dir = "E:\\workspace\\www.1shijuan.cn\\www.uncompress_1shijuan.cn\\" + category_rar
+    #             if not os.path.exists(decompress_dir):
+    #                 os.makedirs(decompress_dir)
+    #             decompress_rar(rar_file_path, decompress_dir)
+    #         except Exception as e:
+    #             print(e)
+    #             continue
+    #         # 删除原压缩文件
+    #         os.remove(rar_file_path)
+    #         print("==========" + "解压完成" + "==========")
+    # exit()
 
     root_dir = "E:\\workspace\\www.1shijuan.cn\\www.uncompress_1shijuan.cn"
     category_dirs = sorted(os.listdir(root_dir))
@@ -194,6 +194,8 @@ if __name__ == '__main__':
                             os.remove(docx_file)
                             continue
                         print("==========转化完成==============")
+                    # 删除原文件
+                    os.remove(file_path)
 
                 if os.path.exists(docx_file):
                     # 删除只包含图片
