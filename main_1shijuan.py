@@ -194,29 +194,23 @@ if __name__ == '__main__':
                             os.remove(docx_file)
                             continue
                         print("==========转化完成==============")
-                    # 删除原文件
-                    os.remove(file_path)
+                # 删除原文件
+                os.remove(file_path)
 
                 if os.path.exists(docx_file):
                     # 删除只包含图片
                     if check_only_image(docx_file):
-                        # 删除原文件
-                        os.remove(file_path)
                         # 删除图片文件
                         os.remove(docx_file)
                         continue
 
                     # 删除页眉页脚
                     if not remove_header_footer(docx_file):
-                        # 删除原文件
-                        os.remove(file_path)
                         os.remove(docx_file)
                         continue
 
                     # 改变文档字体
                     if not change_word_font(docx_file):
-                        # 删除原文件
-                        os.remove(file_path)
                         os.remove(docx_file)
                         continue
 
