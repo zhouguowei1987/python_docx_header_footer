@@ -103,7 +103,7 @@ def decompress_rar(rar_file_name, dir_name):
 
 if __name__ == '__main__':
     category_rars_arr = ['一年级', '二年级', '四年级', '五年级', '六年级', '七年级', '八年级', '九年级', '高一', '高二',
-                         '高三', '中考', '高考考']
+                         '高三', '中考', '高考']
     # 解压压缩包
     # rar_root_dir = "E:\\workspace\\www.1shijuan.cn\\temp-www.1shijuan.cn"
     # rar_dirs = sorted(os.listdir(rar_root_dir))
@@ -137,6 +137,12 @@ if __name__ == '__main__':
             for file in files:
                 file_path = root_dir + "\\" + category + "\\" + file
                 print(file_path)
+
+                # 如果是文件夹，则删除
+                if os.path.isdir(file_path):
+                    os.remove(file_path)
+                    continue
+
                 # 文件后缀不是doc或docx，则删除
                 if os.path.splitext(file)[1] not in [".doc", ".docx"]:
                     os.remove(file_path)
